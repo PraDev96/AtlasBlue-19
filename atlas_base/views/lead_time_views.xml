@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record model="ir.ui.view" id="lead_time_list">
+        <field name="name">lead.time.list</field>
+        <field name="model">lead.time</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="lead_time_form">
+        <field name="name">lead.time.form</field>
+        <field name="model">lead.time</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_lead_time" model="ir.actions.act_window">
+        <field name="name">Lead Time</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">lead.time</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem id="menu_crm_lead_time_act"
+              name="Lead Time"
+              action="action_lead_time"
+              parent="crm.menu_crm_config_lead"
+              sequence="3"/>
+
+</odoo>

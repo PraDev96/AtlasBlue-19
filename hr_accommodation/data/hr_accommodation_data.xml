@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!-- Sequences for hr.claim -->
+        <record id="seq_hr_accomodation" model="ir.sequence">
+            <field name="name">Accommodation Sequence</field>
+            <field name="code">hr.accommodation</field>
+            <field name="prefix">ACOOM/</field>
+            <field name="padding">5</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+    </data>
+</odoo>

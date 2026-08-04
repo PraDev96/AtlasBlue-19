@@ -1,0 +1,106 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+
+    <!-- Handover -->
+    <record id="fleet_handover_form_view" model="ir.ui.view">
+        <field name="name">fleet.handover.form</field>
+        <field name="model">fleet.handover</field>
+        <field name="arch" type="xml">
+
+            <form string="Handover">
+                <header>
+                    <button name="action_assign_driver" string="Assign Driver" type="object" invisible="state != 'draft'"/>
+                    <button name="action_released_driver" string="Release Driver" type="object" invisible="state != 'assign'"/>
+                    <!-- <button name="action_cancel" string='Cancel' type="object" states="draft" /> -->
+                    <field name="state" widget="statusbar" statusbar_visible="draft,assign,released"/>
+                </header>
+
+                <sheet>
+                    <div class="oe_title">
+                        <label for="name" class="oe_edit_only"/>
+                        <h1>
+                            <field name="name"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="fleet_vehicle_id" readonly="state != 'draft'"/>
+                            <field name="model_id"/>
+                        </group>
+                        <group>
+                            <field name="start_date" readonly="state != 'draft'"/>
+                            <field name="end_date" readonly="state != 'draft'"/>
+                        </group>
+                    </group>
+                    <group>
+                        <group>
+                            <field name="assign_employee_id" readonly="state != 'draft'"/>
+                            <field name="employee_id" invisible="1"/>
+                        </group>
+                        <group>
+                            <field name="license_plate"/>
+                        </group>
+                    </group>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers"/>
+                    <field name="activity_ids" widget="mail_activity"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+            </form>
+
+        </field>
+    </record>
+
+    <record id="fleet_handover_tree_view" model="ir.ui.view">
+        <field name="name">fleet.handover.tree</field>
+        <field name="model">fleet.handover</field>
+        <field name="arch" type="xml">
+            <tree string="Handover">
+                <field name="name"/>
+                <field name="fleet_vehicle_id"/>
+                <field name="assign_employee_id"/>
+                <field name="start_date"/>
+                <field name="end_date"/>
+                <field name="state"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="fleet_handover_view_search" model="ir.ui.view">
+        <field name="name">fleet.handover.search.inherit</field>
+        <field name="model">fleet.handover</field>
+        <field name="arch" type="xml">
+            <search string="Search Handover">
+                <field name="name"/>
+                <field name="fleet_vehicle_id"/>
+                <field name="assign_employee_id"/>
+                <field name="state"/>
+                <filter string="Vehicle Model" name="groupby_model_id" context="{'group_by': 'model_id'}"/>
+                <filter string="Vehicle" name="vehicle" domain="[('model_id', '!=', False)]"/>
+                <filter string="Driver" name="groupby_pdriver" context="{'group_by': 'assign_employee_id'}"/>
+                <filter string="Driver" name="assign_employee_id" domain="[('assign_employee_id', '!=', False)]"/>
+                <filter string="License Plate" name="groupby_license_plate" context="{'group_by': 'license_plate'}"/>
+                <filter string="License Plate" name="assign_Plate" domain="[('license_plate', '!=', False)]"/>
+                <filter string="State" name="groupby_state" context="{'group_by': 'state'}"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_fleet_handover" model="ir.actions.act_window">
+        <field name="name">Handover</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">fleet.handover</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem id="menu_fleet_handover"
+              name="Fleet Handover"
+              parent="fleet.menu_root"
+              sequence="30"/>
+
+    <menuitem id="fleet_handover_menu"
+              action="action_fleet_handover"
+              parent="menu_fleet_handover"/>
+
+</odoo>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_contack_form_arabic_name" model="ir.ui.view">
+        <field name="name">res.partner.arabic.name</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//field[@id='individual']" position="after">
+                <field name="ar_name" placeholder="Arabic Name" dir="rtl" style="text-align: right"/>
+            </xpath>
+
+        </field>
+    </record>
+
+</odoo>

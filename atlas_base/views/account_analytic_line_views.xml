@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="timesheet_view_form_inherit" model="ir.ui.view">
+        <field name="name">account.analytic.line.form.inherit</field>
+        <field name="model">account.analytic.line</field>
+        <field name="inherit_id" ref="hr_timesheet.hr_timesheet_line_form"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//group/group[2]" position="after">
+                <group>
+                    <field name="active" invisible="1"/>
+                </group>
+            </xpath>
+
+        </field>
+    </record>
+
+    <record id="timesheet_view_search1" model="ir.ui.view">
+        <field name="name">account.analytic.line.search</field>
+        <field name="model">account.analytic.line</field>
+        <field name="inherit_id" ref="hr_timesheet.hr_timesheet_line_search"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//filter[@name='month']" position="before">
+                <filter name="archived" string="Archived" domain="[('active', '=', False)]"/>
+                <separator/>
+            </xpath>
+
+        </field>
+    </record>
+
+</odoo>

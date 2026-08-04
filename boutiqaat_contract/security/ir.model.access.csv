@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_wiz_increment_contract,access.wiz.increment.contract,model_wiz_increment_contract,base.group_user,1,1,1,1
+access_update_contract,access.update.contract,model_update_contract,base.group_user,1,1,1,1

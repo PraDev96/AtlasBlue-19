@@ -1,0 +1,1194 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="report_civil_project_checklist">
+        <t t-call="web.html_container">
+            <t t-set="lang" t-value="en_US"/>
+            <t t-set="company" t-value="res_company"/>
+            <t t-foreach="docs" t-as="doc">
+                <t t-call="ats_civil_project_checklist.civil_project_checklist_template"/>
+            </t>
+        </t>
+    </template>
+
+    <template id="civil_project_checklist_template">
+        <t t-call="web.html_container">
+            <t t-call="ats_report_custom_layout.ats_custom_external_layout">
+                <div class="page">
+                    <div class="oe_structure"/>
+                    <style>
+                        table.checklist_table td {
+                            text-align: justify;
+                            vertical-align: middle;
+                        }
+                    </style>
+                    <div style="text-align: right; margin-bottom: 10px; font-size: 14px;">
+                        <div><strong>Printed On : </strong><span style="margin-left: 10px;" t-esc="context_timestamp(datetime.datetime.now()).strftime('%d/%m/%Y %H:%M:%S')"/></div>
+                        <div><strong>Printed By : </strong><span style="margin-left: 10px;" t-esc="env.user.name"/></div>
+                    </div>
+                    <div style="border: 1px solid black;" id="civil_mech_checklist">
+                        <t t-if="doc.checklist_type == 'concrete'">
+                            <h4 class="text-center mt-2 fw-bold">Concrete Work</h4>
+                            <t t-call="ats_civil_project_checklist.civil_checklist_project_details_template"/>
+                            <div style="margin-left: 20px; margin-right: 20px;">
+                                <t t-call="ats_civil_project_checklist.civil_concrete_checklist_template"/>
+                                <t t-call="ats_civil_project_checklist.civil_checklist_remarks_template"/>
+                                <t t-call="ats_civil_project_checklist.civil_checklist_verification_template"/>
+                            </div>
+                        </t>
+                        <t t-elif="doc.checklist_type == 'embedded_piping'">
+                            <h4 class="text-center mt-2 fw-bold">Embedded Pipping on the Floor and the Wall</h4>
+                            <t t-call="ats_civil_project_checklist.civil_checklist_project_details_template"/>
+                            <div style="margin-left: 20px; margin-right: 20px;">
+                                <t t-call="ats_civil_project_checklist.civil_emp_piping_checklist_template"/>
+                                <t t-call="ats_civil_project_checklist.civil_checklist_remarks_template"/>
+                                <t t-call="ats_civil_project_checklist.civil_checklist_verification_template"/>
+                            </div>
+                        </t>
+                        <t t-elif="doc.checklist_type == 'work_before_waterproofing'">
+                            <h4 class="text-center mt-2 fw-bold">Work Before Waterproofing</h4>
+                            <t t-call="ats_civil_project_checklist.civil_checklist_project_details_template"/>
+                            <div style="margin-left: 20px; margin-right: 20px;">
+                                <t t-call="ats_civil_project_checklist.civil_wbw_checklist_template"/>
+                                <t t-call="ats_civil_project_checklist.civil_checklist_remarks_template"/>
+                                <t t-call="ats_civil_project_checklist.civil_checklist_verification_template"/>
+                            </div>
+                        </t>
+                        <t t-elif="doc.checklist_type == 'waterproofing'">
+                            <h4 class="text-center mt-2 fw-bold">Waterproofing Works</h4>
+                            <t t-call="ats_civil_project_checklist.civil_checklist_project_details_template"/>
+                            <div style="margin-left: 20px; margin-right: 20px;">
+                                <t t-call="ats_civil_project_checklist.civil_waterproofing_checklist_template"/>
+                                <t t-call="ats_civil_project_checklist.civil_checklist_remarks_template"/>
+                                <t t-call="ats_civil_project_checklist.civil_checklist_verification_template"/>
+                            </div>
+                        </t>
+                        <t t-elif="doc.checklist_type == 'acrylic'">
+                            <h4 class="text-center mt-2 fw-bold">Acrylic Panel Checklist</h4>
+                            <t t-call="ats_civil_project_checklist.civil_checklist_project_details_template"/>
+                            <div style="margin-left: 20px; margin-right: 20px;">
+                                <t t-call="ats_civil_project_checklist.civil_acrylic_checklist_template"/>
+                                <t t-call="ats_civil_project_checklist.civil_checklist_remarks_template"/>
+                                <t t-call="ats_civil_project_checklist.civil_checklist_verification_template"/>
+                            </div>
+                        </t>
+                        <t t-elif="doc.checklist_type == 'tiling'">
+                            <h4 class="text-center mt-2 fw-bold">Tiling Works</h4>
+                            <t t-call="ats_civil_project_checklist.civil_checklist_project_details_template"/>
+                            <div style="margin-left: 20px; margin-right: 20px;">
+                                <t t-call="ats_civil_project_checklist.civil_tiling_checklist_template"/>
+                                <t t-call="ats_civil_project_checklist.civil_checklist_remarks_template"/>
+                                <t t-call="ats_civil_project_checklist.civil_checklist_verification_template"/>
+                            </div>
+                        </t>
+                        <t t-elif="doc.checklist_type == 'eqsi'">
+                            <h4 class="text-center mt-2 fw-bold">EQSI</h4>
+                            <t t-call="ats_civil_project_checklist.civil_checklist_project_details_template"/>
+                            <div style="margin-left: 20px; margin-right: 20px;">
+                                <t t-call="ats_civil_project_checklist.civil_eqsi_checklist_template"/>
+                                <t t-call="ats_civil_project_checklist.civil_checklist_remarks_template"/>
+                                <t t-call="ats_civil_project_checklist.civil_checklist_verification_template"/>
+                            </div>
+                        </t>
+                        <t t-elif="doc.checklist_type == 'commissioning'">
+                            <h4 class="text-center mt-2 fw-bold">Commissioning</h4>
+                            <t t-call="ats_civil_project_checklist.civil_checklist_project_details_template"/>
+                            <div style="margin-left: 20px; margin-right: 20px;">
+                                <t t-call="ats_civil_project_checklist.civil_commissioning_checklist_template"/>
+                                <t t-call="ats_civil_project_checklist.civil_checklist_remarks_template"/>
+                                <t t-call="ats_civil_project_checklist.civil_checklist_verification_template"/>
+                            </div>
+                        </t>
+                    </div>
+                </div>
+            </t>
+        </t>
+    </template>
+
+    <!-- Common Project Details of Checklist -->
+    <template id="civil_checklist_project_details_template">
+        <table class="table-borderless" style="width: 100%; border: 0px; margin: 20px;">
+            <colgroup>
+                <col width="18%"/>
+                <col width="2%"/>
+                <col width="80%"/>
+            </colgroup>
+            <tr>
+                <td><span>Checklist</span></td><td>:</td><td><strong t-field="doc.name"/></td>
+            </tr>
+            <tr>
+                <td><span>Date</span></td><td>:</td><td><strong t-esc="doc.date.strftime('%d/%m/%Y')"/></td>
+            </tr>
+            <tr>
+                <td><span>Client Name</span></td><td>:</td><td><strong t-field="doc.projects_id.sudo().partner_id.name"/></td>
+            </tr>
+            <tr>
+                <td><span>Project Number</span></td><td>:</td><td><strong t-esc="doc.projects_id.name[:5]"/></td>
+            </tr>
+            <tr>
+                <td><span>Project Type</span></td><td>:</td><td><strong t-field="doc.projects_id.project_type_id.name"/></td>
+            </tr>
+            <tr>
+                <td><span>Project Type Details</span></td><td>:</td><td><strong t-field="doc.projects_id.project_type_detail_id.display_name"/></td>
+            </tr>
+        </table>
+    </template>
+
+    <!-- Concrete Checklist Details -->
+    <template id="civil_concrete_checklist_template">
+        <table class="table table-borderless checklist_table">
+            <colgroup>
+                <col width="10%"/>
+                <col width="90%"/>
+            </colgroup>
+            <tr>
+                <td>
+                    <t t-if="doc.visit_site_and_finish_floor_level">
+                        <img src="/atlas_checklist/static/src/img/right2.jpg" style="height: 25px; width: 30px; border: 2px solid black;" class="img img-fluid img-center"/>
+                    </t>
+                    <t t-else="">
+                        <img src="/atlas_checklist/static/src/img/blank.jpg" style="height: 25px; width: 30px; border: 2px solid black;" class="img img-fluid img-center"/>
+                    </t>
+                </td>
+                <td><strong>Visit Site and Finish Floor Level (By Client)</strong></td>
+            </tr>
+            <tr>
+                <td>
+                    <t t-if="doc.excavation_and_compaction">
+                        <img src="/atlas_checklist/static/src/img/right2.jpg" style="height: 25px; width: 30px; border: 2px solid black;" class="img img-fluid img-center"/>
+                    </t>
+                    <t t-else="">
+                        <img src="/atlas_checklist/static/src/img/blank.jpg" style="height: 25px; width: 30px; border: 2px solid black;" class="img img-fluid img-center"/>
+                    </t>
+                </td>
+                <td><strong>Excavation and Compaction</strong></td>
+            </tr>
+            <tr>
+                <td>
+                    <t t-if="doc.cement_block_for_pool_layout">
+                        <img src="/atlas_checklist/static/src/img/right2.jpg" style="height: 25px; width: 30px; border: 2px solid black;" class="img img-fluid img-center"/>
+                    </t>
+                    <t t-else="">
+                        <img src="/atlas_checklist/static/src/img/blank.jpg" style="height: 25px; width: 30px; border: 2px solid black;" class="img img-fluid img-center"/>
+                    </t>
+                </td>
+                <td><strong>Cement Block for Pool Layout</strong></td>
+            </tr>
+            <tr>
+                <td>
+                    <t t-if="doc.casting_clearance_concrete">
+                        <img src="/atlas_checklist/static/src/img/right2.jpg" style="height: 25px; width: 30px; border: 2px solid black;" class="img img-fluid img-center"/>
+                    </t>
+                    <t t-else="">
+                        <img src="/atlas_checklist/static/src/img/blank.jpg" style="height: 25px; width: 30px; border: 2px solid black;" class="img img-fluid img-center"/>
+                    </t>
+                </td>
+                <td><strong>Casting the Clearance Concrete</strong></td>
+            </tr>
+            <tr>
+                <td>
+                    <t t-if="doc.external_waterproofing">
+                        <img src="/atlas_checklist/static/src/img/right2.jpg" style="height: 25px; width: 30px; border: 2px solid black;" class="img img-fluid img-center"/>
+                    </t>
+                    <t t-else="">
+                        <img src="/atlas_checklist/static/src/img/blank.jpg" style="height: 25px; width: 30px; border: 2px solid black;" class="img img-fluid img-center"/>
+                    </t>
+                </td>
+                <td><strong>External Waterproofing and Protection Mortar</strong></td>
+            </tr>
+            <tr>
+                <td>
+                    <t t-if="doc.steel_reinforcement_for_floor">
+                        <img src="/atlas_checklist/static/src/img/right2.jpg" style="height: 25px; width: 30px; border: 2px solid black;" class="img img-fluid img-center"/>
+                    </t>
+                    <t t-else="">
+                        <img src="/atlas_checklist/static/src/img/blank.jpg" style="height: 25px; width: 30px; border: 2px solid black;" class="img img-fluid img-center"/>
+                    </t>
+                </td>
+                <td><strong>Steel Reinforcement for the Floor</strong></td>
+            </tr>
+            <tr>
+                <td>
+                    <t t-if="doc.steel_reinforcement_for_walls">
+                        <img src="/atlas_checklist/static/src/img/right2.jpg" style="height: 25px; width: 30px; border: 2px solid black;" class="img img-fluid img-center"/>
+                    </t>
+                    <t t-else="">
+                        <img src="/atlas_checklist/static/src/img/blank.jpg" style="height: 25px; width: 30px; border: 2px solid black;" class="img img-fluid img-center"/>
+                    </t>
+                </td>
+                <td><strong>Steel Reinforcement for the Walls</strong></td>
+            </tr>
+            <tr>
+                <td>
+                    <t t-if="doc.casting_reinforcement_concrete_floor">
+                        <img src="/atlas_checklist/static/src/img/right2.jpg" style="height: 25px; width: 30px; border: 2px solid black;" class="img img-fluid img-center"/>
+                    </t>
+                    <t t-else="">
+                        <img src="/atlas_checklist/static/src/img/blank.jpg" style="height: 25px; width: 30px; border: 2px solid black;" class="img img-fluid img-center"/>
+                    </t>
+                </td>
+                <td><strong>Casting Reinforcement for the Floor</strong></td>
+            </tr>
+            <tr>
+                <td>
+                    <t t-if="doc.form_work_for_walls">
+                        <img src="/atlas_checklist/static/src/img/right2.jpg" style="height: 25px; width: 30px; border: 2px solid black;" class="img img-fluid img-center"/>
+                    </t>
+                    <t t-else="">
+                        <img src="/atlas_checklist/static/src/img/blank.jpg" style="height: 25px; width: 30px; border: 2px solid black;" class="img img-fluid img-center"/>
+                    </t>
+                </td>
+                <td><strong>Form Work for the Walls</strong></td>
+            </tr>
+            <tr>
+                <td>
+                    <t t-if="doc.casting_reinforcement_concrete_walls">
+                        <img src="/atlas_checklist/static/src/img/right2.jpg" style="height: 25px; width: 30px; border: 2px solid black;" class="img img-fluid img-center"/>
+                    </t>
+                    <t t-else="">
+                        <img src="/atlas_checklist/static/src/img/blank.jpg" style="height: 25px; width: 30px; border: 2px solid black;" class="img img-fluid img-center"/>
+                    </t>
+                </td>
+                <td><strong>Casting Reinforcement for the Walls</strong></td>
+            </tr>
+            <tr>
+                <td>
+                    <t t-if="doc.remove_framework_and_clean">
+                        <img src="/atlas_checklist/static/src/img/right2.jpg" style="height: 25px; width: 30px; border: 2px solid black;" class="img img-fluid img-center"/>
+                    </t>
+                    <t t-else="">
+                        <img src="/atlas_checklist/static/src/img/blank.jpg" style="height: 25px; width: 30px; border: 2px solid black;" class="img img-fluid img-center"/>
+                    </t>
+                </td>
+                <td><strong>Remove Framework and Clean</strong></td>
+            </tr>
+            <tr>
+                <td>
+                    <t t-if="doc.curing_with_water">
+                        <img src="/atlas_checklist/static/src/img/right2.jpg" style="height: 25px; width: 30px; border: 2px solid black;" class="img img-fluid img-center"/>
+                    </t>
+                    <t t-else="">
+                        <img src="/atlas_checklist/static/src/img/blank.jpg" style="height: 25px; width: 30px; border: 2px solid black;" class="img img-fluid img-center"/>
+                    </t>
+                </td>
+                <td><strong>Curing with Water (By Client)</strong></td>
+            </tr>
+            <tr><td colspan="2" style="border-bottom: 2px solid black;"></td></tr>
+        </table>
+    </template>
+
+    <!-- Embedded Piping Checklist Details Template-->
+    <template id="civil_emp_piping_checklist_template">
+        <table class="table table-borderless checklist_table">
+            <colgroup>
+                <col width="6%"/>
+                <col width="25%"/>
+                <col width="4%"/>
+                <col width="6%"/>
+                <col width="25%"/>
+                <col width="3%"/>
+                <col width="6%"/>
+                <col width="25%"/>
+            </colgroup>
+            <tr>
+                <td><span t-field="doc.emp_floor_inlets"/></td>
+                <td><span>FLOOR INLETS</span></td>
+                <td/>
+                <td><span t-field="doc.emp_skimmer"/></td>
+                <td><span>SKIMMER</span></td>
+                <td/>
+                <td><span t-field="doc.emp_air_regulator"/></td>
+                <td><span>AIR REGULATOR</span></td>
+            </tr>
+            <tr>
+                <td><span t-field="doc.emp_vacuum_point"/></td>
+                <td><span>VACUUM POINT</span></td>
+                <td/>
+                <td><span t-field="doc.emp_big_lights"/></td>
+                <td><span>LIGHT (BIG)</span></td>
+                <td/>
+                <td><span t-field="doc.emp_touch_switch"/></td>
+                <td><span>TOUCH SWITCH</span></td>
+            </tr>
+            <tr>
+                <td><span t-field="doc.emp_main_drain"/></td>
+                <td><span>MAIN DRAIN</span></td>
+                <td/>
+                <td><span t-field="doc.emp_small_lights"/></td>
+                <td><span>LIGHT (SMALL)</span></td>
+                <td/>
+                <td><span t-field="doc.emp_control_switch"/></td>
+                <td><span>CONTROL TOUCH</span></td>
+            </tr>
+            <tr>
+                <td><span t-field="doc.emp_tank_suction"/></td>
+                <td><span>TANK SUCTION</span></td>
+                <td/>
+                <td><span t-field="doc.emp_jets"/></td>
+                <td><span>JETS</span></td>
+                <td/>
+                <td><span t-field="doc.emp_water_descent"/></td>
+                <td><span>WATER DESCENT</span></td>
+            </tr>
+            <tr>
+                <td><span t-field="doc.emp_wall_suction"/></td>
+                <td><span>WALL SUCTION</span></td>
+                <td/>
+                <td><span t-field="doc.emp_sump_pit"/></td>
+                <td><span>SUMP PIT</span></td>
+                <td/>
+                <td><span t-field="doc.emp_overflow_with_drain"/></td>
+                <td><span>OVERFLOW WITH DRAIN</span></td>
+            </tr>
+            <tr>
+                <td><span t-field="doc.emp_filling_lines"/></td>
+                <td><span>FILLING KINES</span></td>
+                <td/>
+                <td><span t-field="doc.emp_drain_pipes"/></td>
+                <td><span>DRAIN PIPES</span></td>
+                <td/>
+                <td><span t-field="doc.emp_ventilation_pipes"/></td>
+                <td><span>VENTILATION PIPES</span></td>
+            </tr>
+            <tr>
+                <td><span t-field="doc.emp_electrical_supply"/></td>
+                <td><span>ELECTRICAL SUPPLY</span></td>
+                <td/>
+                <td><span t-field="doc.emp_location_of_junction_box"/></td>
+                <td><span>LOCATION OF JUNCTION BOX</span></td>
+                <td/>
+                <td><span t-field="doc.emp_location_of_control_switch"/></td>
+                <td><span>LOCATION OF CONTROL SWITCH</span></td>
+            </tr>
+            <tr><td colspan="8" style="border-bottom: 2px solid black;"></td></tr>
+        </table>
+        <table class="table table-borderless checklist_table">
+            <colgroup>
+                <col width="5%"/>
+                <col width="42%"/>
+                <col width="6%"/>
+                <col width="5%"/>
+                <col width="42%"/>
+            </colgroup>
+            <tr>
+                <td>
+                    <t t-if="doc.emp_pool_dimension_as_per_drawing">
+                        <img src="/atlas_checklist/static/src/img/right2.jpg" style="height: 25px; width: 30px; border: 2px solid black;" class="img img-fluid img-center"/>
+                    </t>
+                    <t t-else="">
+                        <img src="/atlas_checklist/static/src/img/blank.jpg" style="height: 25px; width: 30px; border: 2px solid black;" class="img img-fluid img-center"/>
+                    </t>
+                </td>
+                <td><span>POOL DIMENSION AS PER DRAWING</span></td>
+                <td/>
+                <td>
+                    <t t-if="doc.emp_informed_to_client">
+                        <img src="/atlas_checklist/static/src/img/right2.jpg" style="height: 25px; width: 30px; border: 2px solid black;" class="img img-fluid img-center"/>
+                    </t>
+                    <t t-else="">
+                        <img src="/atlas_checklist/static/src/img/blank.jpg" style="height: 25px; width: 30px; border: 2px solid black;" class="img img-fluid img-center"/>
+                    </t>
+                </td>
+                <td><span>IF NO, ACTUAL DIMENSIONS ARE INFORMED TO CLIENT</span></td>
+            </tr>
+            <tr>
+                <td><span t-field="doc.emp_initial_pressure_test_reading"/></td>
+                <td><span>Initial Pressure Test Reading</span></td>
+                <td/>
+                <td><span t-field="doc.emp_final_pressure_test_reading"/></td>
+                <td><span>Final Pressure Test Reading</span></td>
+            </tr>
+            <tr>
+                <td><span t-field="doc.emp_pool_size"/></td>
+                <td><span>POOL SIZE</span></td>
+                <td/>
+                <td><span t-field="doc.emp_spa_size"/></td>
+                <td><span>SPA SIZE</span></td>
+            </tr>
+            <tr><td colspan="5" style="border-bottom: 2px solid black;"></td></tr>
+        </table>
+    </template>
+
+    <!-- Work Before Waterproofing Checklist Details Template -->
+    <template id="civil_wbw_checklist_template">
+        <table class="table table-borderless checklist_table">
+            <colgroup>
+                <col width="6%"/>
+                <col width="25%"/>
+                <col width="4%"/>
+                <col width="6%"/>
+                <col width="25%"/>
+                <col width="3%"/>
+                <col width="6%"/>
+                <col width="25%"/>
+            </colgroup>
+            <tr>
+                <td><span t-field="doc.wbw_floor_inlets"/></td>
+                <td><span>FLOOR INLETS</span></td>
+                <td/>
+                <td><span t-field="doc.wbw_skimmer"/></td>
+                <td><span>SKIMMER</span></td>
+                <td/>
+                <td><span t-field="doc.wbw_air_regulator"/></td>
+                <td><span>AIR REGULATOR</span></td>
+            </tr>
+            <tr>
+                <td><span t-field="doc.wbw_vacuum_point"/></td>
+                <td><span>VACUUM POINT</span></td>
+                <td/>
+                <td><span t-field="doc.wbw_big_lights"/></td>
+                <td><span>LIGHT (BIG)</span></td>
+                <td/>
+                <td><span t-field="doc.wbw_touch_switch"/></td>
+                <td><span>TOUCH SWITCH</span></td>
+            </tr>
+            <tr>
+                <td><span t-field="doc.wbw_main_drain"/></td>
+                <td><span>MAIN DRAIN</span></td>
+                <td/>
+                <td><span t-field="doc.wbw_small_lights"/></td>
+                <td><span>LIGHT (SMALL)</span></td>
+                <td/>
+                <td><span t-field="doc.wbw_control_switch"/></td>
+                <td><span>CONTROL TOUCH</span></td>
+            </tr>
+            <tr>
+                <td><span t-field="doc.wbw_tank_suction"/></td>
+                <td><span>TANK SUCTION</span></td>
+                <td/>
+                <td><span t-field="doc.wbw_jets"/></td>
+                <td><span>JETS</span></td>
+                <td/>
+                <td><span t-field="doc.wbw_water_descent"/></td>
+                <td><span>WATER DESCENT</span></td>
+            </tr>
+            <tr>
+                <td><span t-field="doc.wbw_wall_suction"/></td>
+                <td><span>WALL SUCTION</span></td>
+                <td/>
+                <td><span t-field="doc.wbw_sump_pit"/></td>
+                <td><span>SUMP PIT</span></td>
+                <td/>
+                <td><span t-field="doc.wbw_overflow_with_drain"/></td>
+                <td><span>OVERFLOW WITH DRAIN</span></td>
+            </tr>
+            <tr>
+                <td><span t-field="doc.wbw_filling_lines"/></td>
+                <td><span>FILLING KINES</span></td>
+                <td/>
+                <td><span t-field="doc.wbw_drain_pipes"/></td>
+                <td><span>DRAIN PIPES</span></td>
+                <td/>
+                <td><span t-field="doc.wbw_ventilation_pipes"/></td>
+                <td><span>VENTILATION PIPES</span></td>
+            </tr>
+            <tr>
+                <td><span t-field="doc.wbw_electrical_supply"/></td>
+                <td><span>ELECTRICAL SUPPLY</span></td>
+                <td/>
+                <td><span t-field="doc.wbw_location_of_junction_box"/></td>
+                <td><span>LOCATION OF JUNCTION BOX</span></td>
+                <td/>
+                <td><span t-field="doc.wbw_location_of_control_switch"/></td>
+                <td><span>LOCATION OF CONTROL SWITCH</span></td>
+            </tr>
+            <tr><td colspan="8" style="border-bottom: 2px solid black;"></td></tr>
+        </table>
+        <table class="table table-borderless checklist_table">
+            <colgroup>
+                <col width="5%"/>
+                <col width="42%"/>
+                <col width="6%"/>
+                <col width="5%"/>
+                <col width="42%"/>
+            </colgroup>
+            <tr>
+                <td><span t-field="doc.wbw_initial_pressure_test_reading"/></td>
+                <td><span>Initial Pressure Test Reading</span></td>
+                <td/>
+                <td><span t-field="doc.wbw_final_pressure_test_reading"/></td>
+                <td><span>Final Pressure Test Reading</span></td>
+            </tr>
+            <tr>
+                <td>
+                    <t t-if="doc.wbw_pool_dimension_as_per_drawing">
+                        <img src="/atlas_checklist/static/src/img/right2.jpg" style="height: 25px; width: 30px; border: 2px solid black;" class="img img-fluid img-center"/>
+                    </t>
+                    <t t-else="">
+                        <img src="/atlas_checklist/static/src/img/blank.jpg" style="height: 25px; width: 30px; border: 2px solid black;" class="img img-fluid img-center"/>
+                    </t>
+                </td>
+                <td><span>POOL DIMENSION AS PER DRAWING</span></td>
+                <td/>
+                <td>
+                    <t t-if="doc.wbw_informed_to_client">
+                        <img src="/atlas_checklist/static/src/img/right2.jpg" style="height: 25px; width: 30px; border: 2px solid black;" class="img img-fluid img-center"/>
+                    </t>
+                    <t t-else="">
+                        <img src="/atlas_checklist/static/src/img/blank.jpg" style="height: 25px; width: 30px; border: 2px solid black;" class="img img-fluid img-center"/>
+                    </t>
+                </td>
+                <td><span>IF NO, ACTUAL DIMENSIONS ARE INFORMED TO CLIENT</span></td>
+            </tr>
+            <tr>
+                <td>
+                    <t t-if="doc.wbw_backwash">
+                        <img src="/atlas_checklist/static/src/img/right2.jpg" style="height: 25px; width: 30px; border: 2px solid black;" class="img img-fluid img-center"/>
+                    </t>
+                    <t t-else="">
+                        <img src="/atlas_checklist/static/src/img/blank.jpg" style="height: 25px; width: 30px; border: 2px solid black;" class="img img-fluid img-center"/>
+                    </t>
+                </td>
+                <td><span>Backwash</span></td>
+                <td/>
+                <td>
+                    <t t-if="doc.wbw_ventilation">
+                        <img src="/atlas_checklist/static/src/img/right2.jpg" style="height: 25px; width: 30px; border: 2px solid black;" class="img img-fluid img-center"/>
+                    </t>
+                    <t t-else="">
+                        <img src="/atlas_checklist/static/src/img/blank.jpg" style="height: 25px; width: 30px; border: 2px solid black;" class="img img-fluid img-center"/>
+                    </t>
+                </td>
+                <td><span>Ventilation</span></td>
+            </tr>
+            <tr>
+                <td>
+                    <t t-if="doc.wbw_filling_line">
+                        <img src="/atlas_checklist/static/src/img/right2.jpg" style="height: 25px; width: 30px; border: 2px solid black;" class="img img-fluid img-center"/>
+                    </t>
+                    <t t-else="">
+                        <img src="/atlas_checklist/static/src/img/blank.jpg" style="height: 25px; width: 30px; border: 2px solid black;" class="img img-fluid img-center"/>
+                    </t>
+                </td>
+                <td><span>Filling Line</span></td>
+                <td/>
+                <td>
+                    <t t-if="doc.wbw_is_electrical_supply">
+                        <img src="/atlas_checklist/static/src/img/right2.jpg" style="height: 25px; width: 30px; border: 2px solid black;" class="img img-fluid img-center"/>
+                    </t>
+                    <t t-else="">
+                        <img src="/atlas_checklist/static/src/img/blank.jpg" style="height: 25px; width: 30px; border: 2px solid black;" class="img img-fluid img-center"/>
+                    </t>
+                </td>
+                <td><span>Electric Supply</span></td>
+            </tr>
+            <tr>
+                <td>
+                    <t t-if="doc.wbw_summit_pit">
+                        <img src="/atlas_checklist/static/src/img/right2.jpg" style="height: 25px; width: 30px; border: 2px solid black;" class="img img-fluid img-center"/>
+                    </t>
+                    <t t-else="">
+                        <img src="/atlas_checklist/static/src/img/blank.jpg" style="height: 25px; width: 30px; border: 2px solid black;" class="img img-fluid img-center"/>
+                    </t>
+                </td>
+                <td><span>Sump Pit</span></td>
+                <td/>
+                <td colspan="2"></td>
+            </tr>
+            <tr><td colspan="5" style="border-bottom: 2px solid black;"></td></tr>
+        </table>
+    </template>
+
+    <!-- Waterproofing Checklist Details Template -->
+    <template id="civil_waterproofing_checklist_template">
+        <table class="table table-borderless checklist_table">
+            <colgroup>
+                <col width="10%"/>
+                <col width="90%"/>
+            </colgroup>
+            <tr>
+                <td>
+                    <t t-if="doc.wp_visit_site_and_finish_floor_level">
+                        <img src="/atlas_checklist/static/src/img/right2.jpg" style="height: 25px; width: 30px; border: 2px solid black;" class="img img-fluid img-center"/>
+                    </t>
+                    <t t-else="">
+                        <img src="/atlas_checklist/static/src/img/blank.jpg" style="height: 25px; width: 30px; border: 2px solid black;" class="img img-fluid img-center"/>
+                    </t>
+                </td>
+                <td><strong>Visiting Site &amp; Finish Floor Level (By Client)</strong></td>
+            </tr>
+            <tr>
+                <td>
+                    <t t-if="doc.site_preparation">
+                        <img src="/atlas_checklist/static/src/img/right2.jpg" style="height: 25px; width: 30px; border: 2px solid black;" class="img img-fluid img-center"/>
+                    </t>
+                    <t t-else="">
+                        <img src="/atlas_checklist/static/src/img/blank.jpg" style="height: 25px; width: 30px; border: 2px solid black;" class="img img-fluid img-center"/>
+                    </t>
+                </td>
+                <td><strong>Site Preparation</strong></td>
+            </tr>
+            <tr>
+                <td>
+                    <t t-if="doc.first_layer_waterproofing">
+                        <img src="/atlas_checklist/static/src/img/right2.jpg" style="height: 25px; width: 30px; border: 2px solid black;" class="img img-fluid img-center"/>
+                    </t>
+                    <t t-else="">
+                        <img src="/atlas_checklist/static/src/img/blank.jpg" style="height: 25px; width: 30px; border: 2px solid black;" class="img img-fluid img-center"/>
+                    </t>
+                </td>
+                <td><strong>First Layer of Waterproofing</strong></td>
+            </tr>
+            <tr>
+                <td>
+                    <t t-if="doc.second_layer_waterproofing">
+                        <img src="/atlas_checklist/static/src/img/right2.jpg" style="height: 25px; width: 30px; border: 2px solid black;" class="img img-fluid img-center"/>
+                    </t>
+                    <t t-else="">
+                        <img src="/atlas_checklist/static/src/img/blank.jpg" style="height: 25px; width: 30px; border: 2px solid black;" class="img img-fluid img-center"/>
+                    </t>
+                </td>
+                <td><strong>Second Layer of Waterproofing</strong></td>
+            </tr>
+            <tr>
+                <td>
+                    <t t-if="doc.water_filling">
+                        <img src="/atlas_checklist/static/src/img/right2.jpg" style="height: 25px; width: 30px; border: 2px solid black;" class="img img-fluid img-center"/>
+                    </t>
+                    <t t-else="">
+                        <img src="/atlas_checklist/static/src/img/blank.jpg" style="height: 25px; width: 30px; border: 2px solid black;" class="img img-fluid img-center"/>
+                    </t>
+                </td>
+                <td><strong>Water Filling (By Client)</strong></td>
+            </tr>
+            <tr>
+                <td>
+                    <t t-if="doc.first_reading">
+                        <img src="/atlas_checklist/static/src/img/right2.jpg" style="height: 25px; width: 30px; border: 2px solid black;" class="img img-fluid img-center"/>
+                    </t>
+                    <t t-else="">
+                        <img src="/atlas_checklist/static/src/img/blank.jpg" style="height: 25px; width: 30px; border: 2px solid black;" class="img img-fluid img-center"/>
+                    </t>
+                </td>
+                <td><strong>First Reading</strong></td>
+            </tr>
+            <tr>
+                <td>
+                    <t t-if="doc.second_reading">
+                        <img src="/atlas_checklist/static/src/img/right2.jpg" style="height: 25px; width: 30px; border: 2px solid black;" class="img img-fluid img-center"/>
+                    </t>
+                    <t t-else="">
+                        <img src="/atlas_checklist/static/src/img/blank.jpg" style="height: 25px; width: 30px; border: 2px solid black;" class="img img-fluid img-center"/>
+                    </t>
+                </td>
+                <td><strong>Second Reading</strong></td>
+            </tr>
+            <tr>
+                <td>
+                    <t t-if="doc.final_reading">
+                        <img src="/atlas_checklist/static/src/img/right2.jpg" style="height: 25px; width: 30px; border: 2px solid black;" class="img img-fluid img-center"/>
+                    </t>
+                    <t t-else="">
+                        <img src="/atlas_checklist/static/src/img/blank.jpg" style="height: 25px; width: 30px; border: 2px solid black;" class="img img-fluid img-center"/>
+                    </t>
+                </td>
+                <td><strong>Final Reading</strong></td>
+            </tr>
+            <tr>
+                <td>
+                    <t t-if="doc.waterproofing_test_approval">
+                        <img src="/atlas_checklist/static/src/img/right2.jpg" style="height: 25px; width: 30px; border: 2px solid black;" class="img img-fluid img-center"/>
+                    </t>
+                    <t t-else="">
+                        <img src="/atlas_checklist/static/src/img/blank.jpg" style="height: 25px; width: 30px; border: 2px solid black;" class="img img-fluid img-center"/>
+                    </t>
+                </td>
+                <td><strong>Waterproofing Test Approval</strong></td>
+            </tr>
+            <tr><td colspan="2" style="border-bottom: 2px solid black;"></td></tr>
+        </table>
+    </template>
+
+    <!-- Acrylic Checklist Details Template -->
+    <template id="civil_acrylic_checklist_template">
+        <table class="table table-borderless checklist_table">
+            <colgroup>
+                <col width="10%"/>
+                <col width="90%"/>
+            </colgroup>
+            <tr>
+                <td>
+                    <t t-if="doc.surface_condition">
+                        <img src="/atlas_checklist/static/src/img/right2.jpg" style="height: 25px; width: 30px; border: 2px solid black;" class="img img-fluid img-center"/>
+                    </t>
+                    <t t-else="">
+                        <img src="/atlas_checklist/static/src/img/blank.jpg" style="height: 25px; width: 30px; border: 2px solid black;" class="img img-fluid img-center"/>
+                    </t>
+                </td>
+                <td><strong>Surface Condition (no cracks, chips, or discoloration)</strong></td>
+            </tr>
+            <tr>
+                <td>
+                    <t t-if="doc.acrylic_join_sealant_intact">
+                        <img src="/atlas_checklist/static/src/img/right2.jpg" style="height: 25px; width: 30px; border: 2px solid black;" class="img img-fluid img-center"/>
+                    </t>
+                    <t t-else="">
+                        <img src="/atlas_checklist/static/src/img/blank.jpg" style="height: 25px; width: 30px; border: 2px solid black;" class="img img-fluid img-center"/>
+                    </t>
+                </td>
+                <td><strong>Acrylic Joint Sealant Intact</strong></td>
+            </tr>
+            <tr>
+                <td>
+                    <t t-if="doc.adhesion_to_substrate">
+                        <img src="/atlas_checklist/static/src/img/right2.jpg" style="height: 25px; width: 30px; border: 2px solid black;" class="img img-fluid img-center"/>
+                    </t>
+                    <t t-else="">
+                        <img src="/atlas_checklist/static/src/img/blank.jpg" style="height: 25px; width: 30px; border: 2px solid black;" class="img img-fluid img-center"/>
+                    </t>
+                </td>
+                <td><strong>Adhesion to Substrate</strong></td>
+            </tr>
+            <tr>
+                <td>
+                    <t t-if="doc.no_sign_of_water_leakage_or_moisture">
+                        <img src="/atlas_checklist/static/src/img/right2.jpg" style="height: 25px; width: 30px; border: 2px solid black;" class="img img-fluid img-center"/>
+                    </t>
+                    <t t-else="">
+                        <img src="/atlas_checklist/static/src/img/blank.jpg" style="height: 25px; width: 30px; border: 2px solid black;" class="img img-fluid img-center"/>
+                    </t>
+                </td>
+                <td><strong>No Sign of Water Leakage or Moisture</strong></td>
+            </tr>
+            <tr>
+                <td>
+                    <t t-if="doc.no_surface_stain_or_build_up">
+                        <img src="/atlas_checklist/static/src/img/right2.jpg" style="height: 25px; width: 30px; border: 2px solid black;" class="img img-fluid img-center"/>
+                    </t>
+                    <t t-else="">
+                        <img src="/atlas_checklist/static/src/img/blank.jpg" style="height: 25px; width: 30px; border: 2px solid black;" class="img img-fluid img-center"/>
+                    </t>
+                </td>
+                <td><strong>No Surface Stain or Build-Up</strong></td>
+            </tr>
+            <tr>
+                <td>
+                    <t t-if="doc.structural_support_stable">
+                        <img src="/atlas_checklist/static/src/img/right2.jpg" style="height: 25px; width: 30px; border: 2px solid black;" class="img img-fluid img-center"/>
+                    </t>
+                    <t t-else="">
+                        <img src="/atlas_checklist/static/src/img/blank.jpg" style="height: 25px; width: 30px; border: 2px solid black;" class="img img-fluid img-center"/>
+                    </t>
+                </td>
+                <td><strong>Structural Support Stable (no movement or deflection)</strong></td>
+            </tr>
+            <tr>
+                <td>
+                    <t t-if="doc.proper_drainage">
+                        <img src="/atlas_checklist/static/src/img/right2.jpg" style="height: 25px; width: 30px; border: 2px solid black;" class="img img-fluid img-center"/>
+                    </t>
+                    <t t-else="">
+                        <img src="/atlas_checklist/static/src/img/blank.jpg" style="height: 25px; width: 30px; border: 2px solid black;" class="img img-fluid img-center"/>
+                    </t>
+                </td>
+                <td><strong>Proper Drainage (if applicable)</strong></td>
+            </tr>
+            <tr>
+                <td>
+                    <t t-if="doc.cleaning_and_maintenance_instruction">
+                        <img src="/atlas_checklist/static/src/img/right2.jpg" style="height: 25px; width: 30px; border: 2px solid black;" class="img img-fluid img-center"/>
+                    </t>
+                    <t t-else="">
+                        <img src="/atlas_checklist/static/src/img/blank.jpg" style="height: 25px; width: 30px; border: 2px solid black;" class="img img-fluid img-center"/>
+                    </t>
+                </td>
+                <td><strong>Cleaning and Maintenance Instruction Provided to Client</strong></td>
+            </tr>
+            <tr>
+                <td>
+                    <t t-if="doc.any_repair_done_in_the_past_year">
+                        <img src="/atlas_checklist/static/src/img/right2.jpg" style="height: 25px; width: 30px; border: 2px solid black;" class="img img-fluid img-center"/>
+                    </t>
+                    <t t-else="">
+                        <img src="/atlas_checklist/static/src/img/blank.jpg" style="height: 25px; width: 30px; border: 2px solid black;" class="img img-fluid img-center"/>
+                    </t>
+                </td>
+                <td><strong>Any Repair Done in the Past Year</strong></td>
+            </tr>
+            <tr><td colspan="2" style="border-bottom: 2px solid black;"></td></tr>
+        </table>
+    </template>
+
+    <!-- Tiling Checklist Details Template -->
+    <template id="civil_tiling_checklist_template">
+        <table class="table table-borderless checklist_table">
+            <colgroup>
+                <col width="10%"/>
+                <col width="90%"/>
+            </colgroup>
+            <tr>
+                <td>
+                    <t t-if="doc.tl_visit_site">
+                        <img src="/atlas_checklist/static/src/img/right2.jpg" style="height: 25px; width: 30px; border: 2px solid black;" class="img img-fluid img-center"/>
+                    </t>
+                    <t t-else="">
+                        <img src="/atlas_checklist/static/src/img/blank.jpg" style="height: 25px; width: 30px; border: 2px solid black;" class="img img-fluid img-center"/>
+                    </t>
+                </td>
+                <td><strong>Visiting the Site</strong></td>
+            </tr>
+            <tr>
+                <td>
+                    <t t-if="doc.finish_floor_level">
+                        <img src="/atlas_checklist/static/src/img/right2.jpg" style="height: 25px; width: 30px; border: 2px solid black;" class="img img-fluid img-center"/>
+                    </t>
+                    <t t-else="">
+                        <img src="/atlas_checklist/static/src/img/blank.jpg" style="height: 25px; width: 30px; border: 2px solid black;" class="img img-fluid img-center"/>
+                    </t>
+                </td>
+                <td><strong>Finish Floor Level (By Client)</strong></td>
+            </tr>
+            <tr>
+                <td>
+                    <t t-if="doc.closing_pipes">
+                        <img src="/atlas_checklist/static/src/img/right2.jpg" style="height: 25px; width: 30px; border: 2px solid black;" class="img img-fluid img-center"/>
+                    </t>
+                    <t t-else="">
+                        <img src="/atlas_checklist/static/src/img/blank.jpg" style="height: 25px; width: 30px; border: 2px solid black;" class="img img-fluid img-center"/>
+                    </t>
+                </td>
+                <td><strong>Closing Pipes</strong></td>
+            </tr>
+            <tr>
+                <td>
+                    <t t-if="doc.tl_waterproofing">
+                        <img src="/atlas_checklist/static/src/img/right2.jpg" style="height: 25px; width: 30px; border: 2px solid black;" class="img img-fluid img-center"/>
+                    </t>
+                    <t t-else="">
+                        <img src="/atlas_checklist/static/src/img/blank.jpg" style="height: 25px; width: 30px; border: 2px solid black;" class="img img-fluid img-center"/>
+                    </t>
+                </td>
+                <td><strong>Waterproofing</strong></td>
+            </tr>
+            <tr>
+                <td>
+                    <t t-if="doc.pool_testing">
+                        <img src="/atlas_checklist/static/src/img/right2.jpg" style="height: 25px; width: 30px; border: 2px solid black;" class="img img-fluid img-center"/>
+                    </t>
+                    <t t-else="">
+                        <img src="/atlas_checklist/static/src/img/blank.jpg" style="height: 25px; width: 30px; border: 2px solid black;" class="img img-fluid img-center"/>
+                    </t>
+                </td>
+                <td><strong>Pool Testing</strong></td>
+            </tr>
+            <tr>
+                <td>
+                    <t t-if="doc.tiles_approval">
+                        <img src="/atlas_checklist/static/src/img/right2.jpg" style="height: 25px; width: 30px; border: 2px solid black;" class="img img-fluid img-center"/>
+                    </t>
+                    <t t-else="">
+                        <img src="/atlas_checklist/static/src/img/blank.jpg" style="height: 25px; width: 30px; border: 2px solid black;" class="img img-fluid img-center"/>
+                    </t>
+                </td>
+                <td><strong>Tiles Approval</strong></td>
+            </tr>
+            <tr>
+                <td>
+                    <t t-if="doc.tiles_delivery">
+                        <img src="/atlas_checklist/static/src/img/right2.jpg" style="height: 25px; width: 30px; border: 2px solid black;" class="img img-fluid img-center"/>
+                    </t>
+                    <t t-else="">
+                        <img src="/atlas_checklist/static/src/img/blank.jpg" style="height: 25px; width: 30px; border: 2px solid black;" class="img img-fluid img-center"/>
+                    </t>
+                </td>
+                <td><strong>Tiles Delivery</strong></td>
+            </tr>
+            <tr>
+                <td>
+                    <t t-if="doc.splashing_curing">
+                        <img src="/atlas_checklist/static/src/img/right2.jpg" style="height: 25px; width: 30px; border: 2px solid black;" class="img img-fluid img-center"/>
+                    </t>
+                    <t t-else="">
+                        <img src="/atlas_checklist/static/src/img/blank.jpg" style="height: 25px; width: 30px; border: 2px solid black;" class="img img-fluid img-center"/>
+                    </t>
+                </td>
+                <td><strong>Splashing / Curing</strong></td>
+            </tr>
+            <tr>
+                <td>
+                    <t t-if="doc.plastering_curing">
+                        <img src="/atlas_checklist/static/src/img/right2.jpg" style="height: 25px; width: 30px; border: 2px solid black;" class="img img-fluid img-center"/>
+                    </t>
+                    <t t-else="">
+                        <img src="/atlas_checklist/static/src/img/blank.jpg" style="height: 25px; width: 30px; border: 2px solid black;" class="img img-fluid img-center"/>
+                    </t>
+                </td>
+                <td><strong>Plastering / Curing</strong></td>
+            </tr>
+            <tr>
+                <td>
+                    <t t-if="doc.tiles_laying">
+                        <img src="/atlas_checklist/static/src/img/right2.jpg" style="height: 25px; width: 30px; border: 2px solid black;" class="img img-fluid img-center"/>
+                    </t>
+                    <t t-else="">
+                        <img src="/atlas_checklist/static/src/img/blank.jpg" style="height: 25px; width: 30px; border: 2px solid black;" class="img img-fluid img-center"/>
+                    </t>
+                </td>
+                <td><strong>Tiles Laying / Coping / Mech Room</strong></td>
+            </tr>
+            <tr>
+                <td>
+                    <t t-if="doc.grouting">
+                        <img src="/atlas_checklist/static/src/img/right2.jpg" style="height: 25px; width: 30px; border: 2px solid black;" class="img img-fluid img-center"/>
+                    </t>
+                    <t t-else="">
+                        <img src="/atlas_checklist/static/src/img/blank.jpg" style="height: 25px; width: 30px; border: 2px solid black;" class="img img-fluid img-center"/>
+                    </t>
+                </td>
+                <td><strong>Grouting / Pool/ Mech Room</strong></td>
+            </tr>
+            <tr>
+                <td>
+                    <t t-if="doc.overflow_level">
+                        <img src="/atlas_checklist/static/src/img/right2.jpg" style="height: 25px; width: 30px; border: 2px solid black;" class="img img-fluid img-center"/>
+                    </t>
+                    <t t-else="">
+                        <img src="/atlas_checklist/static/src/img/blank.jpg" style="height: 25px; width: 30px; border: 2px solid black;" class="img img-fluid img-center"/>
+                    </t>
+                </td>
+                <td><strong>Overflow Level</strong></td>
+            </tr>
+            <tr>
+                <td>
+                    <t t-if="doc.tiling_area_as_per_contract">
+                        <img src="/atlas_checklist/static/src/img/right2.jpg" style="height: 25px; width: 30px; border: 2px solid black;" class="img img-fluid img-center"/>
+                    </t>
+                    <t t-else="">
+                        <img src="/atlas_checklist/static/src/img/blank.jpg" style="height: 25px; width: 30px; border: 2px solid black;" class="img img-fluid img-center"/>
+                    </t>
+                </td>
+                <td><strong>Tiling Area as per Contract</strong></td>
+            </tr>
+            <tr>
+                <td>
+                    <t t-if="doc.actual_area_of_tiling">
+                        <img src="/atlas_checklist/static/src/img/right2.jpg" style="height: 25px; width: 30px; border: 2px solid black;" class="img img-fluid img-center"/>
+                    </t>
+                    <t t-else="">
+                        <img src="/atlas_checklist/static/src/img/blank.jpg" style="height: 25px; width: 30px; border: 2px solid black;" class="img img-fluid img-center"/>
+                    </t>
+                </td>
+                <td><strong>Actual Area of Tiling</strong></td>
+            </tr>
+            <tr><td colspan="2" style="border-bottom: 2px solid black;"></td></tr>
+        </table>
+    </template>
+
+    <!-- EQSI Checklist Details Template -->
+    <template id="civil_eqsi_checklist_template">
+        <table class="table table-borderless checklist_table">
+            <colgroup>
+                <col width="6%"/>
+                <col width="25%"/>
+                <col width="4%"/>
+                <col width="6%"/>
+                <col width="25%"/>
+                <col width="3%"/>
+                <col width="6%"/>
+                <col width="25%"/>
+            </colgroup>
+            <tr>
+                <td><span t-field="doc.eq_filter"/></td>
+                <td><span>FILTER</span></td>
+                <td/>
+                <td><span t-field="doc.eq_ozone"/></td>
+                <td><span>OZONE / U.V</span></td>
+                <td/>
+                <td><span t-field="doc.eq_control_switch"/></td>
+                <td><span>CONTROL SWITCH</span></td>
+            </tr>
+            <tr>
+                <td><span t-field="doc.eq_pump"/></td>
+                <td><span>PUMP</span></td>
+                <td/>
+                <td><span t-field="doc.eq_ladder"/></td>
+                <td><span>LADDER</span></td>
+                <td/>
+                <td><span t-field="doc.eq_float_valve"/></td>
+                <td><span>FLOAT VALVE</span></td>
+            </tr>
+            <tr>
+                <td><span t-field="doc.eq_heater"/></td>
+                <td><span>HEATER</span></td>
+                <td/>
+                <td><span t-field="doc.eq_sump_pump"/></td>
+                <td><span>SUMP PUMP</span></td>
+                <td/>
+                <td><span t-field="doc.eq_gutter"/></td>
+                <td><span>GUTTER</span></td>
+            </tr>
+            <tr>
+                <td><span t-field="doc.eq_jacuzzi"/></td>
+                <td><span>JACUZZI</span></td>
+                <td/>
+                <td><span t-field="doc.eq_chlorinator"/></td>
+                <td><span>CHLORINATOR</span></td>
+                <td/>
+                <td><span t-field="doc.eq_control_panel"/></td>
+                <td><span>CONTROL PANEL</span></td>
+            </tr>
+            <tr>
+                <td><span t-field="doc.eq_transformer"/></td>
+                <td><span>TRANSFORMER</span></td>
+                <td/>
+                <td><span t-field="doc.eq_skimmer"/></td>
+                <td><span>SKIMMER</span></td>
+                <td/>
+                <td><span t-field="doc.eq_electric_work"/></td>
+                <td><span>ELECTRICAL WORK</span></td>
+            </tr>
+            <tr><td colspan="8" style="border-bottom: 1px solid black;"></td></tr><tr><td colspan="8"></td></tr>
+            <tr>
+                <td><span t-field="doc.eq_lights_rcb_remote"/></td>
+                <td><span>LIGHTS RGB Remote</span></td>
+                <td/>
+                <td><span t-field="doc.eq_lights_cold_white"/></td>
+                <td><span>LIGHTS COLD-WHITE</span></td>
+                <td/>
+                <td><span t-field="doc.eq_lights_warm_white"/></td>
+                <td><span>LIGHTS WARM-WHITE</span></td>
+            </tr>
+            <tr>
+                <td><span t-field="doc.eq_fountain_nozzle"/></td>
+                <td><span>FOUNTAIN NOZZLE</span></td>
+                <td/>
+                <td><span t-field="doc.eq_water_fall"/></td>
+                <td><span>WATER FALL</span></td>
+                <td/>
+                <td><span t-field="doc.eq_rain_water_fountain"/></td>
+                <td><span>RAIN WATER FOUNTAIN</span></td>
+            </tr>
+            <tr>
+                <td><span t-field="doc.eq_deck_box"/></td>
+                <td><span>DECK BOX</span></td>
+                <td colspan="4"/>
+                <td><span t-field="doc.eq_cleaning_equipment"/></td>
+                <td><span>CLEANING EQUIPMENT</span></td>
+            </tr>
+            <tr><td colspan="8" style="border-bottom: 2px solid black;"></td></tr>
+        </table>
+    </template>
+
+    <!-- Commissioning Checklist Details Template -->
+    <template id="civil_commissioning_checklist_template">
+        <table class="table table-borderless checklist_table">
+            <colgroup>
+                <col width="6%"/>
+                <col width="25%"/>
+                <col width="4%"/>
+                <col width="6%"/>
+                <col width="25%"/>
+                <col width="3%"/>
+                <col width="6%"/>
+                <col width="25%"/>
+            </colgroup>
+            <tr>
+                <td><span t-field="doc.com_filter"/></td>
+                <td><span>FILTER</span></td>
+                <td/>
+                <td><span t-field="doc.com_ozone"/></td>
+                <td><span>OZONE / U.V</span></td>
+                <td/>
+                <td><span t-field="doc.com_control_switch"/></td>
+                <td><span>CONTROL SWITCH</span></td>
+            </tr>
+            <tr>
+                <td><span t-field="doc.com_pump"/></td>
+                <td><span>PUMP</span></td>
+                <td/>
+                <td><span t-field="doc.com_ladder"/></td>
+                <td><span>LADDER</span></td>
+                <td/>
+                <td><span t-field="doc.com_float_valve"/></td>
+                <td><span>FLOAT VALVE</span></td>
+            </tr>
+            <tr>
+                <td><span t-field="doc.com_heater"/></td>
+                <td><span>HEATER</span></td>
+                <td/>
+                <td><span t-field="doc.com_sump_pump"/></td>
+                <td><span>SUMP PUMP</span></td>
+                <td/>
+                <td><span t-field="doc.com_gutter"/></td>
+                <td><span>GUTTER</span></td>
+            </tr>
+            <tr>
+                <td><span t-field="doc.com_jacuzzi"/></td>
+                <td><span>JACUZZI</span></td>
+                <td/>
+                <td><span t-field="doc.com_chlorinator"/></td>
+                <td><span>CHLORINATOR</span></td>
+                <td/>
+                <td><span t-field="doc.com_control_panel"/></td>
+                <td><span>CONTROL PANEL</span></td>
+            </tr>
+            <tr>
+                <td><span t-field="doc.com_transformer"/></td>
+                <td><span>TRANSFORMER</span></td>
+                <td/>
+                <td><span t-field="doc.com_skimmer"/></td>
+                <td><span>SKIMMER</span></td>
+                <td/>
+                <td><span t-field="doc.com_electric_work"/></td>
+                <td><span>ELECTRICAL WORK</span></td>
+            </tr>
+            <tr><td colspan="8" style="border-bottom: 1px solid black;"></td></tr><tr><td colspan="8"></td></tr>
+            <tr>
+                <td><span t-field="doc.com_lights_rcb_remote"/></td>
+                <td><span>LIGHTS RGB Remote</span></td>
+                <td/>
+                <td><span t-field="doc.com_lights_cold_white"/></td>
+                <td><span>LIGHTS COLD-WHITE</span></td>
+                <td/>
+                <td><span t-field="doc.com_lights_warm_white"/></td>
+                <td><span>LIGHTS WARM-WHITE</span></td>
+            </tr>
+            <tr>
+                <td><span t-field="doc.com_fountain_nozzle"/></td>
+                <td><span>FOUNTAIN NOZZLE</span></td>
+                <td/>
+                <td><span t-field="doc.com_water_fall"/></td>
+                <td><span>WATER FALL</span></td>
+                <td/>
+                <td><span t-field="doc.com_rain_water_fountain"/></td>
+                <td><span>RAIN WATER FOUNTAIN</span></td>
+            </tr>
+            <tr>
+                <td><span t-field="doc.com_deck_box"/></td>
+                <td><span>DECK BOX</span></td>
+                <td colspan="4"/>
+                <td><span t-field="doc.com_cleaning_equipment"/></td>
+                <td><span>CLEANING EQUIPMENT</span></td>
+            </tr>
+            <tr><td colspan="8" style="border-bottom: 1px solid black;"></td></tr>
+        </table>
+    </template>
+
+    <!-- Note like Remarks Section for all the Civil/Mechanical Checklist Types -->
+    <template id="civil_checklist_remarks_template">
+        <t t-if="doc.remarks">
+            <div class="row col-12 mt-4" style="text-align: justify;">
+                <div class="col-2">
+                    <t t-if="doc.checklist_type in ('concrete', 'waterproofing', 'tiling', 'acrylic')"><strong>NOTES :</strong></t>
+                    <t t-else=""><strong>REMARKS :</strong></t>
+                </div>
+                <div class="col-10"><span t-field="doc.remarks"/></div>
+            </div>
+        </t>
+    </template>
+
+    <!-- Approval section for all the Civil/Mechanical Checklist Types -->
+    <template id="civil_checklist_verification_template">
+        <div class="row col-12 mt-5 mb-5">
+            <t t-if="doc.checklist_type in ('concrete', 'waterproofing', 'tiling', 'acrylic')">
+                <div class="col-6"><strong>Sub Contractor :-</strong></div>
+                <div class="col-6"><strong>Civil Engineer :-</strong></div>
+            </t>
+            <t t-else="">
+                <div class="col-6"><strong>INSTALLED BY :</strong></div>
+                <div class="col-6"><strong>CHECKED &amp; APPROVED BY :</strong></div>
+            </t>
+        </div>
+    </template>
+
+</odoo>

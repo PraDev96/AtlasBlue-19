@@ -1,0 +1,6 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_hr_violation_type,hr.violation.type.group_user,model_hr_violation_type,base.group_user,1,1,1,1
+access_hr_violation,hr.violation.type.group_user,model_hr_violation,base.group_user,1,1,1,1
+access_violation_detail,violation.detail.group_user,model_violation_detail,base.group_user,1,1,1,1
+access_hr_violation_installment_line,hr.violation.installment.line.group_user,model_hr_violation_installment_line,base.group_user,1,1,1,1
+access_violation_done_wizard,violation_done_wizard.group_user,model_violation_done_wizard,base.group_user,1,1,1,1

@@ -1,0 +1,401 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Checklist Form Inherited for Civil/Mechanical Checklist fields -->
+    <record id="project_checklist_form_inherit_civil_checklist" model="ir.ui.view">
+        <field name="name">project.checklist.form.inherit.civil.checklist</field>
+        <field name="model">project.checklist</field>
+        <field name="inherit_id" ref="atlas_checklist.project_checklist_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//form" position="attributes">
+                <attribute name="edit">1</attribute>
+            </xpath>
+            <xpath expr="//group[1]" position="before">
+                <widget name="web_ribbon" title="Archived" bg_color="text-bg-danger" invisible="active"/>
+                <div class="oe_title">
+                    <h1>
+                        <field name="name" readonly="1"/>
+                    </h1>
+                </div>
+            </xpath>
+
+            <xpath expr="//sheet" position="before">
+                <header>
+                    <field name="state" invisible="1"/>
+                    <field name="active" invisible="1"/>
+                    <field name="checklist_type" invisible="1"/>
+                    <button name="action_checklist_validate" data-hotkey="v" string="Approve"
+                            invisible="state != 'draft' or checklist_type == 'service' or not active" type="object"
+                            class="btn-primary" groups="ats_civil_project_checklist.group_civil_project_checklist_approval"/>
+                    <button name="action_print_civil_checklist" data-hotkey="v" string="Print Checklist" type="object"
+                            class="btn-primary" invisible="state != 'validate' or checklist_type == 'service' or not active"/>
+                    <button name="action_checklist_reset_to_draft" string="Reset to Draft"
+                            type="object" invisible="state == 'draft' or checklist_type == 'service' or not active"
+                            data-hotkey="d" groups="ats_civil_project_checklist.group_civil_project_checklist_approval"/>
+                    <field name="state" widget="statusbar" invisible="not active or checklist_type == 'service'"/>
+                </header>
+            </xpath>
+
+            <xpath expr="//field[@name='projects_id']" position="attributes">
+                <attribute name="readonly">1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='task_id']" position="attributes">
+                <attribute name="readonly">1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='date']" position="attributes">
+                <attribute name="readonly">1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='employee_id']" position="attributes">
+                <attribute name="readonly">1</attribute>
+            </xpath>
+
+            <xpath expr="//group[@name='swimming_pool']" position="replace">
+                <group name="swimming_pool" string="Swimming Pool" invisible="checklist_type != 'service'">
+                    <field name="vacuum_pool" readonly="1"/>
+                    <field name="brush_pool" readonly="1"/>
+                    <field name="skim_pool" readonly="1"/>
+                    <field name="clean_skimmer_overflow" readonly="1"/>
+                    <field name="clean_deck_area" readonly="1"/>
+                </group>
+            </xpath>
+            <xpath expr="//group[@name='machine_room']" position="replace">
+                <group name="machine_room" string="Machine Room" invisible="checklist_type != 'service'">
+                    <field name="back_wash_filter_before" readonly="1"/>
+                    <field name="back_wash_filter_after" readonly="1"/>
+                    <field name="clean_pump_strainer" readonly="1"/>
+                    <field name="clean_machine_room" readonly="1"/>
+                    <field name="clean_balance_tank" readonly="1"/>
+                </group>
+            </xpath>
+            <xpath expr="//group[@name='water_chemistry']" position="replace">
+                <group name="water_chemistry" string="Water Chemistry" invisible="checklist_type != 'service'">
+                    <field name="water_temperature" readonly="1"/>
+                    <field name="free_chlorin_level" readonly="1"/>
+                    <field name="ph_level" readonly="1"/>
+                    <field name="total_alkalinity" readonly="1"/>
+                    <field name="cyanuric_acid" readonly="1"/>
+                    <field name="calcium_hardness" readonly="1"/>
+                    <field name="total_chlorine" readonly="1"/>
+                    <field name="salinity" readonly="1"/>
+                    <field name="tds" readonly="1"/>
+                </group>
+            </xpath>
+            <xpath expr="//group[@name='signature']" position="replace">
+                <group name="signature" string="Signature" invisible="checklist_type != 'service'">
+                    <field name="signed_by" readonly="1"/>
+                    <field name="signed_on" readonly="1"/>
+                    <field name="signature" widget="image" readonly="1"/>
+                    <field name='mail_sent_done' force_save="1" readonly="1"/>
+                </group>
+            </xpath>
+
+            <xpath expr="//field[@name='projects_id']" position="before">
+                <field name="checklist_type" readonly="1"/>
+            </xpath>
+
+            <xpath expr="//group[@name='signature']" position="after">
+                <!-- Concrete -->
+                <group name="con_section" string="Concrete" invisible="checklist_type != 'concrete'">
+                    <field name="visit_site_and_finish_floor_level" readonly="state == 'validate' or checklist_type == 'service'"/>
+                    <field name="excavation_and_compaction" readonly="state == 'validate' or checklist_type == 'service'"/>
+                    <field name="cement_block_for_pool_layout" readonly="state == 'validate' or checklist_type == 'service'"/>
+                    <field name="casting_clearance_concrete" readonly="state == 'validate' or checklist_type == 'service'"/>
+                    <field name="external_waterproofing" readonly="state == 'validate' or checklist_type == 'service'"/>
+                    <field name="steel_reinforcement_for_floor" readonly="state == 'validate' or checklist_type == 'service'"/>
+                    <field name="steel_reinforcement_for_walls" readonly="state == 'validate' or checklist_type == 'service'"/>
+                    <field name="casting_reinforcement_concrete_floor" readonly="state == 'validate' or checklist_type == 'service'"/>
+                    <field name="form_work_for_walls" readonly="state == 'validate' or checklist_type == 'service'"/>
+                    <field name="casting_reinforcement_concrete_walls" readonly="state == 'validate' or checklist_type == 'service'"/>
+                    <field name="remove_framework_and_clean" readonly="state == 'validate' or checklist_type == 'service'"/>
+                    <field name="curing_with_water" readonly="state == 'validate' or checklist_type == 'service'"/>
+                </group>
+                <!-- Concrete END -->
+
+                <!-- Embedded Piping -->
+                <group name="emp_section_1" string="Embedded Piping Section 1" invisible="checklist_type != 'embedded_piping'">
+                    <field name="emp_floor_inlets" readonly="state == 'validate' or checklist_type == 'service'"/>
+                    <field name="emp_vacuum_point" readonly="state == 'validate' or checklist_type == 'service'"/>
+                    <field name="emp_main_drain" readonly="state == 'validate' or checklist_type == 'service'"/>
+                    <field name="emp_tank_suction" readonly="state == 'validate' or checklist_type == 'service'"/>
+                    <field name="emp_wall_suction" readonly="state == 'validate' or checklist_type == 'service'"/>
+                    <field name="emp_filling_lines" readonly="state == 'validate' or checklist_type == 'service'"/>
+                    <field name="emp_electrical_supply" readonly="state == 'validate' or checklist_type == 'service'"/>
+                </group>
+                <group name="emp_section_2" string="Embedded Piping Section 2" invisible="checklist_type != 'embedded_piping'">
+                    <field name="emp_skimmer" readonly="state == 'validate' or checklist_type == 'service'"/>
+                    <field name="emp_big_lights" readonly="state == 'validate' or checklist_type == 'service'"/>
+                    <field name="emp_small_lights" readonly="state == 'validate' or checklist_type == 'service'"/>
+                    <field name="emp_jets" readonly="state == 'validate' or checklist_type == 'service'"/>
+                    <field name="emp_sump_pit" readonly="state == 'validate' or checklist_type == 'service'"/>
+                    <field name="emp_drain_pipes" readonly="state == 'validate' or checklist_type == 'service'"/>
+                    <field name="emp_location_of_junction_box" readonly="state == 'validate' or checklist_type == 'service'"/>
+                </group>
+                <group name="emp_section_3" string="Embedded Piping Section 3" invisible="checklist_type != 'embedded_piping'">
+                    <field name="emp_air_regulator" readonly="state == 'validate' or checklist_type == 'service'"/>
+                    <field name="emp_touch_switch" readonly="state == 'validate' or checklist_type == 'service'"/>
+                    <field name="emp_control_switch" readonly="state == 'validate' or checklist_type == 'service'"/>
+                    <field name="emp_water_descent" readonly="state == 'validate' or checklist_type == 'service'"/>
+                    <field name="emp_overflow_with_drain" readonly="state == 'validate' or checklist_type == 'service'"/>
+                    <field name="emp_ventilation_pipes" readonly="state == 'validate' or checklist_type == 'service'"/>
+                    <field name="emp_location_of_control_switch" readonly="state == 'validate' or checklist_type == 'service'"/>
+                </group>
+                <group name="emp_section_4" string="Embedded Piping Section 4" invisible="checklist_type != 'embedded_piping'">
+                    <field name="emp_pool_dimension_as_per_drawing" readonly="state == 'validate' or checklist_type == 'service'"/>
+                    <field name="emp_informed_to_client" readonly="state == 'validate' or checklist_type == 'service'"/>
+                    <field name="emp_initial_pressure_test_reading" readonly="state == 'validate' or checklist_type == 'service'"/>
+                    <field name="emp_final_pressure_test_reading" readonly="state == 'validate' or checklist_type == 'service'"/>
+                    <field name="emp_pool_size" readonly="state == 'validate' or checklist_type == 'service'"/>
+                    <field name="emp_spa_size" readonly="state == 'validate' or checklist_type == 'service'"/>
+                </group>
+                <!-- Embedded Piping END -->
+
+                <!-- Work Before Waterproofing -->
+                <group name="wbw_section_1" string="Work Before Waterproofing Section 1" invisible="checklist_type != 'work_before_waterproofing'">
+                    <field name="wbw_floor_inlets" readonly="state == 'validate' or checklist_type == 'service'"/>
+                    <field name="wbw_vacuum_point" readonly="state == 'validate' or checklist_type == 'service'"/>
+                    <field name="wbw_main_drain" readonly="state == 'validate' or checklist_type == 'service'"/>
+                    <field name="wbw_tank_suction" readonly="state == 'validate' or checklist_type == 'service'"/>
+                    <field name="wbw_wall_suction" readonly="state == 'validate' or checklist_type == 'service'"/>
+                    <field name="wbw_filling_lines" readonly="state == 'validate' or checklist_type == 'service'"/>
+                    <field name="wbw_electrical_supply" readonly="state == 'validate' or checklist_type == 'service'"/>
+                </group>
+                <group name="wbw_section_2" string="Embedded Piping Section 2" invisible="checklist_type != 'work_before_waterproofing'">
+                    <field name="wbw_skimmer" readonly="state == 'validate' or checklist_type == 'service'"/>
+                    <field name="wbw_big_lights" readonly="state == 'validate' or checklist_type == 'service'"/>
+                    <field name="wbw_small_lights" readonly="state == 'validate' or checklist_type == 'service'"/>
+                    <field name="wbw_jets" readonly="state == 'validate' or checklist_type == 'service'"/>
+                    <field name="wbw_sump_pit" readonly="state == 'validate' or checklist_type == 'service'"/>
+                    <field name="wbw_drain_pipes" readonly="state == 'validate' or checklist_type == 'service'"/>
+                    <field name="wbw_location_of_junction_box" readonly="state == 'validate' or checklist_type == 'service'"/>
+                </group>
+                <group name="wbw_section_3" string="Work Before Waterproofing Section 3" invisible="checklist_type != 'work_before_waterproofing'">
+                    <field name="wbw_air_regulator" readonly="state == 'validate' or checklist_type == 'service'"/>
+                    <field name="wbw_touch_switch" readonly="state == 'validate' or checklist_type == 'service'"/>
+                    <field name="wbw_control_switch" readonly="state == 'validate' or checklist_type == 'service'"/>
+                    <field name="wbw_water_descent" readonly="state == 'validate' or checklist_type == 'service'"/>
+                    <field name="wbw_overflow_with_drain" readonly="state == 'validate' or checklist_type == 'service'"/>
+                    <field name="wbw_ventilation_pipes" readonly="state == 'validate' or checklist_type == 'service'"/>
+                    <field name="wbw_location_of_control_switch" readonly="state == 'validate' or checklist_type == 'service'"/>
+                </group>
+                <group name="wbw_section_4" string="Work Before Waterproofing Section 4" invisible="checklist_type != 'work_before_waterproofing'">
+                    <field name="wbw_pool_dimension_as_per_drawing" readonly="state == 'validate' or checklist_type == 'service'"/>
+                    <field name="wbw_informed_to_client" readonly="state == 'validate' or checklist_type == 'service'"/>
+                    <field name="wbw_initial_pressure_test_reading" readonly="state == 'validate' or checklist_type == 'service'"/>
+                    <field name="wbw_final_pressure_test_reading" readonly="state == 'validate' or checklist_type == 'service'"/>
+                    <field name="wbw_pool_size" readonly="state == 'validate' or checklist_type == 'service'"/>
+                </group>
+                <group name="wbw_section_5" string="Work Before Waterproofing Section 5" invisible="checklist_type != 'work_before_waterproofing'">
+                    <field name="wbw_backwash" readonly="state == 'validate' or checklist_type == 'service'"/>
+                    <field name="wbw_ventilation" readonly="state == 'validate' or checklist_type == 'service'"/>
+                    <field name="wbw_filling_line" readonly="state == 'validate' or checklist_type == 'service'"/>
+                    <field name="wbw_is_electrical_supply" readonly="state == 'validate' or checklist_type == 'service'"/>
+                    <field name="wbw_summit_pit" readonly="state == 'validate' or checklist_type == 'service'"/>
+                    <field name="wbw_spa_size" readonly="state == 'validate' or checklist_type == 'service'"/>
+                </group>
+                <!-- Work Before Waterproofing END -->
+
+                <!-- Waterproofing -->
+                <group name="wp_section" string="Waterproofing" invisible="checklist_type != 'waterproofing'">
+                    <field name="wp_visit_site_and_finish_floor_level" readonly="state == 'validate' or checklist_type == 'service'"/>
+                    <field name="site_preparation" readonly="state == 'validate' or checklist_type == 'service'"/>
+                    <field name="first_layer_waterproofing" readonly="state == 'validate' or checklist_type == 'service'"/>
+                    <field name="second_layer_waterproofing" readonly="state == 'validate' or checklist_type == 'service'"/>
+                    <field name="water_filling" readonly="state == 'validate' or checklist_type == 'service'"/>
+                    <field name="first_reading" readonly="state == 'validate' or checklist_type == 'service'"/>
+                    <field name="second_reading" readonly="state == 'validate' or checklist_type == 'service'"/>
+                    <field name="final_reading" readonly="state == 'validate' or checklist_type == 'service'"/>
+                    <field name="waterproofing_test_approval" readonly="state == 'validate' or checklist_type == 'service'"/>
+                </group>
+                <!-- Waterproofing END -->
+
+                <!-- Acrylic -->
+                <group name="acr_section" string="Acrylic" invisible="checklist_type != 'acrylic'">
+                    <field name="surface_condition" readonly="state == 'validate' or checklist_type == 'service'"/>
+                    <field name="acrylic_join_sealant_intact" readonly="state == 'validate' or checklist_type == 'service'"/>
+                    <field name="adhesion_to_substrate" readonly="state == 'validate' or checklist_type == 'service'"/>
+                    <field name="no_sign_of_water_leakage_or_moisture" readonly="state == 'validate' or checklist_type == 'service'"/>
+                    <field name="no_surface_stain_or_build_up" readonly="state == 'validate' or checklist_type == 'service'"/>
+                    <field name="structural_support_stable" readonly="state == 'validate' or checklist_type == 'service'"/>
+                    <field name="proper_drainage" readonly="state == 'validate' or checklist_type == 'service'"/>
+                    <field name="cleaning_and_maintenance_instruction" readonly="state == 'validate' or checklist_type == 'service'"/>
+                    <field name="any_repair_done_in_the_past_year" readonly="state == 'validate' or checklist_type == 'service'"/>
+                </group>
+                <!-- Acrylic END -->
+
+                <!-- Tiling -->
+                <group name="tl_section" string="Tiling" invisible="checklist_type != 'tiling'">
+                    <field name="tl_visit_site" readonly="state == 'validate' or checklist_type == 'service'"/>
+                    <field name="finish_floor_level" readonly="state == 'validate' or checklist_type == 'service'"/>
+                    <field name="closing_pipes" readonly="state == 'validate' or checklist_type == 'service'"/>
+                    <field name="tl_waterproofing" readonly="state == 'validate' or checklist_type == 'service'"/>
+                    <field name="pool_testing" readonly="state == 'validate' or checklist_type == 'service'"/>
+                    <field name="tiles_approval" readonly="state == 'validate' or checklist_type == 'service'"/>
+                    <field name="tiles_delivery" readonly="state == 'validate' or checklist_type == 'service'"/>
+                    <field name="splashing_curing" readonly="state == 'validate' or checklist_type == 'service'"/>
+                    <field name="plastering_curing" readonly="state == 'validate' or checklist_type == 'service'"/>
+                    <field name="tiles_laying" readonly="state == 'validate' or checklist_type == 'service'"/>
+                    <field name="grouting" readonly="state == 'validate' or checklist_type == 'service'"/>
+                    <field name="overflow_level" readonly="state == 'validate' or checklist_type == 'service'"/>
+                    <field name="tiling_area_as_per_contract" readonly="state == 'validate' or checklist_type == 'service'"/>
+                    <field name="actual_area_of_tiling" readonly="state == 'validate' or checklist_type == 'service'"/>
+                </group>
+                <!-- Tiling END -->
+
+                <!-- EQSI -->
+                <group name="eqsi_section_1" string="EQSI Section 1" invisible="checklist_type != 'eqsi'">
+                    <field name="eq_filter" readonly="state == 'validate' or checklist_type == 'service'"/>
+                    <field name="eq_pump" readonly="state == 'validate' or checklist_type == 'service'"/>
+                    <field name="eq_heater" readonly="state == 'validate' or checklist_type == 'service'"/>
+                    <field name="eq_jacuzzi" readonly="state == 'validate' or checklist_type == 'service'"/>
+                    <field name="eq_transformer" readonly="state == 'validate' or checklist_type == 'service'"/>
+                </group>
+                <group name="eqsi_section_2" string="EQSI Section 2" invisible="checklist_type != 'eqsi'">
+                    <field name="eq_ozone" readonly="state == 'validate' or checklist_type == 'service'"/>
+                    <field name="eq_ladder" readonly="state == 'validate' or checklist_type == 'service'"/>
+                    <field name="eq_sump_pump" readonly="state == 'validate' or checklist_type == 'service'"/>
+                    <field name="eq_chlorinator" readonly="state == 'validate' or checklist_type == 'service'"/>
+                    <field name="eq_skimmer" readonly="state == 'validate' or checklist_type == 'service'"/>
+                </group>
+                <group name="eqsi_section_3" string="EQSI Section 3" invisible="checklist_type != 'eqsi'">
+                    <field name="eq_control_switch" readonly="state == 'validate' or checklist_type == 'service'"/>
+                    <field name="eq_float_valve" readonly="state == 'validate' or checklist_type == 'service'"/>
+                    <field name="eq_gutter" readonly="state == 'validate' or checklist_type == 'service'"/>
+                    <field name="eq_control_panel" readonly="state == 'validate' or checklist_type == 'service'"/>
+                    <field name="eq_electric_work" readonly="state == 'validate' or checklist_type == 'service'"/>
+                </group>
+                <group name="eqsi_section_4" string="EQSI Section 4" invisible="checklist_type != 'eqsi'">
+                    <field name="eq_lights_rcb_remote" readonly="state == 'validate' or checklist_type == 'service'"/>
+                    <field name="eq_fountain_nozzle" readonly="state == 'validate' or checklist_type == 'service'"/>
+                    <field name="eq_deck_box" readonly="state == 'validate' or checklist_type == 'service'"/>
+                    <field name="eq_lights_cold_white" readonly="state == 'validate' or checklist_type == 'service'"/>
+                </group>
+                <group name="eqsi_section_5" string="EQSI Section 5" invisible="checklist_type != 'eqsi'">
+                    <field name="eq_water_fall" readonly="state == 'validate' or checklist_type == 'service'"/>
+                    <field name="eq_lights_warm_white" readonly="state == 'validate' or checklist_type == 'service'"/>
+                    <field name="eq_rain_water_fountain" readonly="state == 'validate' or checklist_type == 'service'"/>
+                    <field name="eq_cleaning_equipment" readonly="state == 'validate' or checklist_type == 'service'"/>
+                </group>
+                <!-- EQSI END -->
+
+                <!-- Commissioning -->
+                <group name="com_section_1" string="Commissioning Section 1" invisible="checklist_type != 'commissioning'">
+                    <field name="com_filter" readonly="state == 'validate' or checklist_type == 'service'"/>
+                    <field name="com_pump" readonly="state == 'validate' or checklist_type == 'service'"/>
+                    <field name="com_heater" readonly="state == 'validate' or checklist_type == 'service'"/>
+                    <field name="com_jacuzzi" readonly="state == 'validate' or checklist_type == 'service'"/>
+                    <field name="com_transformer" readonly="state == 'validate' or checklist_type == 'service'"/>
+                </group>
+                <group name="com_section_2" string="Commissioning Section 2" invisible="checklist_type != 'commissioning'">
+                    <field name="com_ozone" readonly="state == 'validate' or checklist_type == 'service'"/>
+                    <field name="com_ladder" readonly="state == 'validate' or checklist_type == 'service'"/>
+                    <field name="com_sump_pump" readonly="state == 'validate' or checklist_type == 'service'"/>
+                    <field name="com_chlorinator" readonly="state == 'validate' or checklist_type == 'service'"/>
+                    <field name="com_skimmer" readonly="state == 'validate' or checklist_type == 'service'"/>
+                </group>
+                <group name="com_section_3" string="Commissioning Section 3" invisible="checklist_type != 'commissioning'">
+                    <field name="com_control_switch" readonly="state == 'validate' or checklist_type == 'service'"/>
+                    <field name="com_float_valve" readonly="state == 'validate' or checklist_type == 'service'"/>
+                    <field name="com_gutter" readonly="state == 'validate' or checklist_type == 'service'"/>
+                    <field name="com_control_panel" readonly="state == 'validate' or checklist_type == 'service'"/>
+                    <field name="com_electric_work" readonly="state == 'validate' or checklist_type == 'service'"/>
+                </group>
+                <group name="com_section_4" string="Commissioning Section 4" invisible="checklist_type != 'commissioning'">
+                    <field name="com_lights_rcb_remote" readonly="state == 'validate' or checklist_type == 'service'"/>
+                    <field name="com_fountain_nozzle" readonly="state == 'validate' or checklist_type == 'service'"/>
+                    <field name="com_deck_box" readonly="state == 'validate' or checklist_type == 'service'"/>
+                    <field name="com_lights_cold_white" readonly="state == 'validate' or checklist_type == 'service'"/>
+                </group>
+                <group name="com_section_5" string="Commissioning Section 5" invisible="checklist_type != 'commissioning'">
+                    <field name="com_water_fall" readonly="state == 'validate' or checklist_type == 'service'"/>
+                    <field name="com_lights_warm_white" readonly="state == 'validate' or checklist_type == 'service'"/>
+                    <field name="com_rain_water_fountain" readonly="state == 'validate' or checklist_type == 'service'"/>
+                    <field name="com_cleaning_equipment" readonly="state == 'validate' or checklist_type == 'service'"/>
+                </group>
+                <!-- Commissioning END -->
+
+                <!-- Remark as common for Civil/Mechanical Project Checklist -->
+                <field name="remarks" placeholder="Update the Remarks here" readonly="state == 'validate'" invisible="checklist_type == 'service'"/>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Checklist Tree Inherited for Civil/Mechanical Checklist fields -->
+    <record id="project_checklist_tree_inherit_civil_checklist" model="ir.ui.view">
+        <field name="name">project.checklist.tree.inherit.civil.checklist</field>
+        <field name="model">project.checklist</field>
+        <field name="inherit_id" ref="atlas_checklist.project_checklist_tree_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='projects_id']" position="before">
+                <field name="name"/>
+                <field name="checklist_type"/>
+            </xpath>
+            <xpath expr="//field[@name='signed_by']" position="after">
+                <field name="signed_on" optional="hide"/>
+                <field name="state"/>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Checklist Search Inherited for Civil/Mechanical Checklist fields -->
+    <record id="project_checklist_search_inherit_civil_checklist" model="ir.ui.view">
+        <field name="name">project.checklist.search.inherit.civil.checklist</field>
+        <field name="model">project.checklist</field>
+        <field name="inherit_id" ref="atlas_checklist.project_checklist_search_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='projects_id']" position="after">
+                <field name="name"/>
+            </xpath>
+            <xpath expr="//filter[@name='group_employee']" position="after">
+                <separator/>
+                <filter string="Checklist Type" name="group_checklist_type" context="{'group_by': 'checklist_type'}"/>
+                <filter string="Status" name="group_state" context="{'group_by': 'state'}"/>
+                <separator/>
+                <filter string="Archived" name="inactive" domain="[('active', '=', False)]"/>
+                <separator/>
+            </xpath>
+            <xpath expr="//filter[@name='date']" position="after">
+                <separator/>
+                <filter string="Draft" name="draft_state" domain="[('state', '=', 'draft')]" help="UnValidated Checklist"/>
+                <filter string="Approved" name="validated_state" domain="[('state', '=', 'validate')]" help="Validated Checklist"/>
+                <separator/>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Civil/Mechanical Project Checklist Action -->
+    <record id="action_civil_project_mechanical_checklist" model="ir.actions.act_window">
+        <field name="name">Mechanical Project Checklist</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">project.checklist</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('checklist_type', '!=', 'service')]</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                No Civil / Mechanical Projects Checklist found!
+            </p>
+        </field>
+    </record>
+
+    <!-- Civil/Mechanical Project Checklist Menu -->
+    <menuitem id="menu_civil_project_checklist"
+              name="Mechanical Project Checklist"
+              parent="project.menu_project_config"
+              action="action_civil_project_mechanical_checklist"
+              groups="ats_civil_project_checklist.group_civil_project_checklist"
+              sequence="11"/>
+
+
+    <!-- Service Project Checklist Action Domain -->
+    <record id="atlas_checklist.action_project_checklist" model="ir.actions.act_window">
+        <field name="name">Service Project Checklist</field>
+        <field name="domain">[('checklist_type', '=', 'service')]</field>
+    </record>
+
+    <!-- Service Project Checklist Menu Group -->
+    <record id="atlas_checklist.menu_project_checklist" model="ir.ui.menu">
+        <field name="name">Service Project Checklist</field>
+        <field name="sequence">12</field>
+        <field name="groups_id" eval="[(6, 0, [ref('ats_civil_project_checklist.group_service_project_checklist')])]"/>
+    </record>
+
+</odoo>

@@ -1,0 +1,33 @@
+<odoo>
+    <data>
+
+        <record id="po_bulk_discount_purchase_view_form1" model="ir.ui.view">
+            <field name="name">purchase.form</field>
+            <field name="model">purchase.order</field>
+            <field name="inherit_id" ref="purchase.purchase_order_form"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//form/sheet/notebook/page[1]/group" position="after">
+                    <div>
+                        <label for="discount_type" string="Discount Type:"/>
+                        <field name="discount_type" class="oe_inline" readonly="state in ('purchase', 'done', 'cancel')"/>
+                    </div>
+                    <div>
+                        <label for="discount_rate" string="Discount:"/>
+                        <field name="discount_rate" class="oe_inline" readonly="state in ('purchase', 'done', 'cancel')"/>
+                    </div>
+                    <div>
+                        <button name="apply_bulk_discount" string="Apply Bulk Discount" type="object"
+                                invisible="state in ('purchase', 'done', 'cancel')" class="btn-primary"/>
+                    </div>
+                </xpath>
+
+                <xpath expr="//field[@name='tax_totals']" position="after">
+                    <field name="amount_discount"/>
+                </xpath>
+
+            </field>
+        </record>
+
+    </data>
+</odoo>

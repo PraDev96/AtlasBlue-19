@@ -1,0 +1,516 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="report_fleet_handover">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="fleet_handover.external_layout_fleet_handover">
+                    <div class="page">
+                        <div class="oe_structure"/>
+
+                        <div class="text-center">
+                            <h2>
+                                <span t-field="o.name"/>
+                                Vehicle Handover Form
+                            </h2>
+                            <h3 style="font-family: 'Times New Roman'" dir="rtl">عهدة تسليم دراجة نارية</h3>
+                        </div>
+
+                        <table width="100%" class="table-sm table-bordered mb16 mt16" style="border-color: black; padding:0px;">
+                            <colgroup>
+                                <col width="25%"/>
+                                <col width="50%"/>
+                                <col width="25%"/>
+                            </colgroup>
+                            <tr>
+                                <td style="border: 1px solid black; font-family: 'Times New Roman';">Company Name.</td>
+                                <td class="text-center" style="border: 1px solid black; font-family: 'Times New Roman'">
+                                    <span t-field="o.company_id"/>
+                                </td>
+                                <td style="border: 1px solid black; font-family: 'Times New Roman'" class="text-right" dir="rtl">إسم الشركة.</td>
+                            </tr>
+                            <tr>
+                                <td style="border: 1px solid black; font-family: 'Times New Roman'">Date.</td>
+                                <td class="text-center" style="border: 1px solid black; font-family: 'Times New Roman'">
+                                    <span t-field="o.date"/>
+                                </td>
+                                <td style="border: 1px solid black; font-family: 'Times New Roman'" class="text-right" dir="rtl">التاريخ.</td>
+                            </tr>
+                        </table>
+
+                        <div class="text-center mb16 mt16">
+                            <span>
+                                <strong>Receiver Information -</strong>
+                            </span>
+                            <span style="font-family: 'Times New Roman'" dir="rtl">
+                                <strong>- بيانات الموظف</strong>
+                            </span>
+                        </div>
+
+                        <table width="100%" class="table-sm table-bordered mb16 mt16" style="border-color: black; padding:0px;">
+                            <colgroup>
+                                <col width="25%"/>
+                                <col width="50%"/>
+                                <col width="25%" class="text-left"/>
+                            </colgroup>
+                            <tr t-if="o.receiver_id">
+                                <td style="border: 1px solid black; font-family: 'Times New Roman'">Receiver Name.</td>
+                                <td class="text-center" style="border: 1px solid black; font-family: 'Times New Roman'">
+                                    <span t-field="o.receiver_id"/>
+                                </td>
+                                <td style="border: 1px solid black; font-family: 'Times New Roman'" class="text-right" dir="rtl">إسم المستلم .</td>
+                            </tr>
+                            <tr t-if="o.handover_name">
+                                <td style="border: 1px solid black; font-family: 'Times New Roman'">Receiver Name.</td>
+                                <td class="text-center" style="border: 1px solid black; font-family: 'Times New Roman'">
+                                    <span t-field="o.handover_name"/>
+                                </td>
+                                <td style="border: 1px solid black; font-family: 'Times New Roman'" class="text-right" dir="rtl">إسم المستلم .</td>
+                            </tr>
+                            <!-- <tr>
+                                <th style="border: 1px solid black; font-family: 'Times New Roman'">Employee Number.</th>
+                                <td class="text-center" style="border: 1px solid black; font-family: 'Times New Roman'"><span t-field="o.employee_id.identification_id"/></td>
+                                <th style="border: 1px solid black; font-family: 'Times New Roman'" class="text-right" dir="rtl">الرقم الوظيفي.</th>
+                            </tr> -->
+
+                            <tr t-if="o.handover_type=='external'">
+                                <td style="border: 1px solid black; font-family: 'Times New Roman'">Civil ID.</td>
+                                <td class="text-center" style="border: 1px solid black; font-family: 'Times New Roman'">
+                                    <span t-field="o.handover_civil_id"/>
+                                </td>
+                                <th style="border: 1px solid black; font-family: 'Times New Roman'" class="text-right" dir="rtl">الهوية المدنية.</th>
+                            </tr>
+                            <tr t-if="o.handover_type=='external'">
+                                <td style="border: 1px solid black; font-family: 'Times New Roman'">Phone Number.</td>
+                                <td class="text-center" style="border: 1px solid black; font-family: 'Times New Roman'">
+                                    <span t-field="o.handover_phone"/>
+                                </td>
+                                <td style="border: 1px solid black; font-family: 'Times New Roman'" class="text-right" dir="rtl">رقم الهاتف.</td>
+                            </tr>
+                            <tr t-if="o.handover_type=='external'">
+                                <td style="border: 1px solid black; font-family: 'Times New Roman'">Receiver Workplace.</td>
+                                <td class="text-center" style="border: 1px solid black; font-family: 'Times New Roman'">
+                                    <span t-field="o.handover_location"/>
+                                </td>
+                                <td style="border: 1px solid black; font-family: 'Times New Roman'" class="text-right" dir="rtl">مكان عمل المتلقي.</td>
+                            </tr>
+                            <tr>
+                                <td style="border: 1px solid black; font-family: 'Times New Roman'">Company.</td>
+                                <td class="text-center" style="border: 1px solid black; font-family: 'Times New Roman'">
+                                    <span t-field="o.company_id"/>
+                                </td>
+                                <td style="border: 1px solid black; font-family: 'Times New Roman'" class="text-right" dir="rtl">شركة.</td>
+                            </tr>
+                            <tr>
+                                <td style="border: 1px solid black; font-family: 'Times New Roman'">Receiver Signature</td>
+                                <td style="border: 1px solid black; font-family: 'Times New Roman'">
+                                    <t t-if="o.receiver_sign">
+                                        <img t-att-src="image_data_uri(o.receiver_sign)" style="max-height: 4cm; max-width: 8cm;"/>
+                                    </t>
+                                </td>
+                                <td style="border: 1px solid black; font-family: 'Times New Roman'" class="text-right" dir="rtl">توقيع المستلم.</td>
+                            </tr>
+                        </table>
+
+                        <div class="text-center mb8">
+                            <span>
+                                <strong>Motorcycle Details -</strong>
+                            </span>
+                            <span style="font-family: 'Times New Roman'" dir="rtl">
+                                <strong>- بيانات الدراجة النارية</strong>
+                            </span>
+                        </div>
+
+                        <table width="100%" class="table-sm table-bordered mb16 mt16" style="border-color: black; margin:0px; padding:0px;">
+                            <colgroup>
+                                <col width="25%"/>
+                                <col width="25%"/>
+                                <col width="25%"/>
+                                <col width="25%"/>
+                            </colgroup>
+                            <tr>
+                                <td style="border: 1px solid black; font-family: 'Times New Roman'">Plate Number.</td>
+                                <td class="text-center" style="border: 1px solid black; font-family: 'Times New Roman'" colspan="2">
+                                    <span t-field="o.license_plate"/>
+                                </td>
+                                <td style="border: 1px solid black; font-family: 'Times New Roman'" class="text-right" dir="rtl">رقم اللوحة.</td>
+                            </tr>
+                            <tr>
+                                <td style="border: 1px solid black; font-family: 'Times New Roman'">Model Details.</td>
+                                <td class="text-center" style="border: 1px solid black; font-family: 'Times New Roman'" colspan="2">
+                                    <span t-field="o.fleet_vehicle_id.model_id"/>
+                                    -
+                                    <span t-field="o.fleet_vehicle_id.model_year"/>
+                                </td>
+                                <td style="border: 1px solid black; font-family: 'Times New Roman'" class="text-right" dir="rtl">بيانات الدراجة النارية.</td>
+                            </tr>
+                            <tr>
+                                <td style="border: 1px solid black; font-family: 'Times New Roman'">Chassis Number.</td>
+                                <td class="text-center" style="border: 1px solid black; font-family: 'Times New Roman'" colspan="2">
+                                    <span t-field="o.vin_sn"/>
+                                </td>
+                                <td style="border: 1px solid black; font-family: 'Times New Roman'" class="text-right" dir="rtl">رقم الشاصي.</td>
+                            </tr>
+                            <tr t-if="o.company_id.id == 2">
+                                <td style="border: 1px solid black; font-family: 'Times New Roman'">Division.</td>
+                                <td class="text-center" style="border: 1px solid black; font-family: 'Times New Roman'" colspan="2">
+                                    <span t-field="o.fleet_vehicle_id.fleet_division_id"/>
+                                </td>
+                                <td style="border: 1px solid black; font-family: 'Times New Roman'" class="text-right" dir="rtl">إسم المالك.</td>
+                            </tr>
+                        </table>
+
+                        <div class="text-center mb16 mt16">
+                            <span>
+                                <strong>Additional Items Provided -</strong>
+                            </span>
+                            <span style="font-family: 'Times New Roman'" dir="rtl">
+                                <strong>- تم توفير عناصر التسليم</strong>
+                            </span>
+                        </div>
+
+                        <table width="100%" class="table-sm table-bordered mb16 mt16" style="border-color: black; margin:0px; padding:0px;">
+                            <tr>
+                                <td style="border: 1px solid black; font-family: 'Times New Roman'">Registration
+                                    <t t-if="o.is_handover_registration">
+                                        <i class="fa-check-square-o"/>
+                                    </t>
+                                    <t t-else="">
+                                        <i class="fa fa-square-o"/>
+                                    </t>
+                                </td>
+                                <td style="border: 1px solid black; font-family: 'Times New Roman'">Key
+                                    <t t-if="o.is_handover_key">
+                                        <i class="fa-check-square-o"/>
+                                    </t>
+                                    <t t-else="">
+                                        <i class="fa fa-square-o"/>
+                                    </t>
+                                </td>
+                                <td style="border: 1px solid black; font-family: 'Times New Roman'">Helmet
+                                    <t t-if="o.is_handover_helmet">
+                                        <i class="fa-check-square-o"/>
+                                    </t>
+                                    <t t-else="">
+                                        <i class="fa fa-square-o"/>
+                                    </t>
+                                </td>
+                                <td style="border: 1px solid black; font-family: 'Times New Roman'">Delivery Box
+                                    <t t-if="o.is_handover_delivery_box">
+                                        <i class="fa-check-square-o"/>
+                                    </t>
+                                    <t t-else="">
+                                        <i class="fa fa-square-o"/>
+                                    </t>
+                                </td>
+                                <td style="border: 1px solid black; font-family: 'Times New Roman'">Mobile Stand with Charger
+                                    <t t-if="o.is_handover_mobile_stand_charger">
+                                        <i class="fa-check-square-o"/>
+                                    </t>
+                                    <t t-else="">
+                                        <i class="fa fa-square-o"/>
+                                    </t>
+                                </td>
+                            </tr>
+                        </table>
+
+                        <div class="text-center mb16 mt16">
+                            <span>
+                                <strong>Custody Type -</strong>
+                            </span>
+                            <span style="font-family: 'Times New Roman'" dir="rtl">
+                                <strong>- نوع الحضانة</strong>
+                            </span>
+                        </div>
+
+                        <table width="100%" class="table-sm table-bordered mb16 mt16" style="border-color: black; margin:0px; padding:0px;">
+                            <colgroup>
+                                <col width="50%"/>
+                                <col width="50%"/>
+                            </colgroup>
+                            <tr>
+                                <td style="border: 1px solid black; font-family: 'Times New Roman'">Long Term
+                                    <t t-if="o.is_long_term">
+                                        <i class="fa-check-square-o"/>
+                                    </t>
+                                    <t t-else="">
+                                        <i class="fa fa-square-o"/>
+                                    </t>
+                                </td>
+                                <td style="border: 1px solid black; font-family: 'Times New Roman'">Temporary
+                                    <t t-if="o.is_temporary">
+                                        <i class="fa-check-square-o"/>
+                                    </t>
+                                    <t t-else="">
+                                        <i class="fa fa-square-o"/>
+                                    </t>
+                                </td>
+                            </tr>
+                        </table>
+
+                        <!-- <table width="100%" class="table-sm table-bordered" style="border-color: black; margin:0px; padding:0px;">
+                            <colgroup>
+                                <col width="45%"/>
+                                <col width="10%"/>
+                                <col width="45%"/>
+                            </colgroup>
+                            <tr style="border-top: 0px solid white;">
+                                <th style="border: 1px solid black; font-family: 'Times New Roman'; border-top: 0px solid white;" class="text-right" dir="rtl">تم تحديث البيانات بالنظام</th>
+                                <td class="text-center" style="border: 1px solid black; font-family: 'Times New Roman'; border-top: 0px solid white;">
+                                    <i class="fa fa-square-o"/>
+                                </td>
+                                <th style="border: 1px solid black; font-family: 'Times New Roman'; border-top: 0px solid white;">New updates have been updated on the system</th>
+                            </tr>
+                        </table> -->
+
+                        <p style="page-break-after: always;"/>
+                        <div class="text-center mb8">
+                            <span>
+                                <strong>Terms &amp; Conditions -</strong>
+                            </span>
+                            <span style="font-family: 'Times New Roman'" dir="rtl">
+                                <strong>الشروط والأحكام</strong>
+                            </span>
+                        </div>
+
+                        <table width="100%" class="table-sm table-bordered mb16 mt16" style="border-color: black; padding:0px;">
+                            <colgroup>
+                                <col width="50%"/>
+                                <col width="50%"/>
+                            </colgroup>
+                            <tr>
+                                <td style="border: 1px solid black; font-family: 'Times New Roman'; font-size:13px;">
+                                    <li>
+                                        Property to be used in the company's business during the official working hours only and not used it for personal purposes
+                                    </li>
+                                    <li>
+                                        Keeping it in good condition and return it to the company upon the end of its use. Or upon the expiry of the employment contract or
+                                        upon Company’s request. I undertake to
+                                    </li>
+                                    <li>
+                                        Notify the company immediately in the event of damage or loss of the property completely or part of it
+                                    </li>
+                                    <li>
+                                        Undertaking to bear all traffic violations, respect the laws of the country, especially traffic laws / instructions and to abide by the
+                                        maintenance schedule provided by the company for every 1500 kilometers inside Company’s workshops only.
+                                    </li>
+                                    <li>
+                                        Undertaking the consequences of any damages or that occur as a result of violating the maintenance instructions.
+                                    </li>
+                                </td>
+                                <td dir="rtl" style="border: 1px solid black; font-family: 'Times New Roman'; font-size:13px;" class="text-right">
+                                    <li>
+                                        إستخدامها في أعمال الشركة وفي أوقات العمل الرسمية فقط وعدم استخدامها لأغراض شخصية.
+                                    </li>
+                                    <li>
+                                        المحافظة عليها في حالة جيدة وإعادتها للشركة عند انتهاء الغرض من استخدامها أو عند انتهاء عقد العمل أو عند مطالبة الشركة بها.
+                                    </li>
+                                    <li>
+                                        إخطار الشركة فورا في حال تلف أو فقدان العهد أو جزء منها.
+                                    </li>
+                                    <li>
+                                        تحمل كافة المخالفات المرورية واحترام قوانين البلاد وخصوصا قوانين وتعليمات المرور وأن ألتزم بمواعيد الصيانة التي تحددها الشركة لك 1500
+                                        كيلومتر في الورش التابعة للشركة فقط.
+                                    </li>
+                                    <li>
+                                        تحمل تبعات أي أضرار أو تلفيات تحدث نتيجة مخالفة تعليمات الصيانة.
+                                    </li>
+                                </td>
+                            </tr>
+                        </table>
+
+                        <div class="text-center mb8">
+                            <span>
+                                <strong>In Case of Returning the Custody -</strong>
+                            </span>
+                            <span style="font-family: 'Times New Roman'" dir="rtl">
+                                <strong>في حالة إرجاع العهدة</strong>
+                            </span>
+                        </div>
+
+                        <table class="table-sm table-bordered mb16 mt16" style="border-color: black; padding:0px;">
+                            <colgroup>
+                                <col width="20%"/>
+                                <col width="20%"/>
+                                <col width="20%"/>
+                                <col width="20%"/>
+                                <col width="20%"/>
+                            </colgroup>
+                            <tr>
+                                <td style="border: 1px solid black; font-family: 'Times New Roman'">
+                                    Date of Returning the Custody:
+                                </td>
+                                <td colspan="3" class="text-center" style="border: 1px solid black; font-family: 'Times New Roman'">
+                                    <span t-field="o.return_custory_date"/>
+                                </td>
+                                <td dir="rtl" style="border: 1px solid black; font-family: 'Times New Roman'" class="text-right">تاريخ إرجاع العهدة:
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="border: 1px solid black; font-family: 'Times New Roman'">Purpose of Receiving:</td>
+                                <td style="border: 1px solid black; font-family: 'Times New Roman'">
+                                    Vacation
+                                    <t t-if="o.is_vacc">
+                                        <i class="fa-check-square-o"/>
+                                    </t>
+                                    <t t-else="">
+                                        <i class="fa fa-square-o"/>
+                                    </t>
+                                </td>
+                                <td style="border: 1px solid black; font-family: 'Times New Roman'">
+                                    Maintenance
+                                    <t t-if="o.is_maint">
+                                        <i class="fa-check-square-o"/>
+                                    </t>
+                                    <t t-else="">
+                                        <i class="fa fa-square-o"/>
+                                    </t>
+                                </td>
+                                <td style="border: 1px solid black; font-family: 'Times New Roman'">
+                                    End of Contract
+                                    <t t-if="o.is_contract">
+                                        <i class="fa-check-square-o"/>
+                                    </t>
+                                    <t t-else="">
+                                        <i class="fa fa-square-o"/>
+                                    </t>
+                                </td>
+                                <td style="border: 1px solid black; font-family: 'Times New Roman'">
+                                    Other
+                                    <t t-if="o.is_other">
+                                        <i class="fa-check-square-o"/>
+                                    </t>
+                                    <t t-else="">
+                                        <i class="fa fa-square-o"/>
+                                    </t>
+                                </td>
+                            </tr>
+                            <tr t-if="o.is_other">
+                                <!-- <td style="border: 1px solid black; font-family: 'Times New Roman'">
+                                    Purpose of Receiving:
+                                </td> -->
+                                <td colspan="5" class="text-center" style="border: 1px solid black; font-family: 'Times New Roman'">
+                                    <span t-field="o.purpose_receiving"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="border: 1px solid black; font-family: 'Times New Roman'">
+                                    Custody Receiver:
+                                </td>
+                                <td colspan="3" class="text-center" style="border: 1px solid black; font-family: 'Times New Roman'">
+                                    <span t-field="o.custody_receiver_id"/>
+                                </td>
+                                <td dir="rtl" style="border: 1px solid black; font-family: 'Times New Roman'" class="text-right">
+                                    مستلم العهدة:
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="border: 1px solid black; font-family: 'Times New Roman'">Motorcycle’s Condition</td>
+                                <td style="border: 1px solid black; font-family: 'Times New Roman'" colspan="3">
+                                    <span t-field="o.fleet_condition"/>
+                                </td>
+                                <td style="border: 1px solid black; font-family: 'Times New Roman'" class="text-right" dir="rtl">حاله الدراجة</td>
+                            </tr>
+                            <tr>
+                                <td style="border: 1px solid black; font-family: 'Times New Roman'">Receiving Location</td>
+                                <td style="border: 1px solid black; font-family: 'Times New Roman'" colspan="3" class="text-center">
+                                    <span t-field="o.location_id"/>
+                                </td>
+                                <td style="border: 1px solid black; font-family: 'Times New Roman'" class="text-right" dir="rtl">موقع المتلقي</td>
+                            </tr>
+                        </table>
+
+                        <div class="text-center mb16 mt16">
+                            <span>
+                                <strong>Additional Items Received -</strong>
+                            </span>
+                            <span style="font-family: 'Times New Roman'" dir="rtl">
+                                <strong>- العناصر الإضافية المقدمة</strong>
+                            </span>
+                        </div>
+
+                        <table width="100%" class="table-sm table-bordered mb16 mt16" style="border-color: black; margin:0px; padding:0px;">
+                            <tr>
+                                <td style="border: 1px solid black; font-family: 'Times New Roman'">Registration
+                                    <t t-if="o.is_registration">
+                                        <i class="fa-check-square-o"/>
+                                    </t>
+                                    <t t-else="">
+                                        <i class="fa fa-square-o"/>
+                                    </t>
+                                </td>
+                                <td style="border: 1px solid black; font-family: 'Times New Roman'">Key
+                                    <t t-if="o.is_key">
+                                        <i class="fa-check-square-o"/>
+                                    </t>
+                                    <t t-else="">
+                                        <i class="fa fa-square-o"/>
+                                    </t>
+                                </td>
+                                <td style="border: 1px solid black; font-family: 'Times New Roman'">Helmet
+                                    <t t-if="o.is_helmet">
+                                        <i class="fa-check-square-o"/>
+                                    </t>
+                                    <t t-else="">
+                                        <i class="fa fa-square-o"/>
+                                    </t>
+                                </td>
+                                <td style="border: 1px solid black; font-family: 'Times New Roman'">Delivery Box
+                                    <t t-if="o.is_delivery_box">
+                                        <i class="fa-check-square-o"/>
+                                    </t>
+                                    <t t-else="">
+                                        <i class="fa fa-square-o"/>
+                                    </t>
+                                </td>
+                                <td style="border: 1px solid black; font-family: 'Times New Roman'">Mobile Stand with Charger
+                                    <t t-if="o.is_mobile_stand_charger">
+                                        <i class="fa-check-square-o"/>
+                                    </t>
+                                    <t t-else="">
+                                        <i class="fa fa-square-o"/>
+                                    </t>
+                                </td>
+                            </tr>
+                        </table>
+
+                        <span class="mt16 mb16">
+                            <b>Approved By</b>
+                        </span>
+
+                        <table width="100%" class="table-sm table-bordered mb16 mt16" style="border-color: black; padding:0px;">
+                            <colgroup>
+                                <col width="25%"/>
+                                <col width="50%"/>
+                                <col width="25%"/>
+                            </colgroup>
+                            <tr>
+                                <td style="border: 1px solid black; font-family: 'Times New Roman'">Finance Department</td>
+                                <td style="border: 1px solid black; font-family: 'Times New Roman'"></td>
+                                <td dir="rtl" style="border: 1px solid black; font-family: 'Times New Roman'" class="text-right">قسم المالية</td>
+                            </tr>
+                            <tr>
+                                <td style="border: 1px solid black; font-family: 'Times New Roman'">Admin Department</td>
+                                <td style="border: 1px solid black; font-family: 'Times New Roman'"></td>
+                                <td dir="rtl" style="border: 1px solid black; font-family: 'Times New Roman'" class="text-right">الشئون الإدارية</td>
+                            </tr>
+                            <tr>
+                                <td style="border: 1px solid black; font-family: 'Times New Roman'">Operations Department</td>
+                                <td style="border: 1px solid black; font-family: 'Times New Roman'"></td>
+                                <td dir="rtl" style="border: 1px solid black; font-family: 'Times New Roman'" class="text-right">قسم التشغيل:</td>
+                            </tr>
+                            <tr>
+                                <td style="border: 1px solid black">General Manager</td>
+                                <td style="border: 1px solid black"></td>
+                                <td dir="rtl" style="border: 1px solid black; font-family: 'Times New Roman'" class="text-right">المدير العام:</td>
+                            </tr>
+                        </table>
+
+                    </div>
+                </t>
+            </t>
+        </t>
+
+    </template>
+
+</odoo>

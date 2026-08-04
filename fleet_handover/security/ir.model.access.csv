@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_fleet_handover,fleet.handover.group_user,model_fleet_handover,base.group_user,1,1,1,1
+access_fleet_handover_wizard,fleet.handover.wizard.group_user,model_fleet_handover_wizard,base.group_user,1,1,1,1

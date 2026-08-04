@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <template id="report_hr_violation_document">
+            <t t-call="web.external_layout">
+                <div class="page">
+                    <h3 class="text-center">Violation Report</h3>
+
+                    <div class="row">
+                        <table class="table table-borderless">
+                            <tr>
+                                <td>
+                                    <strong>Employee</strong>
+                                </td>
+                                <td>
+                                    <span t-field="emp.name"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <strong>Employee Number</strong>
+                                </td>
+                                <td>
+                                    <span t-field="emp.identification_id"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <strong>Employee Joining Date</strong>
+                                </td>
+                                <td>
+                                    <span t-field="emp.date_joining"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <strong>Employee Position</strong>
+                                </td>
+                                <td>
+                                    <span t-field="emp.job_id"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <strong>Company</strong>
+                                </td>
+                                <td>
+                                    <span t-field="emp.company_id"/>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+
+                    <div class="row">
+                        <table class="table table-borderless">
+                            <thead>
+                                <tr>
+                                    <th>Violation Number</th>
+                                    <th>Violation Date</th>
+                                    <th>Violation Type</th>
+                                    <th>Violation Details</th>
+                                    <th>Amount</th>
+                                    <th>Payslip Date</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-foreach="emp_wise_data" t-as="violation">
+                                    <tr>
+                                        <td>
+                                            <span t-field="violation.name"/>
+                                        </td>
+                                        <td>
+                                            <span t-field="violation.violation_date"/>
+                                        </td>
+                                        <td>
+                                            <span t-field="violation.violation_type_id"/>
+                                        </td>
+                                        <td>
+                                            <span t-field="violation.violation_detail"/>
+                                        </td>
+                                        <td class="text-right">
+                                            <span t-field="violation.amount"/>
+                                        </td>
+                                        <td>
+                                            <span t-field="violation.payslip_date"/>
+                                        </td>
+                                    </tr>
+                                </t>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="row mt64">
+                        <table class="table table-condensed">
+                            <tr>
+                                <td>
+                                    <strong>Reviewed By</strong>
+                                </td>
+                                <td>
+                                    <strong>Acknowledged By</strong>
+                                </td>
+                                <td>
+                                    <strong>Approved By</strong>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td/>
+                                <td style="height: 70px"/>
+                                <td/>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <strong>Date</strong>
+                                </td>
+                                <td colspan="3"/>
+                            </tr>
+                        </table>
+                    </div>
+
+                </div>
+            </t>
+        </template>
+
+        <template id="report_hr_violation">
+            <t t-call="web.html_container">
+                <t t-foreach="docs.mapped('employee_id')" t-as="emp">
+                    <t t-call="hr_violation.report_hr_violation_document">
+                        <t t-set="emp_wise_data" t-value="docs.filtered(lambda d: d.employee_id.id == emp.id)"/>
+                    </t>
+                </t>
+            </t>
+        </template>
+
+    </data>
+</odoo>

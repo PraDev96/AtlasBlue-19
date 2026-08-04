@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding='UTF-8'?>
+<odoo noupdate="1">
+    <!-- Project Sequence -->
+     <record id="seq_sale_order_recurring_ref" model="ir.sequence">
+        <field name="name">Sale Order Recurring Invoice</field>
+        <field name="code">sale.recurrent</field>
+        <field name="prefix">SO/REC/%(y)s/</field>
+        <field name="padding">5</field>
+        <field eval="False" name="company_id"/>
+    </record>
+
+    <record id="ir_cron_recurrent_invoice" model="ir.cron">
+        <field name="name">Recurrent Invoice: Auto Generate</field>
+        <field name="user_id" ref="base.user_root"/>
+        <field name="interval_number">6</field>
+        <field name="interval_type">hours</field>
+        <field name="numbercall">1</field>
+        <field name="doall" eval="False"/>
+        <field name="model_id" ref="model_sale_recurring_invoice"/>
+        <field name="priority">1001</field>
+        <field name="code">model.cron_sale_recurring_invoice()</field>
+        <field name="active" eval="False"/>
+    </record>
+</odoo>

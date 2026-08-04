@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_import_rental_attendance_wizard" model="ir.ui.view">
+        <field name="name">import.rental.attendance.wizard.form</field>
+        <field name="model">import.rental.attendance.wizard</field>
+        <field name="arch" type="xml">
+
+            <form string="Import Attendance">
+                <group>
+                    <group>
+                        <field name="file" filename="name" required="1"/>
+                        <field name="name" readonly="1" force_save="1"/>
+                    </group>
+                    <group>
+                        <field name="tz"/>
+                    </group>
+                </group>
+                <div colspan="6">
+                    <div>Your file must consist below format.</div>
+                    <table class="table">
+                        <tr>
+                            <th>Employee Number (Required)</th>
+                            <th>Employee Name (Optional)</th>
+                            <th>Start Date</th>
+                            <th>End Date</th>
+                            <th>Total Hours</th>
+                        </tr>
+                        <tr>
+                            <td>101</td>
+                            <td>Administrator</td>
+                            <td>2020-01-01</td>
+                            <td>2020-01-16</td>
+                            <td>200.0</td>
+                        </tr>
+                        <tr>
+                            <td>...</td>
+                            <td>...</td>
+                            <td>...</td>
+                            <td>...</td>
+                            <td>...</td>
+                        </tr>
+                    </table>
+                </div>
+                <footer>
+                    <button name="import_attendance" string="Import Attendance" type="object" class="btn-primary"/>
+                    <button string="Cancel" class="btn-default" special="cancel"/>
+                </footer>
+            </form>
+
+        </field>
+    </record>
+
+    <record id="action_import_rental_attendance_wizard" model="ir.actions.act_window">
+        <field name="name">Import Monthly Attendance</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">import.rental.attendance.wizard</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="view_import_rental_attendance_wizard"/>
+        <field name="target">new</field>
+    </record>
+
+    <menuitem id="action_import_rental_attendance_wizard_menu"
+              name="Import Monthly Attendance"
+              parent="hr.hr_menu_hr_reports"
+              action="action_import_rental_attendance_wizard"
+              sequence="1"/>
+
+</odoo>

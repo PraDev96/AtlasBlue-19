@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="seq_crm" model="ir.sequence">
+            <field name="name">crm_no</field>
+            <field name="code">crm.sequence</field>
+            <field name="prefix">CRM</field>
+            <field name="padding">5</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <record id="project_auto_seq" model="ir.sequence">
+            <field name="name">Project - Project Seq</field>
+            <field name="code">project.project</field>
+            <field name="prefix">P/</field>
+            <field name="padding">3</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <record id="service_auto_seq" model="ir.sequence">
+            <field name="name">Project - Service Seq</field>
+            <field name="code">project.service</field>
+            <field name="prefix">S/</field>
+            <field name="padding">3</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <record id="maintenance_auto_seq" model="ir.sequence">
+            <field name="name">Project - Mainta Seq</field>
+            <field name="code">project.maintenance</field>
+            <field name="prefix">M/</field>
+            <field name="padding">3</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <record id="maintenance_auto_seq" model="ir.sequence">
+            <field name="name">Project - Mainta Seq</field>
+            <field name="code">project.maintenance</field>
+            <field name="prefix">M/</field>
+            <field name="padding">3</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <record id="renovation_auto_seq" model="ir.sequence">
+            <field name="name">Project -Renovation Seq</field>
+            <field name="code">project.renovation</field>
+            <field name="prefix">RENO/</field>
+            <field name="padding">3</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <record id="retail_auto_seq" model="ir.sequence">
+            <field name="name">Project -Retail Seq</field>
+            <field name="code">project.retail_sale</field>
+            <field name="prefix">RET/</field>
+            <field name="padding">3</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+    </data>
+</odoo>

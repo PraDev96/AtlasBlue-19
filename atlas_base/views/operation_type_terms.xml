@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="opportunity_type_terms_action" model="ir.actions.act_window">
+        <field name="name">Opportunity Type Terms</field>
+        <field name="res_model">opportunity.type.terms</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem id="menu_opportunity_type_terms_action"
+              action="opportunity_type_terms_action"
+              parent="crm.crm_menu_config"
+              sequence="25"/>
+
+</odoo>

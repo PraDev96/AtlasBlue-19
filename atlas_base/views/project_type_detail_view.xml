@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="project_type_detail_action" model="ir.actions.act_window">
+        <field name="name">Project Type Detail</field>
+        <field name="res_model">project.type.detail</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem id="menu_project_type_detail_action"
+              action="project_type_detail_action"
+              parent="crm.crm_menu_config"
+              sequence="25"/>
+
+</odoo>

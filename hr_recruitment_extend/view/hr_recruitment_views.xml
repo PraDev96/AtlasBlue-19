@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="res_company_form_inherit" model="ir.ui.view">
+        <field name="name">res.company.inherit</field>
+        <field name="model">res.company</field>
+        <field name="inherit_id" ref="base.view_company_form"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//field[@name='website']" position="after">
+                <field name="partner_ids" widget="many2many_tags"/>
+            </xpath>
+
+        </field>
+    </record>
+
+    <record id="vaccination_type_form_view" model="ir.ui.view">
+        <field name="name">vaccination.type.form</field>
+        <field name="model">vaccination.type</field>
+        <field name="arch" type="xml">
+
+            <form string="Contract Type">
+                <group>
+                    <field name="name"/>
+                </group>
+            </form>
+
+        </field>
+    </record>
+
+    <record id="vaccination_type_tree_view" model="ir.ui.view">
+        <field name="name">vaccination.type.tree</field>
+        <field name="model">vaccination.type</field>
+        <field name="arch" type="xml">
+
+            <tree string="Contract Type">
+                <field name="name"/>
+            </tree>
+
+        </field>
+    </record>
+
+    <record id="action_vaccination_type" model="ir.actions.act_window">
+        <field name="name">Vaccination Type</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">vaccination.type</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem id="vaccination_type_menu"
+              action="action_vaccination_type"
+              parent="hr.menu_human_resources_configuration"
+              sequence="40"/>
+
+
+    <!-- Employee -->
+    <record id="hr_applicant_view_form_inherit" model="ir.ui.view">
+        <field name="name">hr.applicant.form.inherit</field>
+        <field name="model">hr.applicant</field>
+        <field name="inherit_id" ref="hr_recruitment.hr_applicant_view_form"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//group/group[4]" position="after">
+                <group string="Vaccination">
+                    <field name="vaccination_type_id"/>
+                    <field name="vaccination_first_dose_date"/>
+                    <field name="vaccintion_first_batch_number"/>
+                    <field name="vaccination_second_dose_date"/>
+                    <field name="vaccination_second_batch_number"/>
+                </group>
+
+                <group string="Other">
+                    <field name="sponsorship_id"/>
+                    <field name="interviewed_by"/>
+                    <field name="food_allowance"/>
+                    <field name="accomodation_allowance"/>
+                    <field name="nationality_id"/>
+                    <field name="civil_code"/>
+                </group>
+
+                <group string="Passport Details">
+                    <field name="passport_id"/>
+                    <field name="passport_start_date"/>
+                    <field name="passport_end_date"/>
+                </group>
+            </xpath>
+
+            <field name="partner_name" position="after">
+                <label for="arabic_name" class="oe_edit_only"/>
+                <field name="arabic_name"/>
+            </field>
+
+            <field name="description" position="after">
+                <separator string="Backout Reason"/>
+                <field name="backout_reason" placeholder="Backout Reason..."/>
+                <separator string="Rejection Reason"/>
+                <field name="rejection_reason" placeholder="Rejection Reason...."/>
+            </field>
+
+        </field>
+    </record>
+
+</odoo>

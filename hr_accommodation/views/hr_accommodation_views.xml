@@ -1,0 +1,453 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Building -->
+    <record id="hr_building_form_view" model="ir.ui.view">
+        <field name="name">hr.building.form</field>
+        <field name="model">hr.building</field>
+        <field name="arch" type="xml">
+
+            <form string="Building">
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_available_bed" type="object" class="oe_stat_button o_stat_button_info" icon="fa-bars">
+                            <div class="o_field_widget o_stat_info">
+                                <field name="bed_total_count"/>
+                                <span class="o_stat_text">Total Bed</span>
+                            </div>
+                        </button>
+
+                        <button class="oe_stat_button o_stat_button_info" icon="fa-filter">
+                            <div class="o_field_widget o_stat_info">
+                                <field name="bed_available_count"/>
+                                <span class="o_stat_text">Available Bed</span>
+                            </div>
+                        </button>
+
+                    </div>
+                    <!-- <button name="action_view_bed"
+                        type="object"
+                        class="oe_stat_button"
+                        icon="fa-bars">
+                        <field name="bed_total_count" widget="statinfo" string="Total Bed"/>
+                    </button>
+                    <button name="action_view_available_bed"
+                        type="object"
+                        class="oe_stat_button"
+                        icon="fa-filter">
+                        <field name="bed_available_count" widget="statinfo" string="Available Bed"/>
+                    </button> -->
+                    <!-- </div> -->
+                    <group>
+                        <field name="name"/>
+                        <field name="number"/>
+                        <field name="capacity"/>
+                    </group>
+                    <group>
+                        <group>
+                            <field name="street"/>
+                            <field name="area"/>
+                        </group>
+                        <group>
+                            <field name="block"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+
+        </field>
+    </record>
+
+    <record id="hr_building_tree_view" model="ir.ui.view">
+        <field name="name">hr.building.tree</field>
+        <field name="model">hr.building</field>
+        <field name="arch" type="xml">
+            <tree string="Building">
+                <field name="name"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="action_hr_building" model="ir.actions.act_window">
+        <field name="name">Building</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">hr.building</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem id="hr_building_menu"
+              action="action_hr_building"
+              parent="hr.menu_human_resources_configuration"
+              sequence="10"/>
+
+
+    <!-- Flat -->
+    <record id="hr_flat_form_view" model="ir.ui.view">
+        <field name="name">hr.flat.form</field>
+        <field name="model">hr.flat</field>
+        <field name="arch" type="xml">
+
+            <form string="Flat">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                        </group>
+                        <group>
+                            <field name="building_id"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+
+        </field>
+    </record>
+
+    <record id="hr_flat_tree_view" model="ir.ui.view">
+        <field name="name">hr.flat.tree</field>
+        <field name="model">hr.flat</field>
+        <field name="arch" type="xml">
+
+            <tree string="Flat">
+                <field name="name"/>
+                <field name="building_id"/>
+            </tree>
+
+        </field>
+    </record>
+
+    <record id="action_hr_flat" model="ir.actions.act_window">
+        <field name="name">Flat</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">hr.flat</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem id="hr_flat_menu"
+              action="action_hr_flat"
+              parent="hr.menu_human_resources_configuration"
+              sequence="20"/>
+
+
+    <!-- Floor -->
+    <record id="hr_floor_form_view" model="ir.ui.view">
+        <field name="name">hr.floor.form</field>
+        <field name="model">hr.floor</field>
+        <field name="arch" type="xml">
+
+            <form string="Floor">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="flat_id" domain="[('building_id', '=', building_id)]"/>
+                        </group>
+                        <group>
+                            <field name="building_id"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+
+        </field>
+    </record>
+
+    <record id="hr_floor_tree_view" model="ir.ui.view">
+        <field name="name">hr.floor.tree</field>
+        <field name="model">hr.floor</field>
+        <field name="arch" type="xml">
+            <tree string="Floors">
+                <field name="name"/>
+                <field name="flat_id"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="action_hr_floor" model="ir.actions.act_window">
+        <field name="name">Floor</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">hr.floor</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem id="hr_floor_menu"
+              action="action_hr_floor"
+              parent="hr.menu_human_resources_configuration"
+              sequence="30"/>
+
+
+    <!-- Room -->
+    <record id="hr_room_form_view" model="ir.ui.view">
+        <field name="name">hr.room.form</field>
+        <field name="model">hr.room</field>
+        <field name="arch" type="xml">
+
+            <form string="Room">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="flat_id" domain="[('building_id', '=', building_id)]"/>
+                        </group>
+                        <group>
+                            <field name="building_id"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+
+        </field>
+    </record>
+
+    <record id="hr_room_tree_view" model="ir.ui.view">
+        <field name="name">hr.room.tree</field>
+        <field name="model">hr.room</field>
+        <field name="arch" type="xml">
+
+            <tree string="Room">
+                <field name="name"/>
+                <field name="flat_id"/>
+            </tree>
+
+        </field>
+    </record>
+
+    <record id="action_hr_room" model="ir.actions.act_window">
+        <field name="name">Room</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">hr.room</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem id="hr_room_menu"
+              action="action_hr_room"
+              parent="hr.menu_human_resources_configuration"
+              sequence="30"/>
+
+
+    <!-- Bed -->
+    <record id="hr_bed_form_view" model="ir.ui.view">
+        <field name="name">hr.bed.form</field>
+        <field name="model">hr.bed</field>
+        <field name="arch" type="xml">
+
+            <form string="Bed">
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="open_bed_logs" type="object" class="oe_stat_button" icon="fa-history">
+                            <field name="bed_log_count" widget="statinfo" string="Bed History"/>
+                        </button>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="flat_id" domain="[('building_id', '=', building_id)]"/>
+                        </group>
+                        <group>
+                            <field name="building_id"/>
+                            <field name="floor_id" domain="[('flat_id', '=', flat_id)]"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+
+        </field>
+    </record>
+
+    <record id="hr_bed_tree_view" model="ir.ui.view">
+        <field name="name">hr.bed.tree</field>
+        <field name="model">hr.bed</field>
+        <field name="arch" type="xml">
+
+            <tree string="Bed">
+                <field name="name"/>
+                <field name="building_id"/>
+                <field name="flat_id"/>
+                <field name="room_id"/>
+            </tree>
+
+        </field>
+    </record>
+
+    <record id="action_hr_bed" model="ir.actions.act_window">
+        <field name="name">Bed</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">hr.bed</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem id="hr_bed_menu"
+              action="action_hr_bed"
+              parent="hr.menu_human_resources_configuration"
+              sequence="30"/>
+
+
+    <!-- Bed Log -->
+    <record id="hr_bed_log_form_view" model="ir.ui.view">
+        <field name="name">hr.bed.log.form</field>
+        <field name="model">hr.bed.log</field>
+        <field name="arch" type="xml">
+
+            <form string="Bed Log">
+                <group>
+                    <field name="bed_id" invisible="1"/>
+                    <field name="bed"/>
+                    <field name="employee_id"/>
+                    <field name="start_date"/>
+                    <field name="end_date"/>
+                </group>
+            </form>
+
+        </field>
+    </record>
+
+    <record id="hr_bed_log_tree_view" model="ir.ui.view">
+        <field name="name">hr.bed.log.tree</field>
+        <field name="model">hr.bed.log</field>
+        <field name="arch" type="xml">
+
+            <tree string="Bed Log">
+                <field name="bed_id" invisible="1"/>
+                <field name="bed"/>
+                <field name="employee_id"/>
+                <field name="start_date"/>
+                <field name="end_date"/>
+            </tree>
+
+        </field>
+    </record>
+
+    <record id="action_hr_bed_log" model="ir.actions.act_window">
+        <field name="name">Bed Log</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">hr.bed.log</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+
+    <!-- Accommodation -->
+    <record id="hr_accommodation_form_view" model="ir.ui.view">
+        <field name="name">hr.accommodation.form</field>
+        <field name="model">hr.accommodation</field>
+        <field name="arch" type="xml">
+
+            <form string="Accommodation">
+                <header>
+                    <button name="calculate_address" type="object" string="Calculate Address" class="oe_highlight"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" readonly="1"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="start_date" required="True"/>
+                            <field name="building_id"/>
+                            <field name="area"/>
+                            <field name="floor_id" domain="[('flat_id', '=', flat_id)]" invisible="1"/>
+                            <field name="floor"/>
+                            <field name="total_bed" readonly="1" force_save="1"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                        </group>
+                        <group>
+                            <field name="end_date"/>
+                            <field name="block"/>
+                            <field name="street"/>
+                            <field name="flat"/>
+                            <field name="bed"/>
+                            <field name="flat_id" domain="[('building_id', '=', building_id)]" invisible="1"/>
+                            <field name="bed_id" domain="[('floor_id', '=', floor_id)]" invisible="1"/>
+                            <field name="employee_id"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+
+        </field>
+    </record>
+
+    <record id="hr_accommodation_tree_view" model="ir.ui.view">
+        <field name="name">hr.accommodation.tree</field>
+        <field name="model">hr.accommodation</field>
+        <field name="arch" type="xml">
+            <tree string="Accommodation">
+                <field name="name"/>
+                <field name="employee_id"/>
+                <field name="area"/>
+                <field name="block"/>
+                <field name="street"/>
+                <field name="building_id"/>
+                <field name="start_date"/>
+                <field name="end_date"/>
+                <field name="flat"/>
+                <field name="floor"/>
+                <field name="bed"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="hr_accommodation_search_view" model="ir.ui.view">
+        <field name="name">hr.accommodation.list.select</field>
+        <field name="model">hr.accommodation</field>
+        <field name="arch" type="xml">
+
+            <search string="Search Accommodation">
+                <field name="employee_id"/>
+                <field name="building_id"/>
+                <!-- <field name="flat_id"/> -->
+                <!-- <field name="floor_id"/> -->
+                <group expand="0" string="Group By">
+                    <filter string="Employee" name="employee" domain="[]" context="{'group_by': 'employee_id'}"/>
+                    <filter name="building_id" string="Building" domain="[]" context="{'group_by': 'building_id'}"/>
+                    <!-- <filter name="flat_id" string="Flat" domain="[]" context="{'group_by': 'flat_id'}"/> -->
+                    <!-- <filter name="floor_id" string="Room" domain="[]" context="{'group_by': 'floor_id'}"/> -->
+                </group>
+            </search>
+
+        </field>
+    </record>
+
+    <record id="action_hr_accommodation" model="ir.actions.act_window">
+        <field name="name">Accommodation</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">hr.accommodation</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem id="menu_hr_accommodation"
+              name="Accommodation"
+              parent="hr.menu_hr_root"
+              sequence="20"/>
+
+    <menuitem id="hr_accommodation_menu"
+              action="action_hr_accommodation"
+              parent="menu_hr_accommodation"
+              sequence="40"/>
+
+
+    <!-- Employee -->
+    <record id="view_employee_form_accommodation_inherit" model="ir.ui.view">
+        <field name="name">hr.employee.accommodation.form.inherit</field>
+        <field name="model">hr.employee</field>
+        <field name="inherit_id" ref="hr.view_employee_form"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//div[@name='button_box']" position="inside">
+                <button name="action_hr_employee_accommodation" class="oe_stat_button" type="object" icon="fa-home">
+                    <div class="o_stat_info">
+                        <field name="accommodation_count"/>
+                        <span class="o_stat_text">Accommodations</span>
+                    </div>
+                </button>
+            </xpath>
+
+            <xpath expr="//field[@name='company_id']" position="after">
+                <field name="emp_license_plate"/>
+            </xpath>
+
+        </field>
+    </record>
+
+</odoo>

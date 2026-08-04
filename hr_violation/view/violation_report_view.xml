@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!-- Violation Reports -->
+        <!--<report
+                id="hr_violation_report"
+                model="hr.violation"
+                string="Violation Report"
+                report_type="qweb-pdf"
+                name="hr_violation.report_hr_violation"
+                file="hr_violation.report_hr_violation"
+        />-->
+
+        <!-- Violation Reports -->
+        <record id="hr_violation_report" model="ir.actions.report">
+            <field name="name">Violation Report</field>
+            <field name="model">hr.violation</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">hr_violation.report_hr_violation</field>
+            <field name="report_file">hr_violation.report_hr_violation</field>
+            <field name="print_report_name">'Violation Report'</field>
+        </record>
+
+    </data>
+</odoo>

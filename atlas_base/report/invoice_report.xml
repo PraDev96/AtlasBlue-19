@@ -1,0 +1,291 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="empty_layout_invoice">
+        <t t-if="not o and doc">
+            <t t-set="o" t-value="doc"/>
+        </t>
+        <t t-if="o and 'company_id' in o">
+            <t t-set="company" t-value="o.company_id.sudo()"/>
+        </t>
+        <t t-if="not o or not 'company_id' in o">
+            <t t-set="company" t-value="res_company"/>
+        </t>
+
+        <div class="header"></div>
+
+        <div class="article o_report_layout_standard" t-att-data-oe-model="o and o._name" t-att-data-oe-id="o and o.id" t-att-data-oe-lang="o and o.env.context.get('lang')">
+            <t t-out="0"/>
+        </div>
+
+        <div class="footer">
+            <div class="row" style="border-top:1px solid black">
+                <div class="col-1"/>
+                <div class="col-10">
+                    <div class="text-center" style="font-size:12px">
+                        <strong t-field="o.company_id.name"/>-P.O.Box
+                        <strong t-field="o.company_id.zip"/>-
+                        <strong t-field="o.company_id.street"/>-
+                        <strong t-field="o.company_id.street2"/>-
+                        <strong t-field="o.company_id.city"/>-
+                        <strong t-field="o.company_id.state_id"/>-
+                        <strong t-field="o.company_id.country_id"/>-Corp.reg.no.:
+                        <strong t-field="o.company_id.reg_no"/>-Tel:
+                        <strong t-field="o.company_id.phone"/>-Fax:
+                        <strong t-field="o.company_id.fax"/>-Mail:
+                        <strong t-field="o.company_id.email"/>-Web:
+                        <strong t-field="o.company_id.website"/>-Bank:
+                        <strong t-field="o.company_id.partner_id.bank_ids.bank_id.name"/>-ACCOUNT NO.:
+                        <strong t-field="o.company_id.partner_id.bank_ids.acc_number"/>-IBAN NO.:
+                        <strong>KW52 NBOK 0000 0000 0000 1000 4212 41</strong>
+                        - Swift-code:
+                        <strong t-field="o.company_id.partner_id.bank_ids.bank_id.bic"/>
+                    </div>
+                </div>
+                <div class="col-1"/>
+            </div>
+        </div>
+
+    </template>
+
+    <template id="invoice_order_document_1">
+        <t t-set="o" t-value="o.with_context(lang=lang)"/>
+        <t t-call="atlas_base.empty_layout_invoice">
+            <div class="page">
+                <div class="row">
+                    <div class="col-8"/>
+                    <div class="col-3">
+                        <img t-if="o.company_id.logo" t-att-src="image_data_uri(o.company_id.logo)" style="max-height: 220px; max-width: 300px;" alt="Logo"/>
+                    </div>
+                    <div class="col-1"/>
+                </div>
+                <div class="row">
+                    <div class="col-6">
+                        <div>
+                            <div t-field="o.partner_id.name"/>
+                        </div>
+                        <div t-field="o.partner_id.block"/>
+                        <div t-field="o.partner_id.street"/>
+                        <div t-field="o.partner_id.street2"/>
+                        <div t-field="o.partner_id.house"/>
+                        <div t-field="o.partner_id.area_id"/>
+                        <div t-field="o.partner_id.country_id"/>
+                        <div>
+                            <span t-field="o.partner_id.phone"/>
+                            |
+                            <span t-field="o.partner_id.mobile"/>
+                        </div>
+                    </div>
+                </div>
+
+                <h4 class="pull-right">CREDIT INVOICE</h4>
+                <div class="row mt8">
+                    <div class="col-5 credit_note_left_side" style="border-top: 1px solid black;"></div>
+                    <div class="col-1"/>
+                    <div class="col-6" style="border-top: 1px solid black">
+                        <br/>
+                        <div class="row" style="font-size:14px">
+                            <div class="col-3"/>
+                            <div class="col-4">
+                                <span>Invoice Number</span>
+                            </div>
+                            <div class="col-5">
+                                <span style="border-bottom: 1px solid black" t-esc="o.name"/>
+                            </div>
+                        </div>
+                        <div class="row" style="font-size:14px">
+                            <div class="col-3"/>
+                            <div class="col-4">
+                                <span>Date Of Invoice</span>
+                            </div>
+                            <div class="col-5">
+                                <span style="border-bottom: 1px solid black" t-esc="o.invoice_date"/>
+                            </div>
+                        </div>
+                        <div class="row" style="font-size:14px">
+                            <div class="col-3"/>
+                            <div class="col-4">
+                                <span>Client No</span>
+                            </div>
+                            <div class="col-5"></div>
+                        </div>
+                        <div class="row" style="font-size:14px">
+                            <div class="col-3"/>
+                            <div class="col-4">
+                                <span>Page</span>
+                            </div>
+                            <div class="col-5"></div>
+                        </div>
+                        <div class="row" style="font-size:14px">
+                            <div class="col-3"/>
+                            <div class="col-4">
+                                <span>Project Code</span>
+                            </div>
+                            <div class="col-5">
+                                <span style="border-bottom: 1px solid black" t-esc="o.project_id.number"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <table class="table table-bordered mt-4">
+                    <thead style="border: 1px solid black">
+                        <tr>
+                            <th>No</th>
+                            <th>Text</th>
+                            <th>Qty</th>
+                            <th>Unit</th>
+                            <th>Taxes</th>
+                            <th>Price Per Unit</th>
+                            <th>Price</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <t t-set="total_qty" t-value="0"/>
+                        <t t-set="grand_total" t-value="0"/>
+                        <t t-set="subtotal" t-value="0"/>
+                        <t t-set="all_tax_total" t-value="0"/>
+                        <t t-foreach="o.invoice_line_ids" t-as="line">
+                            <tr>
+                                <td class="text-left">
+                                    <strong t-field="line.product_id.default_code"/>
+                                </td>
+                                <td class="text-center">
+                                    <span t-field="line.product_id.name"/>
+                                </td>
+                                <td class="text-right">
+                                    <div t-if="line.hide_price != True">
+                                        <span t-field="line.quantity" t-options="{'widget': 'float', 'precision': 0}"/>
+                                        <t t-set="total_qty" t-value="total_qty + line.quantity"/>
+                                    </div>
+                                </td>
+                                <td class="text-left">
+                                    <div t-if="line.hide_price != True">
+                                        <span t-field="line.product_uom_id"/>
+                                    </div>
+                                </td>
+                                <td class="text-left">
+                                    <span t-field="line.tax_ids"/>
+                                </td>
+                                <td class="text-right">
+                                    <div t-if="line.hide_price != True">
+                                        <span t-field="line.price_unit"/>
+                                    </div>
+                                </td>
+                                <t t-set="subtotal" t-value="line.price_unit * line.quantity"/>
+                                <t t-set="grand_total" t-value="subtotal + grand_total"/>
+                                <t t-set="all_tax_total" t-value="all_tax_total + line.tax_ids.amount"/>
+                                <td class="text-right">
+                                    <div t-if="line.hide_price != True">
+                                        <span t-esc="subtotal" t-options="{'widget': 'float', 'precision': 3}"/>
+                                    </div>
+                                </td>
+                            </tr>
+                        </t>
+                        <tr class="is-subtotal text-right">
+                            <td colspan="99">
+                                <strong class="mr16">Subtotal</strong>
+                                <span t-field="o.amount_untaxed" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: o.currency_id}"/>
+                            </td>
+                        </tr>
+                        <tr class="is-subtotal text-right">
+                            <td colspan="99">
+                                <strong class="mr16">VAT %</strong>
+                                <span t-esc="all_tax_total"/>
+                            </td>
+                        </tr>
+                        <tr class="subtotal text-right">
+                            <td colspan="99">
+                                <strong class="mr16">Total KWD</strong>
+                                <span class="text-nowrap" t-field="o.amount_total"
+                                      t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: o.currency_id}"/>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="row">
+                    <div class="col-4">
+                        Kuwait Dinar
+                        <span t-esc="o.amount_total"/>
+                    </div>
+                    <div class="col-8"/>
+                </div>
+
+                <h6>Invoice Received by:</h6>
+                <div class="row mt-4">
+                    <div class="col-4">
+                        Name:
+                        <br/>
+                        Date:
+                        <br/>
+                        Signature:
+                    </div>
+                    <div class="col-8"/>
+                </div>
+                <br/>
+
+                <div class="mt-4">
+                    <div t-if="o.invoice_payment_term_id">
+                        Terms Of Payment:
+                        <strong t-esc="o.invoice_payment_term_id.name"/>
+                    </div>
+                    <div t-if="o.invoice_date_due">
+                        Final Payment Date:
+                        <strong t-esc="o.invoice_date_due"/>
+                    </div>
+                    <div>
+                        Please transfer the amount to our Bank<strong t-esc="o.company_id.partner_id.bank_ids.bank_id.name"/>- Reg.No.:/Account No.:
+                        <strong t-esc="o.company_id.partner_id.bank_ids.acc_number"/>
+                    </div>
+                    <div>
+                        When Paying By Bank Transfer,Please State Invoice No:
+                        <strong t-esc="o.name"/>
+                    </div>
+                    <br/>
+                    <div>
+                        When Payment With Cheque Please Issue Cheque Towards
+                        <br/>
+                        <strong t-esc="o.company_id.name"/>
+                    </div>
+                </div>
+
+            </div>
+        </t>
+    </template>
+
+    <template id="invoice_order_report_templates">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-set="lang" t-value="o.partner_id.lang or o.company_id.partner_id.lang"/>
+                <t t-call="atlas_base.invoice_order_document_1" t-lang="lang"/>
+            </t>
+        </t>
+    </template>
+
+    <record id="paperformat_invoice" model="report.paperformat">
+        <field name="name">invoice</field>
+        <field name="default" eval="False"/>
+        <field name="format">A4</field>
+        <field name="orientation">Portrait</field>
+        <field name="margin_top">5.00</field>
+        <field name="margin_bottom">20.00</field>
+        <field name="margin_left">7.00</field>
+        <field name="margin_right">7.00</field>
+        <field name="header_line" eval="False"/>
+        <field name="header_spacing">80</field>
+    </record>
+
+    <record id="invoice_order_report" model="ir.actions.report">
+        <field name="name">Atlas Invoice Report</field>
+        <field name="model">account.move</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">atlas_base.invoice_order_report_templates</field>
+        <field name="report_file">atlas_base.invoice_order_report_templates</field>
+        <field name="paperformat_id" ref="atlas_base.paperformat_invoice"/>
+        <field name="binding_model_id" ref="model_account_move"/>
+        <field name="binding_type">report</field>
+        <field name="print_report_name">'Atlas Invoice Report'</field>
+    </record>
+
+</odoo>

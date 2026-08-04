@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_res_city_area,res_city_area,model_res_city_area,base.group_user,1,1,1,1
+access_res_governorate,res_governorate,model_res_governorate,base.group_user,1,1,1,1

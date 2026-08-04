@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Extra Works Hours in Tree View -->
+    <record id="timesheet_view_tree_user_inherit_extra_hours" model="ir.ui.view">
+        <field name="name">account.analytic.line.tree.inherit.extra.hours</field>
+        <field name="model">account.analytic.line</field>
+        <field name="inherit_id" ref="hr_timesheet.timesheet_view_tree_user"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='unit_amount']" position="after">
+                <field name="is_overtime_added" column_invisible="1"/>
+                <field name="overtime_approved_amount" widget="timesheet_uom" optional="hide"/>
+                <field name="overtime_approved_manager_id" optional="hide" widget="many2one_avatar_user"/>
+                <button name="action_update_overtime" string="Update Overtime" type="object" icon="fa-plus-square"
+                        groups="ats_hr_timesheet_limit.group_bypass_timesheet_limit" invisible="overtime_unit_amount == 0 or is_overtime_added == True"/>
+                <field name="overtime_unit_amount" widget="timesheet_uom" optional="show" sum="Total Extra Hours" decoration-danger="overtime_unit_amount > 0"/>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Extra Works Hours in Form View -->
+    <record id="view_account_analytic_line_form_inherit_extra_hours" model="ir.ui.view">
+        <field name="name">account.analytic.line.form.inherit.extra.hours</field>
+        <field name="model">account.analytic.line</field>
+        <field name="inherit_id" ref="hr_timesheet.hr_timesheet_line_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//header" position="inside">
+                <field name="is_overtime_added" invisible="1"/>
+                <button name="action_update_overtime" string="Update Overtime" type="object" icon="fa-plus-square"
+                        groups="ats_hr_timesheet_limit.group_bypass_timesheet_limit" invisible="overtime_unit_amount == 0 or is_overtime_added == True"/>
+            </xpath>
+            <xpath expr="//field[@name='unit_amount']" position="after">
+                <field name="is_overtime_added" invisible="1"/>
+                <field name="overtime_approved_amount" widget="timesheet_uom" invisible="overtime_unit_amount == 0 or is_overtime_added == False"/>
+                <field name="overtime_approved_manager_id" widget="many2one_avatar_user" invisible="overtime_unit_amount == 0 or is_overtime_added == False"/>
+                <field name="overtime_unit_amount" widget="timesheet_uom" decoration-danger="overtime_unit_amount > 0"/>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>
