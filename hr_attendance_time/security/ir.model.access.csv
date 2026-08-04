@@ -1,6 +1,0 @@
-id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_att_upload_log,access.att.upload.log,model_att_upload_log,base.group_user,1,1,1,1
-access_wizard_export_attendance_calendar,wizard.export.attendance.calendar,model_wizard_export_attendance_calendar,base.group_user,1,1,1,1
-access_wizard_export_attendance,wizard.export.attendance,model_wizard_export_attendance,base.group_user,1,1,1,1
-access_import_employee_attendance,import.employee.attendance.user,model_import_employee_attendance,base.group_user,1,1,1,1
-access_import_employee_contract,import.employee.contract.user,model_import_employee_contract,base.group_user,1,1,1,1

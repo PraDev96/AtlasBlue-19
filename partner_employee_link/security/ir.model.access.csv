@@ -1,2 +1,0 @@
-id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_wizard_partner_employee_link,wizard.partner.employee.link.group_user,model_wizard_partner_employee_link,base.group_user,1,1,1,1

@@ -1,3 +1,0 @@
-id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_contract_template,access_contract_template,model_contract_template,base.group_user,1,1,1,1
-access_sale_contract,access_sale_contract,model_sale_contract,base.group_user,1,1,1,1
