@@ -1,0 +1,14 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_hr_insurance,hr.insurance.group_user,model_hr_insurance,base.group_user,1,1,1,1
+access_hr_claim,hr.claim.group_user,model_hr_claim,base.group_user,1,1,1,1
+access_hiring_type,hiring.type.group_user,model_hiring_type,base.group_user,1,1,1,1
+access_employee_contract_type,employee.contract.type.group_user,model_employee_contract_type,base.group_user,1,1,1,1
+access_hr_claim_type,hr.claim.type.group_user,model_hr_claim_type,base.group_user,1,1,1,1
+access_insurance_transcation_type,insurance.transcation.type.group_user,model_insurance_transcation_type,base.group_user,1,1,1,1
+access_hr_expense_requester,hr.expense.expense_requester,hr_expense.model_hr_expense,hr_insurance.group_expense_requester_user,1,1,1,1
+access_claim_confirm_wizard,claim.confirm.wizard.group_user,model_claim_confirm_wizard,base.group_user,1,1,1,1
+access_claim_done_wizard,claim.done.wizard.group_user,model_claim_done_wizard,base.group_user,1,1,1,1
+access_claim_pending_wizard,claim.pending.wizard.group_user,model_claim_pending_wizard,base.group_user,1,1,1,1
+access_expense_approve_wizard,expense.approve.wizard.group_user,model_expense_approve_wizard,base.group_user,1,1,1,1
+access_expense_submit_wizard,expense.submit.wizard.group_user,model_expense_submit_wizard,base.group_user,1,1,1,1
+access_insurance_done_wizard,insurance.done.wizard.group_user,model_insurance_done_wizard,base.group_user,1,1,1,1

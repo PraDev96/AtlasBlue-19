@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Violation Type -->
+    <record id="hr_violation_type_form_view" model="ir.ui.view">
+        <field name="name">hr.violation.type.form</field>
+        <field name="model">hr.violation.type</field>
+        <field name="arch" type="xml">
+
+            <form string="Violation Type">
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                    </group>
+                </sheet>
+            </form>
+
+        </field>
+    </record>
+
+    <record id="hr_violation_type_tree_view" model="ir.ui.view">
+        <field name="name">hr.violation.type.tree</field>
+        <field name="model">hr.violation.type</field>
+        <field name="arch" type="xml">
+
+            <tree string="Violation Type">
+                <field name="name"/>
+            </tree>
+
+        </field>
+    </record>
+
+    <record id="action_hr_violation_type" model="ir.actions.act_window">
+        <field name="name">Violation Type</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">hr.violation.type</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem id="hr_violation_type_menu"
+              action="action_hr_violation_type"
+              parent="hr.menu_human_resources_configuration"
+              groups="hr_violation.group_violation_user"
+              sequence="35"/>
+
+
+    <!-- Violation Detail -->
+    <record id="violation_detail_form_view" model="ir.ui.view">
+        <field name="name">violation.detail.form</field>
+        <field name="model">violation.detail</field>
+        <field name="arch" type="xml">
+
+            <form string="Violation Detail">
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                    </group>
+                </sheet>
+            </form>
+
+        </field>
+    </record>
+
+    <record id="violation_detail_tree_view" model="ir.ui.view">
+        <field name="name">violation.detail.tree</field>
+        <field name="model">violation.detail</field>
+        <field name="arch" type="xml">
+
+            <tree string="Violation Details">
+                <field name="name"/>
+            </tree>
+
+        </field>
+    </record>
+
+    <record id="action_violation_detail" model="ir.actions.act_window">
+        <field name="name">Violation Detail</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">violation.detail</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem id="violation_detail_menu"
+              action="action_violation_detail"
+              parent="hr.menu_human_resources_configuration"
+              groups="hr_violation.group_violation_user"
+              sequence="36"/>
+
+
+    <!-- Violation -->
+    <record id="hr_violation_form_view" model="ir.ui.view">
+        <field name="name">hr.violation.form</field>
+        <field name="model">hr.violation</field>
+        <field name="arch" type="xml">
+
+            <form string="Violation">
+                <header>
+                    <button name="action_confirm" string='Confirm' type="object" invisible="state != 'draft'"/>
+                    <button name="action_done" string="Done" type="object" invisible="state != 'confirm'"/>
+                    <button name="action_cancel" string='Cancel' type="object" invisible="state not in ('draft', 'confirm')"/>
+                    <button name="action_reset" string='Reset to Draft' type="object" invisible="state not in ('confirm', 'cancel', 'done')"/>
+                    <widget name="attach_document" string="Attach Document" action="message_post" invisible="attachment_number &lt; 1 or id == False"/>
+                    <widget name="attach_document" string="Attach Document" action="message_post" highlight="1" invisible="attachment_number &gt;= 1 or id == False"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,confirm,done"/>
+                </header>
+
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_get_attachment_view" class="oe_stat_button" icon="fa-file-text-o" type="object">
+                            <field name="attachment_number" widget="statinfo" string="Documents" options="{'reload_on_button': true}"/>
+                        </button>
+                    </div>
+                    <div class="oe_title">
+                        <label for="name" class="oe_edit_only"/>
+                        <h1>
+                            <field name="name"/>
+                        </h1>
+                    </div>
+
+                    <group>
+                        <group>
+                            <field name="violation_type_id" invisible="state != 'draft'"/>
+                            <field name="amount" invisible="state != 'draft'"/>
+                            <field name="employee_id" required="1" invisible="state != 'draft'"/>
+                            <field name="basic_salary" force_save="1"/>
+                            <field name="joining_date"/>
+                            <field name="job_position_id"/>
+                            <field name="violation_detail"/>
+                        </group>
+                        <group>
+                            <field name="payslip_date" invisible="state != 'draft'"/>
+                            <field name="violation_date" invisible="state != 'draft'"/>
+                            <field name="deducted_payslip" readonly="1"/>
+                            <field name="payslip_id" readonly="1"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                            <field name="covered_up_by"/>
+                            <field name="amount"/>
+                            <field name="installment"/>
+                            <field name="payment_date"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                        </group>
+                    </group>
+
+                    <button name="compute_installment" string="Compute Installment" type="object"
+                            colspan="2" invisible="state == 'approve'" class="oe_stat_button" icon="fa-clock-o"/>
+                    <div class="oe_clear"/>
+
+                    <notebook>
+                        <page string="Installments">
+                            <field name="violation_installment_lines">
+                                <tree string="Installments" editable="bottom" decoration-success="paid">
+                                    <field name="date"/>
+                                    <field name="amount"/>
+                                    <field name="paid" readonly="1"/>
+                                    <field name="payslip_id"/>
+                                </tree>
+                            </field>
+                            <group class="oe_subtotal_footer oe_right" colspan="2">
+                                <field name="total_amount" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                                <field name="total_paid_amount" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                                <field name="balance_amount" class="oe_subtotal_footer_separator" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers"/>
+                    <field name="activity_ids" widget="mail_activity"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+
+            </form>
+        </field>
+    </record>
+
+    <record id="hr_violation_tree_view" model="ir.ui.view">
+        <field name="name">hr.violation.tree</field>
+        <field name="model">hr.violation</field>
+        <field name="arch" type="xml">
+
+            <tree string="Violation">
+                <field name="employee_id"/>
+                <field name="joining_date"/>
+                <field name="job_position_id"/>
+                <field name="violation_date"/>
+                <field name="violation_type_id"/>
+                <field name="violation_detail"/>
+                <field name="amount"/>
+                <field name="attachment_number" invisible="1"/>
+                <button name="action_get_attachment_view" string="View Attached Documents" type="object" icon="fa-paperclip" invisible="attachment_number == 0"/>
+                <field name="state"/>
+                <field name="deducted_payslip"/>
+                <field name="payslip_date"/>
+                <field name="company_id" groups="base.group_multi_company"/>
+            </tree>
+
+        </field>
+    </record>
+
+    <record id="hr_violation_search_view" model="ir.ui.view">
+        <field name="name">hr.violation.list.select</field>
+        <field name="model">hr.violation</field>
+        <field name="arch" type="xml">
+
+            <search string="Search violation">
+                <field name="employee_id"/>
+                <field name="violation_date"/>
+                <field name="state"/>
+                <field name="employee_id"/>
+                <field name="state"/>
+                <group expand="0" string="Group By">
+                    <filter string="Violation Type" name="violation_type" domain="[]" context="{'group_by': 'violation_type_id'}"/>
+                    <filter string="Employee" name="employee" domain="[]" context="{'group_by': 'employee_id'}"/>
+                    <filter string="Violation Date" name="violation_date" domain="[]" context="{'group_by': 'violation_date'}"/>
+                    <filter string="Status" name="state" domain="[]" context="{'group_by': 'state'}"/>
+                </group>
+            </search>
+
+        </field>
+    </record>
+
+    <record id="action_hr_violation" model="ir.actions.act_window">
+        <field name="name">Violation</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">hr.violation</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem id="menu_hr_violation"
+              name="Violation"
+              parent="hr.menu_hr_root"
+              groups="hr_violation.group_violation_user"
+              sequence="20"/>
+
+    <menuitem id="hr_violation_menu"
+              action="action_hr_violation"
+              parent="menu_hr_violation"
+              groups="hr_violation.group_violation_user"
+              sequence="35"/>
+
+</odoo>

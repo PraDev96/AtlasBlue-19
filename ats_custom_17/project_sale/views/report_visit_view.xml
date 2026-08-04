@@ -1,0 +1,313 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+
+    <template id="print_visits_report_base">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <t t-call="web.external_layout">
+                    <div class="page">
+                        <h3>
+                            <center>Weekly Service Report</center>
+                        </h3>
+                        <div class="row">
+                            <div class="col-2">
+                                <strong>Client<span class="pull-right">:</span></strong>
+                            </div>
+                            <div class="col-4">
+                                <span t-field="doc.partner_id.name"/>
+                            </div>
+                            <div class="col-2">
+                                <strong>Client number<span class="pull-right">:</span></strong>
+                            </div>
+                            <div class="col-4">
+                                <span t-field="doc.partner_id.ref"/>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <t t-set="doc.project_id.package_facility_ids" t-value="temp"/>
+                            <div class="col-2">
+                                <strong>Contract No<span class="pull-right">:</span></strong>
+                            </div>
+                            <div class="col-4">
+                                <span t-field="doc.project_id.number"/>
+                            </div>
+                            <div class="col-2">
+                                <strong>Type:<span class="pull-right">:</span></strong>
+                            </div>
+                            <div class="col-4">
+                                <t t-if="temp"></t>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-2">
+                                <strong>Weekly Visits<span class="pull-right">:</span></strong>
+                            </div>
+                            <div class="col-4">
+                                <span t-field="doc.interval"/>
+                                <span t-field="doc.rrule_type"/>
+                            </div>
+                            <div class="col-2">
+                                <strong>Days<span class="pull-right">:</span></strong>
+                            </div>
+                            <div class="col-4">
+                                <t t-set="week_days" t-value="[]"/>
+                                <t t-if="doc.mo">
+                                    <t t-set="week_days" t-value="week_days + ['Mon']"/>
+                                </t>
+                                <t t-if="doc.tu">
+                                    <t t-set="week_days" t-value="week_days + ['Tue']"/>
+                                </t>
+                                <t t-if="doc.we">
+                                    <t t-set="week_days" t-value="week_days + ['Wed']"/>
+                                </t>
+                                <t t-if="doc.th">
+                                    <t t-set="week_days" t-value="week_days + ['Thu']"/>
+                                </t>
+                                <t t-if="doc.fr">
+                                    <t t-set="week_days" t-value="week_days + ['Fri']"/>
+                                </t>
+                                <t t-if="doc.sa">
+                                    <t t-set="week_days" t-value="week_days + ['Sat']"/>
+                                </t>
+                                <t t-if="doc.su">
+                                    <t t-set="week_days" t-value="week_days + ['Sun']"/>
+                                </t>
+                                <strong t-if="week_days">
+                                    <t t-esc="', '.join(week_days)"/>
+                                </strong>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12">
+                                <strong>Contract end date<span>:</span></strong>
+                                <span t-field="doc.until"/>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-2">
+                                <strong>Area<span class="pull-right">:</span></strong>
+                            </div>
+                            <div class="col-4">
+                                <span t-field="doc.partner_id.city"/>
+                            </div>
+                            <div class="col-2">
+                                <strong>Address<span class="pull-right">:</span></strong>
+                            </div>
+                            <div class="col-4">
+                                <span t-field="doc.partner_id.street"/>
+                                <span t-field="doc.partner_id.street2"/>
+                                <span t-field="doc.partner_id.state_id.name"/>
+                                <span t-field="doc.partner_id.country_id.name"/>
+                            </div>
+                        </div>
+
+                        <t t-set="rec_events" t-value="doc.recurrence_id.calendar_event_ids.filtered(lambda l: l.id in docs.ids)"/>
+                        <div class="row">
+                            <table width="100%" class="table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th width="20%" style="border:1px solid black;" class="text-center"/>
+                                        <th style="border:1px solid black;"/>
+                                        <th width="15%" style="border:1px solid black;"/>
+                                    </tr>
+                                    <tr>
+                                        <th style="border:1px solid black;" class="text-center"/>
+                                        <th style="border:1px solid black;">
+                                            <strong t-if="doc.start" t-esc="doc.start.strftime('%B %Y')"/>
+                                        </th>
+                                        <t t-foreach="rec_events" t-as="line">
+                                            <th width="5%">
+                                                <t t-esc="line.start.strftime('%d')"/>
+                                            </th>
+                                        </t>
+                                        <th style="border:1px solid black;" class="text-center">Sign</th>
+                                    </tr>
+                                    <tr>
+                                        <th style="border:1px solid black;" class="text-center"/>
+                                        <th style="border:1px solid black;">Description</th>
+                                        <t t-foreach="rec_events" t-as="line">
+                                            <th width="5%"><t t-esc="line.start.strftime('%a')"/></th>
+                                        </t>
+                                        <th width="5%"></th>
+                                    </tr>
+                                    <tr>
+                                        <th style="border:1px solid black;" class="text-center"/>
+                                        <th style="border:1px solid black;">Time Start</th>
+                                        <t t-foreach="rec_events" t-as="line">
+                                            <th width="5%"></th>
+                                        </t>
+                                        <th style="border:1px solid black;" class="text-center"></th>
+                                    </tr>
+                                    <tr>
+                                        <th style="border:1px solid black;" class="text-center" rowspan="6">Swimming Pool</th>
+                                        <th style="border:1px solid black;">Vacuum Pool – Daily</th>
+                                        <t t-foreach="rec_events" t-as="line">
+                                            <th width="5%"></th>
+                                        </t>
+                                        <th style="border:1px solid black;" class="text-center"></th>
+                                    </tr>
+                                    <tr>
+                                        <th style="border:1px solid black;">Brush Pool – Daily</th>
+                                        <t t-foreach="rec_events" t-as="line">
+                                            <th width="5%"></th>
+                                        </t>
+                                        <th style="border:1px solid black;" class="text-center"></th>
+                                    </tr>
+                                    <tr>
+                                        <th style="border:1px solid black;">Clean Tiles Daily</th>
+                                        <t t-foreach="rec_events" t-as="line">
+                                            <th width="5%"></th>
+                                        </t>
+                                        <th style="border:1px solid black;" class="text-center"></th>
+                                    </tr>
+                                    <tr>
+                                        <th style="border:1px solid black;">Skim Pool - Daily</th>
+                                        <t t-foreach="rec_events" t-as="line">
+                                            <th width="5%"></th>
+                                        </t>
+                                        <th style="border:1px solid black;" class="text-center"></th>
+                                    </tr>
+                                    <tr>
+                                        <th style="border:1px solid black;">Clean Skimmer/Overflow Gutter – Daily</th>
+                                        <t t-foreach="rec_events" t-as="line">
+                                            <th width="10%"></th>
+                                        </t>
+                                        <th style="border:1px solid black;" class="text-center"></th>
+                                    </tr>
+                                    <tr>
+                                        <th style="border:1px solid black;">Clean deck area – 50cm from pool edge</th>
+                                        <t t-foreach="rec_events" t-as="line">
+                                            <th width="5%"></th>
+                                        </t>
+                                        <th style="border:1px solid black;" class="text-center"></th>
+                                    </tr>
+                                    <tr>
+                                        <th style="border:1px solid black;" class="text-center" rowspan="5">Machine Room</th>
+                                        <th style="border:1px solid black;">Back Wash Filter</th>
+                                        <t t-foreach="rec_events" t-as="line">
+                                            <th width="10%"></th>
+                                        </t>
+                                        <th style="border:1px solid black;" class="text-center"></th>
+                                    </tr>
+                                    <tr>
+                                        <th style="border:1px solid black;">Pressure reading before backwash</th>
+                                        <t t-foreach="rec_events" t-as="line">
+                                            <th width="10%"></th>
+                                        </t>
+                                        <th style="border:1px solid black;" class="text-center"></th>
+                                    </tr>
+                                    <tr>
+                                        <th style="border:1px solid black;">Pressure reading after backwash</th>
+                                        <t t-foreach="rec_events" t-as="line">
+                                            <th width="5%"></th>
+                                        </t>
+                                        <th style="border:1px solid black;" class="text-center"></th>
+                                    </tr>
+                                    <tr>
+                                        <th style="border:1px solid black;">Clean pump strainer(s)</th>
+                                        <t t-foreach="rec_events" t-as="line">
+                                            <th width="10%"></th>
+                                        </t>
+                                        <th style="border:1px solid black;" class="text-center"></th>
+                                    </tr>
+                                    <tr>
+                                        <th style="border:1px solid black;">Clean machine room (Ones a month)</th>
+                                        <t t-foreach="rec_events" t-as="line">
+                                            <th width="10%"></th>
+                                        </t>
+                                        <th style="border:1px solid black;" class="text-center"></th>
+                                    </tr>
+                                    <tr>
+                                        <th style="border:1px solid black;" class="text-center" rowspan="7">Water Chemistry</th>
+                                        <th style="border:1px solid black;">Water temperature in °C</th>
+                                        <t t-foreach="rec_events" t-as="line">
+                                            <th width="5%"></th>
+                                        </t>
+                                        <th style="border:1px solid black;" class="text-center"></th>
+                                    </tr>
+                                    <tr>
+                                        <th style="border:1px solid black;">Free Chlorine level (DPD 1) 1.5-2.0ppm<br/>Chemical Used</th>
+                                        <t t-foreach="rec_events" t-as="line">
+                                            <th width="10%"></th>
+                                        </t>
+                                        <th style="border:1px solid black;" class="text-center"></th>
+                                    </tr>
+                                    <tr>
+                                        <th style="border:1px solid black;">Total Chlorine level (DPD 3) Max 0.2 above FCL<br/>Chemical used/amount</th>
+                                        <t t-foreach="rec_events" t-as="line">
+                                            <th width="10%"></th>
+                                        </t>
+                                        <th style="border:1px solid black;" class="text-center"></th>
+                                    </tr>
+                                    <tr>
+                                        <th style="border:1px solid black;">pH Level 7.4-7.6<br/>Chemical used/amount</th>
+                                        <t t-foreach="rec_events" t-as="line">
+                                            <th width="5%"></th>
+                                        </t>
+                                        <th style="border:1px solid black;" class="text-center"></th>
+                                    </tr>
+                                    <tr>
+                                        <th style="border:1px solid black;">Total Alkalinity 80-120ppm<br/>Chemical used/amount</th>
+                                        <t t-foreach="rec_events" t-as="line">
+                                            <th width="10%"></th>
+                                        </t>
+                                        <th style="border:1px solid black;" class="text-center"></th>
+                                    </tr>
+                                    <tr>
+                                        <th style="border:1px solid black;">Calcium hardness 200-250ppm<br/>Chemical used/amount</th>
+                                        <t t-foreach="rec_events" t-as="line">
+                                            <th width="5%"></th>
+                                        </t>
+                                        <th style="border:1px solid black;" class="text-center"></th>
+                                    </tr>
+                                    <tr>
+                                        <th style="border:1px solid black;">Cyanuric acid 25-50ppm<br/>Chemical used/amount</th>
+                                        <t t-foreach="rec_events" t-as="line">
+                                            <th width="10%"></th>
+                                        </t>
+                                        <th style="border:1px solid black;" class="text-center"></th>
+                                    </tr>
+                                    <tr>
+                                        <th style="border:1px solid black;" class="text-center"/>
+                                        <th style="border:1px solid black;">Time Finished</th>
+                                        <t t-foreach="rec_events" t-as="line">
+                                            <th width="5%"></th>
+                                        </t>
+                                        <th style="border:1px solid black;" class="text-center"></th>
+                                    </tr>
+                                    <tr>
+                                        <th style="border:1px solid black;" class="text-center"/>
+                                        <th style="border:1px solid black;">Client Signature</th>
+                                        <t t-foreach="rec_events" t-as="line">
+                                            <th width="10%"></th>
+                                        </t>
+                                        <th style="border:1px solid black;" class="text-center"></th>
+                                    </tr>
+                                    <tr>
+                                        <th style="border:1px solid black;" class="text-center"/>
+                                        <th style="border:1px solid black;">Remark from client</th>
+                                        <t t-foreach="rec_events" t-as="line">
+                                            <th width="5%"></th>
+                                        </t>
+                                        <th style="border:1px solid black;" class="text-center"></th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+
+    <record id="action_print_visits_report_base" model="ir.actions.report">
+        <field name="name">Print Visits</field>
+        <field name="model">calendar.event</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="binding_type">report</field>
+        <field name="report_name">project_sale.print_visits_report_base</field>
+        <field name="report_file">project_sale.print_visits_report_base</field>
+        <field name="print_report_name">'Print Visits'</field>
+    </record>
+
+</odoo>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="group_manage_lead_opportunity" model="res.groups">
+        <field name="name">Manage Lead/Opportunity</field>
+        <field name="category_id" ref="base.module_category_hidden"/>
+    </record>
+
+    <!-- Access to Create and Update Product -->
+    <record id="group_create_edit_product" model="res.groups">
+        <field name="name">Product Create/Edit Permission</field>
+        <field name="category_id" ref="base.module_category_hidden"/>
+    </record>
+
+    <!-- Access for Delete Helpdesk Ticket -->
+    <record id="group_delete_helpdesk_ticket" model="res.groups">
+        <field name="name">Helpdesk Ticket Delete Permission</field>
+        <field name="category_id" ref="base.module_category_hidden"/>
+    </record>
+
+</odoo>

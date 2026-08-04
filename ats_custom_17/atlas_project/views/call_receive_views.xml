@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record model="ir.ui.view" id="call_receive_list">
+        <field name="name">call.receive.list</field>
+        <field name="model">call.receive</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="call_receive_form">
+        <field name="name">call.receive.form</field>
+        <field name="model">call.receive</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_call_receive" model="ir.actions.act_window">
+        <field name="name">Call Receive</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">call.receive</field>
+        <field name="view_mode">tree,form</field>
+        <field name="binding_model_id" ref="model_call_receive"/>
+    </record>
+
+    <menuitem id="helpdesk_menu_call_receive"
+              action="action_call_receive"
+              parent="helpdesk.helpdesk_menu_config"
+              sequence="40"/>
+
+</odoo>

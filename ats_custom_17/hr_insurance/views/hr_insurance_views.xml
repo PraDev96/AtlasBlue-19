@@ -1,0 +1,385 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+
+    <!-- Insurance -->
+    <record id="hr_insurance_form_view" model="ir.ui.view">
+        <field name="name">hr.insurance.form</field>
+        <field name="model">hr.insurance</field>
+        <field name="arch" type="xml">
+
+            <form string="Insurance">
+                <header>
+                    <button name="action_claim" string='Claim' type="object" invisible="state != 'draft'"/>
+                    <button name="action_cancel" string='Cancel' type="object" invisible="state != 'draft'"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,done"/>
+                </header>
+
+                <sheet>
+                    <div class="oe_title">
+                        <label for="name" class="oe_edit_only"/>
+                        <h1>
+                            <field name="name"/>
+                        </h1>
+                    </div>
+
+                    <group>
+                        <group>
+                            <field name="start_date" readonly="state != 'draft'"/>
+                            <field name="insurance_type" readonly="state != 'draft'"/>
+                            <field name="sale_order_id" invisible="insurance_type != 'sales'" required="insurance_type == 'sales'"/>
+                            <field name="transcation_type_id"/>
+                            <field name="insurance_company_id" readonly="state != 'draft'"/>
+                            <field name="company_id" invisible="1"/>
+                            <field name='employee_id' invisible="insurance_type in ('fleet_vehicle', 'sales')" readonly="state != 'draft'"
+                                   context="{'default_company_id': company_id}" domain="['|', ('company_id', '=', company_id), ('company_id', '=', False)]"/>
+                            <field name="joining_date" force_save="1" invisible="insurance_type in ('fleet_vehicle', 'sales')"/>
+                            <field name="job_position_id" force_save="1" invisible="insurance_type in ('fleet_vehicle', 'sales')"/>
+                            <field name="birth_date" force_save="1" invisible="insurance_type in ('fleet_vehicle', 'sales')"/>
+                            <field name="civil_id" force_save="1" invisible="insurance_type in ('fleet_vehicle', 'sales')"/>
+                            <field name="fleet_vehicle_id" invisible="insurance_type in ('employee', 'sales')"
+                                    readonly="state != 'draft'" required="insurance_type == 'fleet_vehicle'"/>
+                            <field name="motor_vehicle_id" invisible="1"/>
+                            <field name="chassis_number" invisible="insurance_type != 'sales'" required="insurance_type == 'sales'"/>
+                            <field name="policy_number"/>
+                        </group>
+                        <group>
+                            <field name="end_date" readonly="state != 'draft'"/>
+                            <field name="transcation_date"/>
+                            <field name="cancel_date" readonly="True" force_save="1" invisible="insurance_type == 'sales'"/>
+                            <field name="amount"/>
+                            <field name="invoice_ids" widget="many2many_tags" readonly="state != 'draft'"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                            <field name="currency_id" invisible="0"/>
+                            <field name="insurance_salary" invisible="insurance_type == 'sales'"/>
+                            <field name="year" invisible="insurance_type == 'sales'"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string='Claims'>
+                            <field name="claim_ids" context="{'employee_id': employee_id}" readonly="state != 'draft'">
+                                <tree string='Claims'>
+                                    <field name="name"/>
+                                    <field name="employee_id"/>
+                                    <field name="claim_date"/>
+                                    <field name="accident_date"/>
+                                    <field name="resume_work_date"/>
+                                    <field name="insurance_company_id"/>
+                                    <field name="claim_invoice_id"/>
+                                    <field name="amount"/>
+                                    <field name="state"/>
+                                    <button name="action_confirm" string='Confirm' type="object" invisible="state != 'draft'"/>
+                                    <button name="action_done" string="Done" type="object" invisible="state != 'confirm'"/>
+                                    <button name="action_cancel" string='Cancel' type="object" invisible="state != 'draft'"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers"/>
+                    <field name="activity_ids" widget="mail_activity"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+            </form>
+
+        </field>
+    </record>
+
+    <record id="hr_insurance_tree_view" model="ir.ui.view">
+        <field name="name">hr.insurance.tree</field>
+        <field name="model">hr.insurance</field>
+        <field name="arch" type="xml">
+
+            <tree string="Insurance" decoration-danger="date_job_end and (date_job_end &lt; current_date)"
+                  decoration-success="work_permit_expiry and (work_permit_expiry &lt; current_date)">
+                <field name="name"/>
+                <field name="year"/>
+                <field name="insurance_type"/>
+                <field name="transcation_type_id"/>
+                <field name="employee_id"/>
+                <field name="joining_date"/>
+                <field name="job_position_id"/>
+                <field name="birth_date"/>
+                <field name="civil_id"/>
+                <field name="start_date"/>
+                <field name="end_date"/>
+                <field name="cancel_date"/>
+                <field name="insurance_salary"/>
+                <field name="insurance_company_id"/>
+                <field name="amount"/>
+                <field name="date_job_end" invisible="1"/>
+                <field name="work_permit_expiry" invisible="1"/>
+                <field name="state"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="hr_insurance_search_view" model="ir.ui.view">
+        <field name="name">hr.insurance.list.select</field>
+        <field name="model">hr.insurance</field>
+        <field name="arch" type="xml">
+            <search string="Search Insurance">
+                <field name="employee_id"/>
+                <field name="start_date"/>
+                <field name="end_date"/>
+                <field name="insurance_company_id"/>
+                <field name="transcation_type_id"/>
+                <field name="joining_date"/>
+                <field name="job_position_id"/>
+                <field name="state"/>
+                <group expand="0" string="Group By">
+                    <filter string="Employee" name="employee" domain="[]" context="{'group_by': 'employee_id'}"/>
+                    <filter name="insurance_company" string="Insurance Company" domain="[]" context="{'group_by': 'insurance_company_id'}"/>
+                    <filter string="Start Date" name="start_date" domain="[]" context="{'group_by': 'start_date'}"/>
+                    <filter string="End Date" name="end_date" domain="[]" context="{'group_by': 'end_date'}"/>
+                    <filter string="Status" name="state" domain="[]" context="{'group_by': 'state'}"/>
+                    <filter string="Transcation Type" name="state" domain="[]" context="{'group_by': 'transcation_type_id'}"/>
+                    <filter string="Year" name="year" domain="[]" context="{'group_by': 'year'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_hr_insurance" model="ir.actions.act_window">
+        <field name="name">Insurances</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">hr.insurance</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('insurance_type', '=', 'employee')]</field>
+        <field name="context">{'default_insurance_type': 'employee'}</field>
+    </record>
+
+    <menuitem id="menu_hr_insurance"
+              name="Employee Insurance"
+              parent="hr.menu_hr_root"
+              groups="hr_insurance.group_insurance_user"
+              sequence="20"/>
+
+    <menuitem id="hr_insurance_menu"
+              action="action_hr_insurance"
+              parent="menu_hr_insurance"
+              groups="hr_insurance.group_insurance_user"
+              sequence="45"/>
+
+
+    <record id="action_hr_insurance_fleet" model="ir.actions.act_window">
+        <field name="name">Insurance</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">hr.insurance</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('insurance_type', '=', 'fleet_vehicle')]</field>
+        <field name="context">{'default_insurance_type': 'fleet_vehicle'}</field>
+    </record>
+
+    <record id="act_hr_insurance_all" model="ir.actions.act_window">
+        <field name="name">Insurances</field>
+        <field name="res_model">hr.insurance</field>
+        <field name="view_mode">tree,form</field>
+        <field name="context">{
+            'search_default_transcation_type_id': [active_id],
+            'default_transcation_type_id': active_id,
+            }
+        </field>
+        <field name="search_view_id" ref="hr_insurance_search_view"/>
+    </record>
+
+    <menuitem id="menu_fleet_vehicle_insurance_root"
+              name="Fleet Insurance"
+              parent="fleet.menu_root"
+              groups="hr_insurance.group_insurance_user"
+              sequence="20"/>
+
+    <menuitem id="fleet_insurance_menu"
+              action="action_hr_insurance_fleet"
+              parent="menu_fleet_vehicle_insurance_root"
+              groups="hr_insurance.group_insurance_user"
+              sequence="45"/>
+
+    <record id="action_hr_insurance_sales" model="ir.actions.act_window">
+        <field name="name">Fleet Insurance</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">hr.insurance</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('insurance_type', '=', 'sales')]</field>
+        <field name="context">{'default_insurance_type': 'sales'}</field>
+    </record>
+
+    <menuitem id="menu_sale_insurance_root"
+              name="Sales Insurance"
+              parent="sale.sale_menu_root"
+              groups="hr_insurance.group_insurance_user"
+              sequence="3"/>
+
+    <menuitem id="sale_insurance_menu"
+              action="action_hr_insurance_sales"
+              parent="menu_sale_insurance_root"
+              groups="hr_insurance.group_insurance_user"
+              sequence="45"/>
+
+
+    <!-- Employee -->
+    <record id="view_employee_form_insurance_inherit" model="ir.ui.view">
+        <field name="name">hr.employee.insurance.form.inherit</field>
+        <field name="model">hr.employee</field>
+        <field name="inherit_id" ref="hr.view_employee_form"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//div[@name='button_box']" position="inside">
+                <button name="action_hr_employee_insurance" class="oe_stat_button" type="object" icon="fa-pencil-square-o" groups="hr_insurance.group_insurance_user">
+                    <div class="o_stat_info">
+                        <field name="insurance_count"/>
+                        <span class="o_stat_text">Insurances</span>
+                    </div>
+                </button>
+
+            </xpath>
+        </field>
+    </record>
+
+
+    <!-- Insurance Transaction Type -->
+    <record id="view_insurance_transcation_type_form" model="ir.ui.view">
+        <field name="name">insurance.transcation.type.form</field>
+        <field name="model">insurance.transcation.type</field>
+        <field name="arch" type="xml">
+            <form string="Insurance Transcation Type">
+                <group>
+                    <field name="name"/>
+                    <field name="user_ids" widget="many2many_tags"/>
+                </group>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_insurance_transcation_type_tree" model="ir.ui.view">
+        <field name="name">insurance.transcation.type.tree</field>
+        <field name="model">insurance.transcation.type</field>
+        <field name="arch" type="xml">
+            <tree string="Insurance Transaction Type">
+                <field name="name"/>
+                <field name="user_ids"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="insurance_transcation_type_view_form_simplified" model="ir.ui.view">
+        <field name="name">insurance.transcation.type.view.form.simplified</field>
+        <field name="model">insurance.transcation.type</field>
+        <field name="arch" type="xml">
+            <form string="Insurance Transaction Type">
+                <group>
+                    <group>
+                        <field name="name" class="oe_inline" string="Transaction Type Name" placeholder="Insurance Type..."/>
+                        <field name="user_ids"/>
+                    </group>
+                </group>
+            </form>
+        </field>
+    </record>
+
+    <record id="transcation_type_view_form_simplified_footer" model="ir.ui.view">
+        <field name="name">insurance.transcation.type.view.form.simplified</field>
+        <field name="model">insurance.transcation.type</field>
+        <field name="inherit_id" ref="hr_insurance.view_insurance_transcation_type_form"/>
+        <field name="mode">primary</field>
+        <field name="arch" type="xml">
+
+            <xpath expr="//group" position="after">
+                <footer>
+                    <button string="Create" name="open_insurance" type="object" class="btn-primary open_insurances"/>
+                    <button string="Discard" class="btn-secondary" special="cancel"/>
+                </footer>
+            </xpath>
+
+        </field>
+    </record>
+
+    <record id="open_create_transcation_type" model="ir.actions.act_window">
+        <field name="name">Create Transaction Type</field>
+        <field name="res_model">insurance.transcation.type</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="transcation_type_view_form_simplified_footer"/>
+        <field name="target">new</field>
+    </record>
+
+    <record model="ir.ui.view" id="view_insurance_transcation_type_kanban">
+        <field name="name">insurance.transcation.type.kanban</field>
+        <field name="model">insurance.transcation.type</field>
+        <field name="arch" type="xml">
+
+            <kanban class="oe_background_grey o_kanban_dashboard o_emphasize_colors" on_create="hr_insurance.open_create_transcation_type">
+                <field name="name"/>
+                <field name="insurance_count"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div t-attf-class="oe_kanban_global_click o_has_icon">
+                            <div class="o_kanban_project_main">
+                                <div class="o_kanban_card_content">
+                                    <div class="o_kanban_primary_left">
+                                        <div class="o_primary">
+                                            <span>
+                                                <t t-esc="record.name.value"/>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="o_kanban_card_manage_pane dropdown-menu" role="menu">
+                                    <div class="o_kanban_card_manage_section">
+                                        <div role="menuitem">
+                                            <a type="edit">Edit</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <a class="o_kanban_manage_toggle_button o_left" href="#">
+                                    <i class="fa fa-ellipsis-v" role="img" aria-label="Manage" title="Manage"/>
+                                </a>
+                            </div>
+
+                            <div class="o_insurance_kanban_boxes">
+                                <a class="o_insurance_kanban_box" name="%(act_hr_insurance_all)d" type="action">
+                                    <div>
+                                        <span class="o_value">
+                                            <t t-esc="record.insurance_count.value"/>
+                                        </span>
+                                        Insurances
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+
+        </field>
+    </record>
+
+    <record id="action_insurance_transcation_type" model="ir.actions.act_window">
+        <field name="name">Transaction Types</field>
+        <field name="res_model">insurance.transcation.type</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem id="menu_action_insurance_transcation_type"
+              name="Transaction Types"
+              action="action_insurance_transcation_type"
+              parent="fleet.fleet_configuration"
+              groups="hr_insurance.group_insurance_user"
+              sequence="10"/>
+
+    <record id="open_view_transcation_type_all" model="ir.actions.act_window">
+        <field name="name">Transaction Types</field>
+        <field name="res_model">insurance.transcation.type</field>
+        <field name="domain">[]</field>
+        <field name="view_mode">kanban,form</field>
+        <field name="view_id" ref="view_insurance_transcation_type_kanban"/>
+        <field name="target">main</field>
+    </record>
+
+    <menuitem id="menu_open_view_transcation_type_all"
+              name="Transaction Types"
+              action="open_view_transcation_type_all"
+              parent="menu_hr_insurance"
+              groups="hr_insurance.group_insurance_user"
+              sequence="40"/>
+
+</odoo>

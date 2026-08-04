@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="sale_report_search_inherited_view" model="ir.ui.view">
+        <field name="name">sale.report.search.inherited.view</field>
+        <field name="model">sale.report</field>
+        <field name="inherit_id" ref="sale.view_order_product_search"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//search/group[2]/filter[@name='User']" position="after">
+                <filter string="Opportunity Type" name="opportunity_type" context="{'group_by':'opportunity_type'}"/>
+            </xpath>
+
+        </field>
+    </record>
+
+</odoo>

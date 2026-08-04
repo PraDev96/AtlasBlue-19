@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="sale_order_portal_content_inherit_tax" inherit_id="sale.sale_order_portal_content" name="Portal: My Task with Timesheet">
+        <xpath expr="//table[@id='sales_order_table']//thead//tr//th[@id='taxes_header']" position="replace"/>
+        <xpath expr="//table[@id='sales_order_table']//tbody//tr[1]//td[@id='taxes']" position="replace"/>
+    </template>
+
+</odoo>

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="hr_timesheet_line_tree_inherit_altas_base" model="ir.ui.view">
+        <field name="name">account.analytic.line.tree.hr_timesheet.atlas_base</field>
+        <field name="model">account.analytic.line</field>
+        <field name="inherit_id" ref="hr_timesheet.hr_timesheet_line_tree"/>
+        <field name="arch" type="xml">
+
+            <field name="task_id" position="after">
+                <field name="team_id"/>
+                <field name="date_end"/>
+                <field name="stage_id"/>
+            </field>
+
+        </field>
+    </record>
+
+    <record id="view_task_form2_inherited_inherit_altas_base" model="ir.ui.view">
+        <field name="name">project.task.form.inherited.atlas_base</field>
+        <field name="model">project.task</field>
+        <field name="inherit_id" ref="hr_timesheet.view_task_form2_inherited"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//field[@name='timesheet_ids']" position="attributes">
+                <attribute name="domain">[('project_id', '!=', False), ('employee_id', '!=', False)]</attribute>
+            </xpath>
+
+            <xpath expr="//field[@name='timesheet_ids']/tree/field[@name='employee_id']" position="after">
+                <field name="team_id" context="{'form_view_ref': 'project_team.project_team_form_view', 'default_type_team':'project'}"/>
+                <field name="date_end"/>
+                <field name="stage_id"/>
+            </xpath>
+
+        </field>
+    </record>
+
+    <record id="view_calendar_event_form1" model="ir.ui.view">
+        <field name="name">calendar.event.form.v.customized</field>
+        <field name="model">calendar.event</field>
+        <field name="inherit_id" ref="calendar.view_calendar_event_form"/>
+        <field name="arch" type="xml">
+
+            <field name="location" position="after">
+                <field name="state_id" readonly="1"/>
+            </field>
+
+        </field>
+    </record>
+
+    <record id="calendar_event_view_search_inherit_1" model="ir.ui.view">
+        <field name="name">calendar.event.search.inherit.appointment</field>
+        <field name="model">calendar.event</field>
+        <field name="inherit_id" ref="calendar.view_calendar_event_search"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//filter[@name='responsible']" position="after">
+                <separator/>
+                <filter string="State" name="state_id" domain="[]" context="{'group_by': 'state_id'}"/>
+            </xpath>
+
+        </field>
+    </record>
+
+</odoo>

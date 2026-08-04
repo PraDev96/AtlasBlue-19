@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="portal_my_task_inherit_timesheet_limit" inherit_id="atlas_blue_timesheet_portal.hr_timesheet_portal_my_task_inherit_details">
+        <xpath expr="//div[@id='task_timesheet_content']//div[hasclass('row')][2]/div[1]" position="replace">
+            <div class="col-md-2 col-sm-12">
+                <input type="hidden" t-att-value="exist_rec and exist_rec.id or ''" id="exist_rec"/>
+                <input type="number" name="timesheet_id" t-att-data-timesheet_id="exist_rec.id" style="display: none"/>
+                <button class="btn btn-primary start_btn_custom" t-att-data-task_id="task.id"
+                        t-att-style="'' if (not exist_rec or not exist_rec.start_date) else 'display: none;'">Sign in
+                </button>
+                <span class="start_time_show" t-att-style="'display: none;' if (not exist_rec or not exist_rec.start_date) else ''">
+                    <t t-if="exist_rec and exist_rec.start_date" t-esc="account_analytic_rec_start_date.strftime('%Y-%m-%d %H:%M:%S')"/>
+                </span>
+            </div>
+        </xpath>
+
+        <xpath expr="//div[@id='task_timesheet_content']//div[hasclass('row')][2]/div[2]" position="replace">
+            <div class="col-md-2 col-sm-12 end_time_custom">
+                <button class="btn btn-primary end_btn_custom end_btn_custom_hide_1"
+                        t-att-data-timesheet_id="exist_rec.id if exist_rec else ''"
+                        t-att-data-task_id="task.id" t-att-data-task_type="task.project_id.project_type_id.name"
+                        t-att-style="'' if (exist_rec and exist_rec.start_date and not exist_rec.end_date) else 'display: none;'">Sign Out
+                </button>
+                <span class="end_time_show" t-att-style="'display: none;' if (not exist_rec or not exist_rec.end_date) else ''">
+                    <t t-if="exist_rec and exist_rec.end_date" t-esc="account_analytic_rec_end_date.strftime('%Y-%m-%d %H:%M:%S')"/>
+                </span>
+                <button class="btn btn-primary end_btn_custom end_btn_custom_hide" t-att-data-task_type="task.project_id.project_type_id.name"
+                        t-att-data-timesheet_id="exist_rec.id if exist_rec else ''" t-att-data-task_id="task.id" style="display: none;">Sign Out
+                </button>
+            </div>
+        </xpath>
+
+        <!-- Adjust Column Widths -->
+        <xpath expr="//input[hasclass('description_custom')]/.." position="attributes">
+            <attribute name="class">col-md-4 col-sm-12 pt-3 pt-md-0</attribute>
+            <attribute name="placeholder">Work Description</attribute>
+        </xpath>
+        <xpath expr="//input[hasclass('duration_time_show')]/.." position="attributes">
+            <attribute name="class">col-md-2 col-sm-12 pt-3 pt-md-0</attribute>
+            <attribute name="placeholder">Hours Spent</attribute>
+        </xpath>
+
+        <!-- Extra Worked Amount Data -->
+        <xpath expr="//input[hasclass('duration_time_show')]/.." position="after">
+            <div t-attf-class="col-md-2 col-sm-12 pt-3 pt-md-0 overtime_unit_amount_container {{'d-none' if not (exist_rec and exist_rec.overtime_unit_amount) else ''}}">
+                <input class="form-control overtime_unit_amount_show text-center o_field_float o_field_number o_field_widget" name="overtime_unit_amount" disabled='true'
+                       type="text" style="font-size: 14px;" t-att-value="exist_rec.overtime_unit_amount_time if exist_rec and exist_rec.overtime_unit_amount else ''"
+                       title="Extra Hours Spent"/>
+            </div>
+        </xpath>
+    </template>
+
+</odoo>

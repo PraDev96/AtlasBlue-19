@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <menuitem id="menu_project_checklist"
+              name="Project Checklist"
+              action="action_project_checklist"
+              parent="project.menu_project_config"
+              sequence="11"/>
+
+</odoo>

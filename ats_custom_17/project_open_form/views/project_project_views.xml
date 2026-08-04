@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- This is to avoid the kanban dashboard click to form -->
+    <record id="project_kanban_inherit_form" model="ir.ui.view">
+        <field name="name">project.kanban.inherit.form</field>
+        <field name="model">project.project</field>
+        <field name="inherit_id" ref="project.view_project_kanban"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//kanban" position="attributes">
+                <attribute name="action"/>
+            </xpath>
+
+        </field>
+    </record>
+
+</odoo>

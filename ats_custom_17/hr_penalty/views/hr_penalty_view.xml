@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_hr_penalty_form" model="ir.ui.view">
+        <field name="name">hr.penalty.form</field>
+        <field name="model">hr.penalty</field>
+        <field name="arch" type="xml">
+
+            <form string="Penalty">
+                <header>
+                    <button name="action_done" string='Done' type="object" invisible="state != 'draft'"/>
+                    <button name="action_cancel" string='Cancel' type="object" invisible="state != 'draft'"/>
+                    <button name="action_reset_draft" string="Reset to Draft" type="object" invisible="state != 'done'"/>
+                    <widget name="attach_document" string="Attach Document" action="message_post" invisible="attachment_number &lt; 1 or id == False"/>
+                    <widget name="attach_document" string="Attach Document" action="message_post" highlight="1" invisible="attachment_number &gt;= 1 or id == False"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,done"/>
+                </header>
+
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_get_attachment_view" class="oe_stat_button" icon="fa-file-text-o" type="object">
+                            <field name="attachment_number" widget="statinfo" string="Documents" options="{'reload_on_button': true}"/>
+                        </button>
+                    </div>
+                    <div class="oe_title">
+                        <label for="name" class="oe_edit_only"/>
+                        <h1>
+                            <field name="name"/>
+                        </h1>
+                    </div>
+
+                    <group>
+                        <group>
+                            <field name="employee_id" readonly="state != 'draft'"/>
+                            <field name="joining_date"/>
+                            <field name="basic_salary" force_save="1"/>
+                            <field name="detail" readonly="state != 'draft'"/>
+                            <field name="payslip_date" readonly="state != 'draft'"/>
+                            <field name="deducted_payslip" readonly="state != 'draft'"/>
+                            <field name="warning_type" readonly="state != 'draft'"/>
+                        </group>
+                        <group>
+                            <field name="job_position_id"/>
+                            <field name="date_penalty" readonly="state != 'draft'"/>
+                            <field name="decision" readonly="state != 'draft'"/>
+                            <field name="payslip_id" readonly="1"/>
+                            <field name="amount" readonly="state != 'draft'"/>
+                            <field name="installment"/>
+                            <field name="payment_date"/>
+                            <field name="company_id" readonly="state != 'draft'" groups="base.group_multi_company"/>
+                        </group>
+                    </group>
+
+                    <button name="compute_installment" string="Compute Installment" type="object"
+                            colspan="2" invisible="state == 'approve'" class="oe_stat_button" icon="fa-clock-o"/>
+                    <div class="oe_clear"/>
+
+                    <notebook>
+                        <page string="Installments">
+                            <field name="penalty_lines">
+                                <tree string="Installments" editable="bottom" decoration-success="paid">
+                                    <field name="date"/>
+                                    <field name="amount"/>
+                                    <field name="paid" readonly="1"/>
+                                    <field name="payslip_id"/>
+                                </tree>
+                            </field>
+                            <group class="oe_subtotal_footer oe_right" colspan="2">
+                                <field name="total_amount" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                                <field name="total_paid_amount" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                                <field name="balance_amount" class="oe_subtotal_footer_separator" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers"/>
+                    <field name="activity_ids" widget="mail_activity"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+
+            </form>
+        </field>
+    </record>
+
+    <record id="hr_penalty_search_view" model="ir.ui.view">
+        <field name="name">hr.penalty.list.select</field>
+        <field name="model">hr.penalty</field>
+        <field name="arch" type="xml">
+
+            <search string="Search violation">
+                <field name="employee_id"/>
+                <field name="date_penalty"/>
+                <field name="job_position_id"/>
+                <field name='detail'/>
+                <field name="payslip_date"/>
+                <field name="decision"/>
+                <field name="amount"/>
+                <field name="installment"/>
+                <field name="payment_date"/>
+                <field name="company_id"/>
+                <field name="warning_type"/>
+                <group expand="0" string="Group By">
+                    <filter string="Penalty Type" name="warning_type" domain="[]" context="{'group_by': 'warning_type'}"/>
+                    <filter string="Employee" name="employee" domain="[]" context="{'group_by': 'employee_id'}"/>
+                    <filter string="Penalty Date" name="violation_date" domain="[]" context="{'group_by': 'date_penalty'}"/>
+                    <filter string="Penalty Detail" name="detail" domain="[]" context="{'group_by': 'detail'}"/>
+                </group>
+            </search>
+
+        </field>
+    </record>
+
+    <record id="view_hr_penalty_tree" model="ir.ui.view">
+        <field name="name">hr.penalty.tree</field>
+        <field name="model">hr.penalty</field>
+        <field name="arch" type="xml">
+
+            <tree string="Penalty">
+                <field name="name"/>
+                <field name="employee_id"/>
+                <field name="joining_date"/>
+                <field name="job_position_id"/>
+                <field name="date_penalty"/>
+                <field name="payslip_date"/>
+                <field name='detail'/>
+                <field name="decision"/>
+                <field name="amount"/>
+                <field name="attachment_number" invisible="1"/>
+                <button name="action_get_attachment_view" string="View Attached Documents" type="object" icon="fa-paperclip" invisible="attachment_number == 0"/>
+                <field name="payslip_id"/>
+                <field name="warning_type"/>
+                <field name="deducted_payslip"/>
+                <field name="company_id" groups="base.group_multi_company"/>
+                <field name="state"/>
+            </tree>
+
+        </field>
+    </record>
+
+    <record id="action_hr_penalty" model="ir.actions.act_window">
+        <field name="name">Penalty</field>
+        <field name="res_model">hr.penalty</field>
+        <field name="view_mode">tree,form</field>
+        <field name="search_view_id" ref="hr_penalty_search_view"/>
+    </record>
+
+    <menuitem id="menu_hr_penalty"
+              name="Penalty"
+              parent="hr.menu_hr_root"
+              groups="hr_penalty.group_penalty_user"
+              sequence="15"/>
+
+    <menuitem id="menu_action_hr_penalty"
+              name="Penalty"
+              action="action_hr_penalty"
+              parent="menu_hr_penalty"
+              groups="hr_penalty.group_penalty_user"
+              sequence="1"/>
+
+</odoo>

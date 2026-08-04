@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!-- Penalty Reports -->
+        <!--<report
+                id="hr_penalty_report"
+                model="hr.penalty"
+                string="Penalty Report"
+                report_type="qweb-pdf"
+                name="hr_penalty.report_hr_penalty"
+                file="hr_penalty.report_hr_penalty"
+        />-->
+
+        <!-- Penalty Reports -->
+        <record id="hr_penalty_report" model="ir.actions.report">
+            <field name="name">Penalty Report</field>
+            <field name="model">hr.penalty</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">hr_penalty.report_hr_penalty</field>
+            <field name="report_file">hr_penalty.report_hr_penalty</field>
+            <field name="print_report_name">'Penalty Report'</field>
+        </record>
+
+    </data>
+</odoo>

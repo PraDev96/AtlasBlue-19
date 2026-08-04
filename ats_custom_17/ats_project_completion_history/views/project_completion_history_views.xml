@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_project_completion_history_form" model="ir.ui.view">
+        <field name="name">project.completion.history.form</field>
+        <field name="model">project.completion.history</field>
+        <field name="arch" type="xml">
+            <form string="Project Completion History Form" create="false" edit="false">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="project_id"/>
+                            <field name="customer_id"/>
+                            <field name="project_created_user_id" widget="many2one_avatar_user" options="{'no_open': True, 'no_create': True}"/>
+                            <field name="project_manager_user_id" widget="many2one_avatar_user" options="{'no_open': True, 'no_create': True}"/>
+                            <field name="project_area_id" options="{'no_open': True, 'no_create': True}"/>
+                            <field name="task_id"/>
+                            <field name="project_team_id" options="{'no_open': True, 'no_create': True}"/>
+                            <field name="task_stage_id" options="{'no_open': True, 'no_create': True}"/>
+                            <field name="task_created_user_id" options="{'no_open': True, 'no_create': True}"/>
+                            <field name="company_id" options="{'no_open': True, 'no_create': True}"/>
+                            <field name="create_date"/>
+                        </group>
+                        <group>
+                            <field name="user_id" string="Tracked User" widget="many2one_avatar_user" options="{'no_open': True, 'no_create': True}"/>
+                            <field name="tracked_for_user_id" string="Tracked For" widget="many2one_avatar_user" options="{'no_open': True, 'no_create': True}"/>
+                            <field name="track_date"/>
+                            <field name="old_completion"/>
+                            <field name="new_completion"/>
+                            <field name="difference"/>
+                            <field name="task_progress"/>
+                            <field name="project_total_so_amount"/>
+                            <field name="project_value_amount"/>
+                            <field name="project_subtotal_amount"/>
+                            <field name="weightage_pulling_amount" string="Pulled Amount"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="project_completion_history_view_tree" model="ir.ui.view">
+        <field name="name">project.completion.history.view.tree</field>
+        <field name="model">project.completion.history</field>
+        <field name="arch" type="xml">
+            <tree string="Project Completion History" create="0" delete="0" edit="0">
+                <field name="create_date" optional="hide"/>
+                <field name="track_date"/>
+                <field name="project_id"/>
+                <field name="project_total_so_amount" optional="hide"/>
+                <field name="project_value_amount" optional="hide"/>
+                <field name="project_subtotal_amount"/>
+                <field name="task_id"/>
+                <field name="task_progress"/>
+                <field name="user_id" widget="many2one_avatar_user"/>
+                <field name="tracked_for_user_id" widget="many2one_avatar_user"/>
+                <field name="old_completion"/>
+                <field name="new_completion"/>
+                <field name="difference" sum="Total Difference(%)" decoration-success="difference &gt; 0" decoration-danger="difference &lt; 0" optional="hide"/>
+                <field name="weightage_pulling_amount" sum="Total Pulled Amount"
+                       decoration-success="weightage_pulling_amount &gt; 0" decoration-danger="weightage_pulling_amount &lt; 0"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="project_completion_history_view_pivot" model="ir.ui.view">
+        <field name="name">project.completion.history.view.pivot</field>
+        <field name="model">project.completion.history</field>
+        <field name="arch" type="xml">
+            <pivot string="Project Completion History" sample="1">
+                <field name="project_id" type="row"/>
+                <field name="track_date" type="col" interval="day"/>
+                <field name="difference"/>
+                <field name="weightage_pulling_amount" type="measure"/>
+            </pivot>
+        </field>
+    </record>
+
+    <record id="project_completion_history_view_graph" model="ir.ui.view">
+        <field name="name">project.completion.history.view.graph</field>
+        <field name="model">project.completion.history</field>
+        <field name="arch" type="xml">
+            <graph string="Project Completion History" sample="1" type="bar">
+                <field name="project_id"/>
+                <field name="project_team_id"/>
+                <field name="difference"/>
+                <field name="weightage_pulling_amount" type="measure"/>
+            </graph>
+        </field>
+    </record>
+
+    <record id="view_project_completion_history_search" model="ir.ui.view">
+        <field name="name">project.completion.history.search</field>
+        <field name="model">project.completion.history</field>
+        <field name="arch" type="xml">
+            <search string="Project Completion History Search">
+                <field name="project_id"/>
+                <field name="task_id"/>
+                <field name="user_id"/>
+                <field name="tracked_for_user_id"/>
+                <filter string="My History" name="own_projects" domain="[('user_id', '=', uid)]"/>
+                <filter string="For My History" name="own_projects" domain="[('tracked_for_user_id', '=', uid)]"/>
+                <separator/>
+                <filter string="Track Date" name="track_date" date="track_date"/>
+                <separator/>
+                <filter name="filter_track_date" string="Today History" domain="[('track_date', '=', context_today())]"/>
+                <group expand="0" string="Group By">
+                    <filter string="Project" name="group_project" context="{'group_by': 'project_id'}"/>
+                    <filter string="Project Manager" name="group_project_manager" context="{'group_by': 'project_manager_user_id'}"/>
+                    <filter string="Project Team" name="group_project_team" context="{'group_by': 'project_team_id'}"/>
+                    <separator/>
+                    <filter string="Task" name="group_task" context="{'group_by': 'task_id'}"/>
+                    <filter string="Task Stage" name="group_task_stage" context="{'group_by': 'task_stage_id'}"/>
+                    <separator/>
+                    <filter string="Tracked By" name="group_user" context="{'group_by': 'user_id'}"/>
+                    <filter string="Tracked For" name="group_user_for" context="{'group_by': 'tracked_for_user_id'}"/>
+                    <separator/>
+                    <filter string="Track Date" name="group_track_date" context="{'group_by': 'track_date'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="project_completion_history_action" model="ir.actions.act_window">
+        <field name="name">Project Completion History</field>
+        <field name="res_model">project.completion.history</field>
+        <field name="view_mode">tree,form,pivot,graph</field>
+        <field name="context">{'search_default_filter_track_date': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                No Project Completion History Found!!!
+            </p>
+            <p>
+                Project Completion History records will be created by Automatically; When Total Completion(%) changes of Projects.
+            </p>
+        </field>
+    </record>
+
+    <menuitem id="project_completion_history_menu"
+              name="Project Completion History"
+              action="project_completion_history_action"
+              parent="project.menu_project_report"
+              sequence="50"/>
+
+</odoo>

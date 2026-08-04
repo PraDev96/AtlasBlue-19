@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="sale_subscription_plan_form_inherit_draft_invoice" model="ir.ui.view">
+        <field name="name">sale.subscription.plan.form.inherit.draft.invoice</field>
+        <field name="model">sale.subscription.plan</field>
+        <field name="inherit_id" ref="sale_subscription.sale_subscription_plan_view_form"/>
+        <field name="arch" type="xml">
+
+            <field name="invoice_mail_template_id" position="before">
+                <field name="is_dont_auto_post_invoice" widget="boolean_toggle"/>
+            </field>
+
+        </field>
+    </record>
+
+    <record id="sale_subscription_plan_tree_inherit_draft_invoice" model="ir.ui.view">
+        <field name="name">sale.subscription.plan.tree.inherit.draft.invoice</field>
+        <field name="model">sale.subscription.plan</field>
+        <field name="inherit_id" ref="sale_subscription.sale_subscription_plan_view_tree"/>
+        <field name="arch" type="xml">
+
+            <field name="active_subs_count" position="before">
+                <field name="is_dont_auto_post_invoice" widget="boolean_toggle" readonly="True"/>
+            </field>
+
+        </field>
+    </record>
+
+</odoo>

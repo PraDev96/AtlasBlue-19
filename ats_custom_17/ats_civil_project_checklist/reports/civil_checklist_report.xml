@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Civil/Mechanical Project Checklist Report Paper Format -->
+    <record id="paper_format_civil_checklist" model="report.paperformat">
+        <field name="name">Civil/Mechanical Checklist PaperFormat</field>
+        <field name="default" eval="True"/>
+        <field name="format">A4</field>
+        <field name="orientation">Portrait</field>
+        <field name="margin_top">30</field>
+        <field name="margin_bottom">20</field>
+        <field name="margin_left">7</field>
+        <field name="margin_right">7</field>
+        <field name="header_line" eval="True"/>
+        <field name="header_spacing">30</field>
+        <field name="dpi">90</field>
+    </record>
+
+    <!-- Civil/Mechanical Project Checklist Report Action -->
+    <record id="action_report_civil_project_checklist" model="ir.actions.report">
+        <field name="name">Civil/Mechanical Project Checklist</field>
+        <field name="model">project.checklist</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">ats_civil_project_checklist.report_civil_project_checklist</field>
+        <field name="report_file">ats_civil_project_checklist.report_civil_project_checklist</field>
+        <field name="print_report_name">"Civil-Mechanical-CheckList - %s" % object.name</field>
+        <field name="binding_type">report</field>
+        <field name="paperformat_id" ref="ats_civil_project_checklist.paper_format_civil_checklist"/>
+    </record>
+
+</odoo>

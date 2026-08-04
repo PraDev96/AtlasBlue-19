@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <record id="view_remove_accessory_wizard_form" model="ir.ui.view">
+        <field name="name">remove.accessory.wizard.form</field>
+        <field name="model">remove.accessory.wizard</field>
+        <field name="arch" type="xml">
+
+            <form string="Remove Accessory">
+                <group>
+                    <!-- <field name="product_ids" widget="many2many_tags"/> -->
+                    <field name="from_fleet_vehicle_id"/>
+                    <field name="to_fleet_vehicle_id"/>
+                </group>
+                <field name="wizard_line_ids" context="{'form_accessory': True}">
+                    <tree string="Accessory" editable="top">
+                        <field name="product_id" context="{'form_accessory': True, 'from_fleet_vehicle_id': parent.from_fleet_vehicle_id}"/>
+                        <field name="uom_id"/>
+                        <field name="lot_id" domain="[('product_id', '=', product_id)]" context="{'default_product_id': product_id}"/>
+                        <field name="quantity"/>
+                    </tree>
+                </field>
+                <footer>
+                    <button string="remove Accessory" name="remove_accessory" type="object" class="oe_highlight"/>
+                    <button string="Cancel" class="btn btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+
+        </field>
+    </record>
+
+    <record id="action_remove_accessory_wizard" model="ir.actions.act_window">
+        <field name="name">Remove Accessorys Wizard</field>
+        <field name="res_model">remove.accessory.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+</odoo>

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+
+        <template id="your_custom_template_id" inherit_id="mail.message_activity_done">
+            <xpath expr="//div" position="replace">
+                <div>
+                    <p>
+                        <span t-attf-class="fa #{activity.activity_type_id.icon} fa-fw"/>
+                        <span t-field="activity.activity_type_id.name"/>done
+                        <t t-if="display_assignee">(originally assigned to<span t-field="activity.user_id.name"/>)
+                        </t>
+                        <span t-if="activity.summary">:</span>
+                        <span t-if="activity.summary" t-field="activity.summary"/>
+                    </p>
+                    <div class="o_mail_note_title">
+                        <strong>Created On :</strong>
+                        <t t-esc="activity.create_date.strftime('%Y-%m-%d')"/>
+                    </div>
+                    <div class="o_mail_note_title">
+                        <strong>Due On :</strong>
+                        <t t-esc="activity.date_deadline"/>
+                    </div>
+                    <div t-if="feedback">
+                        <t t-foreach="feedback.split('\n')" t-as="feedback_line">
+                            <t t-esc="feedback_line"/>
+                            <br t-if="not feedback_line_last"/>
+                        </t>
+                    </div>
+                    <t t-if="activity.note and activity.note != '&lt;p&gt;&lt;br&gt;&lt;/p&gt;'">
+                        <div class="o_mail_note_title">
+                            <strong>Original note:</strong>
+                        </div>
+                        <div t-field="activity.note"/>
+                    </t>
+                </div>
+            </xpath>
+        </template>
+
+    </data>
+</odoo>

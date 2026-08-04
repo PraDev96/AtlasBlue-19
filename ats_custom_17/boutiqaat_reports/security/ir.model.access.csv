@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_employee_accural_balance_wizard,access.employee.accural.balance.wizard,model_employee_accural_balance_wizard,base.group_user,1,1,1,1
+access_boutiqaat_report_wizarad,access.boutiqaat.report.wizarad,model_boutiqaat_report_wizarad,base.group_user,1,1,1,1

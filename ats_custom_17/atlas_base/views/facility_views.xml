@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="project_facility_details_form_view" model="ir.ui.view">
+        <field name="name">project.facility.details.form.view</field>
+        <field name="model">facility.facility</field>
+        <field name="arch" type="xml">
+            <form string="Facility Details Form" create="false" delete="false">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="sale_order_id"/>
+                            <field name="system_type"/>
+                            <field name="facility_project_id"/>
+                            <field name="facility_id"/>
+                            <field name="location_id"/>
+                        </group>
+                        <group>
+                            <field name="partner_id"/>
+                            <field name="facility_type"/>
+                            <field name="water_surface"/>
+                            <field name="volume"/>
+                            <field name="facility_type_id"/>
+                            <field name="crm_lead_id"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="project_facility_details_tree_view" model="ir.ui.view">
+        <field name="name">project.facility.details.tree.view</field>
+        <field name="model">facility.facility</field>
+        <field name="arch" type="xml">
+            <tree string="Facility Details Tree" create="false" delete="false">
+                <field name="name"/>
+                <field name="partner_id" invisible="1"/>
+                <field name="location_id"/>
+                <field name="facility_id"/>
+                <field name="facility_type_id"/>
+                <field name="facility_type" invisible="1"/>
+                <field name="system_type"/>
+                <field name="water_surface"/>
+                <field name="volume"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="action_project_facility_details" model="ir.actions.act_window">
+        <field name="name">Project Facility Details</field>
+        <field name="res_model">facility.facility</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                No Projects Facility Details found!
+            </p>
+        </field>
+    </record>
+
+    <menuitem id="menu_project_project_facility_details"
+              name="Facility Details"
+              parent="project.menu_project_config"
+              action="action_project_facility_details"
+              groups="project.group_project_manager"/>
+
+</odoo>

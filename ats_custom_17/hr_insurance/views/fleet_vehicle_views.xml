@@ -1,0 +1,50 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+
+    <record id="fleet_vehicle_view_form_inherit" model="ir.ui.view">
+        <field name="name">fleet.vehicle.form.inherit</field>
+        <field name="model">fleet.vehicle</field>
+        <field name="inherit_id" ref="fleet.fleet_vehicle_view_form"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//div[@name='button_box']" position="inside">
+                <button name="action_fleet_insurance" class="oe_stat_button" type="object" icon="fa-pencil-square-o">
+                    <div class="o_stat_info">
+                        <field name="insurance_count"/>
+                        <span class="o_stat_text">Insurances</span>
+                    </div>
+                </button>
+            </xpath>
+
+            <xpath expr="//group[@name='fiscality_group']" position="after">
+                <group string="Insurance">
+                    <field name="insurance_company_id"/>
+                    <field name="odoo_ins_number_id"/>
+                    <field name="policy_number_id"/>
+                    <field name="start_date"/>
+                    <field name="end_date"/>
+                </group>
+            </xpath>
+
+        </field>
+    </record>
+
+    <record id="fleet_vehicle_view_tree_inherit_insurance" model="ir.ui.view">
+        <field name="name">fleet.vehicle.tree.inherit.insurance</field>
+        <field name="model">fleet.vehicle</field>
+        <field name="inherit_id" ref="fleet.fleet_vehicle_view_tree"/>
+        <field name="arch" type="xml">
+
+            <field name="state_id" position="before">
+                <field name="insurance_company_id" optional="hide"/>
+                <field name="policy_number_id" optional="hide"/>
+                <field name="odoo_ins_number_id" optional="hide"/>
+                <field name="start_date" optional="hide"/>
+                <field name="end_date" optional="hide"/>
+            </field>
+
+        </field>
+
+    </record>
+
+</odoo>

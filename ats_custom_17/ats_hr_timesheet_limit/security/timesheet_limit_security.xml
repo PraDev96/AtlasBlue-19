@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="group_bypass_timesheet_limit" model="res.groups">
+        <field name="name">Bypass Daily Timesheet Limit</field>
+        <field name="category_id" ref="base.module_category_hidden"/>
+        <field name="comment">Users can add Timesheet Entries beyond the Daily Limit.</field>
+    </record>
+
+</odoo>

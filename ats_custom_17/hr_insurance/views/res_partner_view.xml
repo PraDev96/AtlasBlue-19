@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_partner_form_inherit" model="ir.ui.view">
+        <field name="name">res.partner.form.inherit</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+
+            <field name="company_type" position="after">
+                <field name="is_insurance_company" class="oe_edit_only" nolabel="1"/>
+                <label for="is_insurance_company" string="Insurance Company" class="oe_edit_only"/>
+                <span class="oe_read_only bg-beta p-1 font-weight-bold" invisible="is_insurance_company == False">Insurance Company</span>
+            </field>
+
+        </field>
+    </record>
+
+</odoo>

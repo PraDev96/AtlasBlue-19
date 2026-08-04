@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="report_project_swimming_pool_latter">
+        <t t-call="web.basic_layout">
+            <t t-set="doc" t-value="doc.with_context(lang=doc.partner_id.lang)"/>
+            <p class="pull-right">
+                <span t-esc="context_timestamp(datetime.datetime.now()).strftime('%Y-%m-%d')"/>
+            </p>
+            <br/>
+            <br/>
+
+            <div class="page">
+                <h5 class="mb16 text-center">
+                    <b>Swimming Pool Project Handover Letter</b>
+                </h5>
+                <br/>
+                <h6>Project Information</h6>
+                <div class="row" style="border:2px solid black;background-color:#efefef;">
+                    <div class="col-3" style="border-right: 1px solid black;">
+                        <strong>Contract Number</strong>
+                        <br/>
+                        <strong>Client Name</strong>
+                        <br/>
+                        <strong>Area</strong>
+                    </div>
+                    <div class="col-3" style="border-right: 1px solid black;">
+                        <span t-field="doc.number"/>
+                        <br/>
+                        <t t-if="doc.facility_ids.location_id">
+                            <span t-field="doc.facility_ids.location_id[0].display_name"/>
+                            <br/>
+                            <span t-field="doc.facility_ids.location_id[0].area_id.display_name"/>
+                        </t>
+                    </div>
+                    <div class="col-3" style="border-right: 1px solid black;">
+                        <strong>Contract Date</strong>
+                        <br/>
+                        <strong>Civil ID</strong>
+                        <br/>
+                        <strong>Address</strong>
+                    </div>
+                    <div class="col-3">
+                        <span/>
+                        <br/>
+                        <t t-if="doc.facility_ids.location_id">
+                            <span t-field="doc.facility_ids.location_id[0].civil_code"/>
+                            <br/>
+                            <span t-field="doc.facility_ids.location_id[0].block"/>,
+                            <span t-field="doc.facility_ids.location_id[0].street"/>,
+                            <span t-field="doc.facility_ids.location_id[0].house"/>
+                        </t>
+                    </div>
+                </div>
+                <br/>
+
+                <h6 class="mt16">Project Description</h6>
+                <div class="row">
+                    <div class="col-12" style="border: 2px solid black;background-color:#efefef;">
+                        <span t-field="doc.description"/>
+                        <br/>
+                    </div>
+                </div>
+                <br/>
+
+                <table class="table table-bordered table-sm" style="border: 2px solid black;background-color:#efefef;">
+                    <thead>
+                        <tr>
+                            <th name="th_quantity">Installation Completion Date</th>
+                            <th>Handover Date</th>
+                        </tr>
+                    </thead>
+                    <tbody class="sale_tbody">
+                        <t t-foreach="doc.equipment_ids" t-as="line">
+                            <tr>
+                                <td>
+                                    <span t-field="line.installation_date"/>
+                                </td>
+                                <td>
+                                    <span></span>
+                                    <!-- <span t-field="line.handover_date"/> -->
+                                </td>
+                            </tr>
+                        </t>
+                    </tbody>
+                </table>
+                <br/>
+
+                <h6 class="mt16">Equipment And Warranty Periods</h6>
+                <table class="table table-bordered table-sm" style="border: 2px solid black;background-color:#efefef;">
+                    <thead>
+                        <tr>
+                            <th name="th_quantity">Description</th>
+                            <th>Sr Number</th>
+                            <th>Quantity</th>
+                            <th name="th_description">Warranty Start Date</th>
+                            <th name="th_quantity">Warranty End Date</th>
+                        </tr>
+                    </thead>
+                    <tbody class="sale_tbody">
+                        <t t-foreach="doc.equipment_ids" t-as="line">
+                            <tr>
+                                <td>
+                                    <span t-field="line.description"/>
+                                </td>
+                                <td>
+                                    <span t-field="line.sr_number"/>
+                                </td>
+                                <td>
+                                    <span t-field="line.quant_done"/>
+                                </td>
+                                <td>
+                                    <span t-field="line.warranty_start_date"/>
+                                </td>
+                                <td>
+                                    <span t-field="line.warranty_end_date"/>
+                                </td>
+                            </tr>
+                        </t>
+                    </tbody>
+                </table>
+                <br/>
+
+                <h6 class="mt16">Atlas Representatives</h6>
+                <div class="row" style="border: 2px solid black;background-color:#efefef;">
+                    <div class="col-3" style="border-right: 1px solid black">
+                        <strong>Title</strong>
+                        <br/>
+                        <strong>Project Manager</strong>
+                        <br/>
+                    </div>
+                    <div class="col-3" style="border-right: 1px solid black">
+                        <span>Name</span>
+                        <br/>
+                        <span t-field="doc.user_id"/>
+                        <br/>
+                    </div>
+                    <div class="col-3" style="border-right: 1px solid black">
+                        <strong>Signature</strong>
+                        <br/>
+                    </div>
+                    <div class="col-3">
+                        <strong>Date</strong>
+                        <br/>
+                    </div>
+                </div>
+                <br/>
+
+                <div class="row">
+                    <div class="col-1"/>
+                    <div class="col-12">
+                        <h6 class="mt16">
+                            Notes:
+                        </h6>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-1"/>
+                    <div class="col-10" style="border: 2px solid black;background-color:#efefef;">
+                        <div>
+                            &#8608;Cleaning Equipment delivered.
+                        </div>
+                        <div>
+                            &#8608;As per contract terms, if the full contract amount including variation orders is not settled on time the
+                        </div>
+                        <div>
+                            &#8608;warranty for the installation will be cancelled.
+                        </div>
+                        <div>
+                            &#8608;Should you experience a technical problem please do not hesitate to contact us on
+                        </div>
+                    </div>
+                    <div class="col-1"/>
+                </div>
+                <br/>
+
+                <div class="row" style="font-size:17px">
+                    <div class="col-1"/>
+                    <div class="col-4">
+                        <strong>For Atlas Blue</strong>
+                        <br/>
+                        <br/>
+                        <strong>Name:</strong>
+                        <br/>
+                        <br/>
+                        <strong>Date:</strong>
+                        <br/>
+                        <br/>
+                        <strong>Signature:_____________</strong>
+                    </div>
+                    <div class="col-1"/>
+                    <div class="col-4">
+                        <strong>For Client</strong>
+                        <br/>
+                        <br/>
+                        <strong>Name:</strong>
+                        <br/>
+                        <br/>
+                        <strong>Date:</strong>
+                        <br/>
+                        <br/>
+                        <strong>Signature:_____________</strong>
+                    </div>
+                    <div class="col-2"/>
+                </div>
+            </div>
+        </t>
+    </template>
+
+    <template id="report_project_swimming_pool_latter_tmpl">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <t t-call="sale_boq_report.report_project_swimming_pool_latter" t-lang="doc.partner_id.lang"/>
+            </t>
+        </t>
+    </template>
+
+    <record id="paperformat_latter" model="report.paperformat">
+        <field name="name">Swimming Pool</field>
+        <field name="default" eval="True"/>
+        <field name="format">A4</field>
+        <field name="page_height">0</field>
+        <field name="page_width">0</field>
+        <field name="orientation">Portrait</field>
+        <field name="margin_top">15</field>
+        <field name="margin_bottom">15</field>
+        <field name="margin_left">7</field>
+        <field name="margin_right">7</field>
+        <field name="header_line" eval="False"/>
+        <field name="header_spacing">70</field>
+        <field name="dpi">90</field>
+    </record>
+
+    <record id="action_report_project_swimming_pool_latter_tmpl" model="ir.actions.report">
+        <field name="name">Atlas Handover letter-Pool</field>
+        <field name="model">project.project</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">sale_boq_report.report_project_swimming_pool_latter_tmpl</field>
+        <field name="report_file">sale_boq_report.report_project_swimming_pool_latter_tmpl</field>
+        <field name="paperformat_id" ref="sale_boq_report.paperformat_latter"/>
+        <field name="print_report_name">(object.state in ('draft', 'sent') and 'Swimming Pool - %s' % (object.name)) or 'Swimming Pool - %s' % (object.name)</field>
+        <field name="binding_model_id" ref="project.model_project_project"/>
+        <field name="binding_type">report</field>
+    </record>
+
+    <record id="action_report_project_Spa_latter_tmpl" model="ir.actions.report">
+        <field name="name">Atlas Handover letter - Spa</field>
+        <field name="model">project.project</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">sale_boq_report.report_project_swimming_pool_latter_tmpl</field>
+        <field name="report_file">sale_boq_report.report_project_swimming_pool_latter_tmpl</field>
+        <field name="paperformat_id" ref="sale_boq_report.paperformat_latter"/>
+        <field name="print_report_name">(object.state in ('draft', 'sent') and 'Swimming Pool - %s' % (object.name)) or 'Swimming Pool - %s' % (object.name)</field>
+        <field name="binding_model_id" ref="project.model_project_project"/>
+        <field name="binding_type">report</field>
+    </record>
+
+</odoo>
