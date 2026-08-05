@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="email_template_checklist_report" model="mail.template">
+            <field name="name">Project: Project Checklist Report</field>
+            <field name="model_id" ref="atlas_checklist.model_project_checklist"/>
+            <field name="email_from">noreply@atlasblue.me</field>
+            <field name="email_to">{{ object.projects_id.partner_id.email }}</field>
+            <field name="subject">Checklist Report for Project: {{ object.projects_id.name }}</field>
+            <field name="body_html" type="html">
+                <div style="margin: 0px; padding: 0px;">
+                    <p style="margin: 0px; padding: 0px; font-size: 13px;">
+                        Dear <t t-out="object.projects_id.partner_id.name or 'Customer'">Customer</t>,
+                        <br/>
+                        We hope this email finds you well. We would like to inform you that our team has successfully completed the service visit for your swimming pool today.
+                        We appreciate your continued trust in our services.
+                        <br/>
+                        We have attached the service report for your reference. The report contains details of the work performed, chemicals levels during the service visit
+                        and added chemicals.
+                        <br/>
+                        We kindly remind you that regular servicing plays a vital role in keeping your swimming pool in optimal condition.
+                        <br/>
+                        <br/>
+                        If you have any issue, kindly contact our service department on 1804666, and they will assist you accordingly.
+                        <br/>
+                        Best regards,
+                    </p>
+                </div>
+            </field>
+        </record>
+
+    </data>
+</odoo>

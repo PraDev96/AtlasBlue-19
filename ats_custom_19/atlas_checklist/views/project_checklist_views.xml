@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- PROJECT CHECKLIST FORM VIEW -->
+    <record id="project_checklist_form_view" model="ir.ui.view">
+        <field name="name">project.checklist.form</field>
+        <field name="model">project.checklist</field>
+        <field name="arch" type="xml">
+            <form string="Project Checklist" create='0' edit='0' delete="0">
+                <sheet>
+                    <field name="active" invisible="1"/>
+                    <group>
+                        <group>
+                            <field name="projects_id"/>
+                            <field name="task_id"/>
+                            <field name="date"/>
+                            <field name="employee_id"/>
+                        </group>
+                        <group name="swimming_pool" string="Swimming Pool">
+                            <field name="vacuum_pool"/>
+                            <field name="brush_pool"/>
+                            <field name="skim_pool"/>
+                            <field name="clean_skimmer_overflow"/>
+                            <field name="clean_deck_area"/>
+                        </group>
+                        <group name="machine_room" string="Machine Room">
+                            <field name="back_wash_filter_before"/>
+                            <field name="back_wash_filter_after"/>
+                            <field name="clean_pump_strainer"/>
+                            <field name="clean_machine_room"/>
+                            <field name="clean_balance_tank"/>
+                        </group>
+                        <group name="water_chemistry" string="Water Chemistry">
+                            <field name="water_temperature"/>
+                            <field name="free_chlorin_level"/>
+                            <field name="ph_level"/>
+                            <field name="total_alkalinity"/>
+                            <field name="cyanuric_acid"/>
+                            <field name="calcium_hardness"/>
+                            <field name="total_chlorine"/>
+                            <field name="salinity"/>
+                            <field name="tds"/>
+                        </group>
+                        <group name="signature" string="Signature">
+                            <field name="signed_by"/>
+                            <field name="signed_on"/>
+                            <field name="signature" widget="image"/>
+                            <field name='mail_sent_done' force_save="1"/>
+                        </group>
+                    </group>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <!-- PROJECT CHECKLIST TREE VIEW -->
+    <record id="project_checklist_tree_view" model="ir.ui.view">
+        <field name="name">project_checklist_tree_view</field>
+        <field name="model">project.checklist</field>
+        <field name="arch" type="xml">
+            <list string="Checklist" create="0" delete="0">
+                <field name="projects_id"/>
+                <field name="task_id"/>
+                <field name="employee_id"/>
+                <field name="date"/>
+                <field name="signed_by"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- CHECKLIST CHECKLIST ITEM SEARCH VIEW -->
+    <record id="project_checklist_search_view" model="ir.ui.view">
+        <field name="name">project_checklist_search_view</field>
+        <field name="model">project.checklist</field>
+        <field name="arch" type="xml">
+            <search string="Checklist">
+                <field name="projects_id"/>
+                <field name="task_id"/>
+                <field name="employee_id"/>
+                <field name="signed_by"/>
+                <filter string="Date" name="date" date="date"/>
+                <separator/>
+                <group expand="0" string="Group By">
+                    <filter name="group_project" string="Project" domain="[]" context="{'group_by': 'projects_id'}"/>
+                    <filter name="group_task" string="Task" domain="[]" context="{'group_by': 'task_id'}"/>
+                    <separator/>
+                    <filter string="Employee" name="group_employee" context="{'group_by': 'employee_id'}"/>
+                    <filter string="Signed By" name="group_signed_by" context="{'group_by': 'signed_by'}"/>
+                    <separator/>
+                    <filter string="Signed On" name="group_signed_om" context="{'group_by': 'signed_on'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- PROJECT CHECKLIST ACTION -->
+    <record id="action_project_checklist" model="ir.actions.act_window">
+        <field name="name">Project Checklist</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">project.checklist</field>
+        <field name="search_view_id" ref="project_checklist_search_view"/>
+        <field name="view_mode">list,form</field>
+        <field name="view_ids" eval="[(5, 0, 0),
+            (0, 0, {'view_mode': 'list', 'view_id': ref('project_checklist_tree_view')}),
+            (0, 0, {'view_mode': 'form', 'view_id': ref('project_checklist_form_view')})]"/>
+    </record>
+
+</odoo>
