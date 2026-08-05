@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_order_form_inherit_project_sale" model="ir.ui.view">
+        <field name="name">sale.order.inherit.altas.base</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//notebook/page/field[@name='order_line']" position="before">
+                <div>
+                    <label for="so_line_ids"/>
+                    <field name="so_line_ids" widget="many2many_tags"/>
+                </div>
+            </xpath>
+
+        </field>
+    </record>
+
+    <record id="sale_order_line_tree_inherit_product_line" model="ir.ui.view">
+        <field name="name">sale.order.line.tree.inherit.product.line</field>
+        <field name="model">sale.order.line</field>
+        <field name="inherit_id" ref="sale.view_order_line_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='order_partner_id']" position="after">
+                <field name="product_id"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="sale_order_line_search_inherit_product_line" model="ir.ui.view">
+        <field name="name">sale.order.line.search.inherit.product.line</field>
+        <field name="model">sale.order.line</field>
+        <field name="inherit_id" ref="sale.view_sales_order_line_filter"/>
+        <field name="arch" type="xml">
+            <xpath expr="//filter[@name='to_invoice']" position="before">
+                <filter name="only_product_lines" help="Ignored Sections and Notes"
+                        string="Product Lines" domain="[('display_type', 'not in', ('line_section', 'line_note'))]"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="action_sale_order_line" model="ir.actions.act_window">
+        <field name="name">Sale Orders Lines</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">sale.order.line</field>
+        <field name="view_mode">tree,form,kanban</field>
+        <field name="context">{'default__only_product_lines': 1}</field>
+    </record>
+
+    <menuitem id="menu_sale_order_line"
+              name="Sale Orders Lines"
+              action="action_sale_order_line"
+              parent="sale.sale_order_menu"/>
+
+</odoo>

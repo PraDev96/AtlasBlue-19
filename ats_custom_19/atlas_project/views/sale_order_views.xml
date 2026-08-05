@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="sale.action_quotations_with_onboarding" model="ir.actions.act_window">
+        <field name="name">Quotations</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">sale.order</field>
+        <field name="view_id" ref="sale.view_quotation_tree_with_onboarding"/>
+        <field name="view_mode">tree,kanban,form,calendar,pivot,graph,activity</field>
+        <field name="search_view_id" ref="sale.sale_order_view_search_inherit_quotation"/>
+        <field name="context">{'search_default_my_quotation': 1, 'create': False}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Create a new quotation, the first step of a new sale!</p>
+            <p>
+                Once the quotation is confirmed by the customer, it becomes a sales order.
+                <br/>
+                You will be able to create an invoice and collect the payment.
+            </p>
+        </field>
+    </record>
+
+    <record id="sale.action_orders" model="ir.actions.act_window">
+        <field name="name">Sales Orders</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">sale.order</field>
+        <field name="view_mode">tree,kanban,form,calendar,pivot,graph,activity</field>
+        <field name="search_view_id" ref="sale.sale_order_view_search_inherit_sale"/>
+        <field name="context">{'create': False}</field>
+        <field name="domain">[('state', 'not in', ('draft', 'sent', 'cancel'))]</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Create a new quotation, the first step of a new sale!</p>
+            <p>
+                Once the quotation is confirmed, it becomes a sales order.
+                <br/>
+                You will be able to create an invoice and collect the payment.
+            </p>
+        </field>
+    </record>
+
+    <record id="sale_quotation_tree_inherit_remove_duplicate" model="ir.ui.view">
+        <field name="name">sale.quotation.tree.inherit.remove.duplicate</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_quotation_tree_with_onboarding"/>
+        <field name="arch" type="xml">
+            <xpath expr="//tree" position="attributes">
+                <attribute name="duplicate">false</attribute>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="sale_order_tree_inherit_remove_duplicate" model="ir.ui.view">
+        <field name="name">sale.order.tree.inherit.remove.duplicate</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//tree" position="attributes">
+                <attribute name="duplicate">false</attribute>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="sale_order_view_inherited" model="ir.ui.view">
+        <field name="name">view_sale_order_inherited_form</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//form" position="attributes">
+                <attribute name="duplicate">false</attribute>
+            </xpath>
+            <xpath expr="//field[@name='client_order_ref']" position="after">
+                <field name="is_image"/>
+                <field name="is_subtotal"/>
+            </xpath>
+            <field name="fiscal_position_id" position="after">
+                <field name="is_contract_signed"/>
+                <field name="contract_sign_user_id"/>
+                <field name="contract_sign_dt"/>
+            </field>
+            <xpath expr="//header" position="inside">
+                <button name="action_sign_contract" type="object" string="Sign Contract" invisible="is_contract_signed == True"/>
+                <button name="action_manual_sent" type="object" string="Manually Sent" invisible="state != 'draft'"/>
+                <button name="duplicate_me" type="object" string="Duplicate"/>
+            </xpath>
+            <field name="project_id" position="after">
+                <field name="day_ids" widget="many2many_tags" invisible="opportunity_type != 'service'"/>
+                <field name="number_of_days_per_week" invisible="opportunity_type != 'service'"/>
+            </field>
+
+            <notebook position="inside">
+                <page string="Details">
+                    <group>
+                        <field name="title"/>
+                        <field name="summary"/>
+                    </group>
+                </page>
+            </notebook>
+
+            <xpath expr="//field[@name='order_line']/tree/field[@name='tax_id']" position="attributes">
+                <attribute name="optional">hide</attribute>
+            </xpath>
+            <xpath expr="//field[@name='order_line']/tree/field[@name='price_subtotal']" position="attributes">
+                <attribute name="string">SubTotal</attribute>
+            </xpath>
+            <xpath expr="//button[@name='action_open_discount_wizard']" position="attributes">
+                <attribute name="invisible">state != 'draft'</attribute>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

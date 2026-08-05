@@ -1,0 +1,1335 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="timesheet_portal_task_inherit_civil_checklist" inherit_id="ats_hr_timesheet_limit.portal_my_task_inherit_timesheet_limit">
+        <xpath expr="." position="inside">
+            <style>
+                .checklist_number_field.is-invalid {
+                    border: 2px solid #dc3545 !important;
+                }
+            </style>
+        </xpath>
+
+        <xpath expr="//div[@id='input_atlas_checklist']" position="replace">
+            <t t-set="is_service" t-value="(task.project_id.project_type_id and task.project_id.project_type_id.name == 'Service') or task.project_id.opportunity_type == 'service' or task.checklist_type == 'service'"/>
+            <div style="padding: 15px;" id="input_atlas_checklist"
+                 t-attf-class="input_atlas_checklist {{'' if exist_rec and exist_rec.is_signature and is_service else 'd-none'}}"
+                 t-if="is_service">
+                <div class="row pt-1"><h3>Swimming Pool</h3></div>
+                <div class="row">
+                    <div class="col-12 col-md-6 pb-2">
+                        <div class="row d-flex flex-row-reverse">
+                            <div class="col-10 text-left flex-grow-0 pr-3"><label class="form-check-label fw-normal">Vacuum Pool</label></div>
+                            <div class="col-2 pl-md-0"><input type="checkbox" name="Vacuum Pool" class="vacuum_pool"/></div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-6 pb-2">
+                        <div class="row d-flex flex-row-reverse">
+                            <div class="col-10 text-left flex-grow-0 pr-3"><label class="form-check-label fw-normal">Clean Skimmer/Overflow</label></div>
+                            <div class="col-2 pl-md-0"><input type="checkbox" name="Clean Skimmer/Overflow" class="clean_skimmer_overflow"/></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12 col-md-6 pb-2">
+                        <div class="row d-flex flex-row-reverse">
+                            <div class="col-10 text-left flex-grow-0 pr-3"><label class="form-check-label fw-normal">Brush Pool</label></div>
+                            <div class="col-2 pl-md-0"><input type="checkbox" name="Brush Pool" class="brush_pool"/></div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-6 pb-2">
+                        <div class="row d-flex flex-row-reverse">
+                            <div class="col-10 text-left flex-grow-0 pr-3"><label class="form-check-label fw-normal">Skim Pool</label></div>
+                            <div class="col-2 pl-md-0"><input type="checkbox" name="Skim Pool" class="skim_pool"/></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12 col-md-6 pb-2">
+                        <div class="row d-flex flex-row-reverse">
+                            <div class="col-10 text-left flex-grow-0 pr-3"><label class="form-check-label fw-normal">Clean Deck Area</label></div>
+                            <div class="col-2 pl-md-0"><input type="checkbox" name="Clean Deck Area" class="clean_desk_area"/></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row pt-1"><h3>Machine Room</h3></div>
+                <div class="row">
+                    <div class="col-12 col-md-6 pb-2">
+                        <div class="row">
+                            <div class="col-5 flex-grow-0 pr-3"><label class="form-check-label fw-normal">Filter Pressure Before Backwash</label></div>
+                            <div class="col-7 pl-md-0"><input type="text" name="Filter Pressure Before Backwash" class="col-md-8 col-12 col-lg-8 back_wash_filter_before checklist_number_field"/></div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-6 pb-2">
+                        <div class="row">
+                            <div class="col-5 flex-grow-0 pr-3"><label class="form-check-label fw-normal">Filter Pressure After Backwash</label></div>
+                            <div class="col-7 pl-md-0"><input type="text" name="Filter Pressure After Backwash" class="col-md-8 col-12 col-lg-8 back_wash_filter_after checklist_number_field"/></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12 col-md-6 pb-2">
+                        <div class="row d-flex flex-row-reverse">
+                            <div class="col-10 text-left flex-grow-0 pr-3"><label class="form-check-label fw-normal">Clean Pump Strainer</label></div>
+                            <div class="col-2 pl-md-0"><input type="checkbox" name="Clean Pump Strainer" class="clean_pump_strainer"/></div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-6 pb-2">
+                        <div class="row d-flex flex-row-reverse">
+                            <div class="col-10 text-left flex-grow-0 pr-3"><label class="form-check-label fw-normal">Clean Machine Room</label></div>
+                            <div class="col-2 pl-md-0"><input type="checkbox" name="Clean Machine Room" class="clean_machine_room"/></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12 col-md-6 pb-2">
+                        <div class="row d-flex flex-row-reverse">
+                            <div class="col-10 text-left flex-grow-0 pr-3"><label class="form-check-label fw-normal">Clean Balance Tank</label></div>
+                            <div class="col-2 pl-md-0"><input type="checkbox" name="Clean Balance Tank" class="clean_balance_tank"/></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row pt-1"><h3>Water Chemistry</h3></div>
+                <div class="row">
+                    <div class="col-12 col-md-6 pb-2">
+                        <div class="row">
+                            <div class="col-5 flex-grow-0 pr-3"><label class="form-check-label fw-normal">Water Temperature</label></div>
+                            <div class="col-7 pl-md-0"><input type="number" name="Water Temperature" class="col-md-8 col-12 col-lg-8 water_temperature checklist_number_field"/></div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-6 pb-2">
+                        <div class="row">
+                            <div class="col-5 flex-grow-0 pr-3"><label class="form-check-label fw-normal">Total Alkalinity</label></div>
+                            <div class="col-7 pl-md-0"><input type="number" name="Total Alkalinity" class="col-md-8 col-12 col-lg-8 total_alkalinity checklist_number_field"/></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12 col-md-6 pb-2">
+                        <div class="row mb-1">
+                            <div class="col-5 flex-grow-0 pr-3"><label class="form-check-label fw-normal">Calcium Hardness</label></div>
+                            <div class="col-7 pl-md-0"><input type="number" name="Calcium Hardness" class="col-md-8 col-12 col-lg-8 calcium_hardness checklist_number_field"/></div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-6 pb-2">
+                        <div class="row">
+                            <div class="col-5 flex-grow-0 pr-3"><label class="form-check-label fw-normal">Free Chlorine Level</label></div>
+                            <div class="col-7 pl-md-0"><input type="number" name="Free Chlorine Level" class="col-md-8 col-12 col-lg-8 free_chlorin_level checklist_number_field"/></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12 col-md-6 pb-2">
+                        <div class="row mb-1">
+                            <div class="col-5 flex-grow-0 pr-3"><label class="form-check-label fw-normal">PH Level</label></div>
+                            <div class="col-7 pl-md-0"><input type="number" name="PH Level" class="col-md-8 col-12 col-lg-8 ph_level checklist_number_field"/></div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-6 pb-2">
+                        <div class="row">
+                            <div class="col-5 flex-grow-0 pr-3"><label class="form-check-label fw-normal">Cyanuric Acid</label></div>
+                            <div class="col-7 pl-md-0"><input type="number" name="Cyan-uric Acid" class="col-md-8 col-12 col-lg-8 cyanuric_Acid checklist_number_field"/></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12 col-md-6 pb-2">
+                        <div class="row mb-1">
+                            <div class="col-5 flex-grow-0 pr-3"><label class="form-check-label fw-normal">Total Chlorine</label></div>
+                            <div class="col-7 pl-md-0"><input type="number" name="Total Chlorine" class="col-md-8 col-12 col-lg-8 total_chlorine checklist_number_field"/></div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-6 pb-2">
+                        <div class="row">
+                            <div class="col-5 flex-grow-0 pr-3"><label class="form-check-label fw-normal">Salinity</label></div>
+                            <div class="col-7 pl-md-0"><input type="number" name="Salinity" class="col-md-8 col-12 col-lg-8 salinity checklist_number_field"/></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12 col-md-6 pb-2">
+                        <div class="row mb-1">
+                            <div class="col-5 flex-grow-0 pr-3"><label class="form-check-label fw-normal">TDS</label></div>
+                            <div class="col-7 pl-md-0"><input type="number" name="TDS" class="col-md-8 col-12 col-lg-8 tds checklist_number_field"/></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Different Types of Civil/Mechanical Project Checklists -->
+            <div style="padding: 15px;" id="input_atlas_civil_checklist"
+                 t-attf-class="input_atlas_checklist {{'' if exist_rec and exist_rec.is_signature and (task.is_checklist_task or task.checklist_type) and not task.project_task_checklist_ids else 'd-none'}}"
+                 t-if="(task.is_checklist_task or task.checklist_type) and not task.project_task_checklist_ids">
+                <!-- Concrete -->
+                <t t-if="task.checklist_type == 'concrete'">
+                    <div class="row pt-1"><h3>Concrete Works</h3></div>
+                    <div class="row">
+                        <div class="col-12 col-md-6 pb-2">
+                            <div class="row d-flex flex-row-reverse">
+                                <div class="col-10 text-left flex-grow-0 pr-3"><label class="fw-normal">Visiting Site &amp; Finishing Floor Level (By Client)</label></div>
+                                <div class="col-2 pl-md-0"><input type="checkbox" name="visit_site_and_finish_floor_level" class="visit_site_and_finish_floor_level"/></div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-6 pb-2">
+                            <div class="row d-flex flex-row-reverse">
+                                <div class="col-10 text-left flex-grow-0 pr-3"><label class="fw-normal">Excavation and Compaction</label></div>
+                                <div class="col-2 pl-md-0"><input type="checkbox" name="excavation_and_compaction" class="excavation_and_compaction"/></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 col-md-6 pb-2">
+                            <div class="row d-flex flex-row-reverse">
+                                <div class="col-10 text-left flex-grow-0 pr-3"><label class="fw-normal">Cement Block for Pool Layout</label></div>
+                                <div class="col-2 pl-md-0"><input type="checkbox" name="cement_block_for_pool_layout" class="cement_block_for_pool_layout"/></div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-6 pb-2">
+                            <div class="row d-flex flex-row-reverse">
+                                <div class="col-10 text-left flex-grow-0 pr-3"><label class="fw-normal">Casting the Clearance Concrete</label></div>
+                                <div class="col-2 pl-md-0"><input type="checkbox" name="casting_clearance_concrete" class="casting_clearance_concrete"/></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 col-md-6 pb-2">
+                            <div class="row d-flex flex-row-reverse">
+                                <div class="col-10 text-left flex-grow-0 pr-3"><label class="fw-normal">External Waterproofing &amp; Protection Mortar</label></div>
+                                <div class="col-2 pl-md-0"><input type="checkbox" name="external_waterproofing" class="external_waterproofing"/></div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-6 pb-2">
+                            <div class="row d-flex flex-row-reverse">
+                                <div class="col-10 text-left flex-grow-0 pr-3"><label class="fw-normal">Steel Reinforcement for the Floor</label></div>
+                                <div class="col-2 pl-md-0"><input type="checkbox" name="steel_reinforcement_for_floor" class="steel_reinforcement_for_floor"/></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 col-md-6 pb-2">
+                            <div class="row d-flex flex-row-reverse">
+                                <div class="col-10 text-left flex-grow-0 pr-3"><label class="fw-normal">Steel Reinforcement for the Walls</label></div>
+                                <div class="col-2 pl-md-0"><input type="checkbox" name="steel_reinforcement_for_walls" class="steel_reinforcement_for_walls"/></div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-6 pb-2">
+                            <div class="row d-flex flex-row-reverse">
+                                <div class="col-10 text-left flex-grow-0 pr-3"><label class="fw-normal">Casting Reinforcement for the Floor</label></div>
+                                <div class="col-2 pl-md-0"><input type="checkbox" name="casting_reinforcement_concrete_floor" class="casting_reinforcement_concrete_floor"/></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 col-md-6 pb-2">
+                            <div class="row d-flex flex-row-reverse">
+                                <div class="col-10 text-left flex-grow-0 pr-3"><label class="fw-normal">Form Work for the Walls</label></div>
+                                <div class="col-2 pl-md-0"><input type="checkbox" name="form_work_for_walls" class="form_work_for_walls"/></div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-6 pb-2">
+                            <div class="row d-flex flex-row-reverse">
+                                <div class="col-10 text-left flex-grow-0 pr-3"><label class="fw-normal">Casting Reinforcement for the Walls</label></div>
+                                <div class="col-2 pl-md-0"><input type="checkbox" name="casting_reinforcement_concrete_walls" class="casting_reinforcement_concrete_walls"/></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 col-md-6 pb-2">
+                            <div class="row d-flex flex-row-reverse">
+                                <div class="col-10 text-left flex-grow-0 pr-3"><label class="fw-normal">Remove Framework and Clean</label></div>
+                                <div class="col-2 pl-md-0"><input type="checkbox" name="remove_framework_and_clean" class="remove_framework_and_clean"/></div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-6 pb-2">
+                            <div class="row d-flex flex-row-reverse">
+                                <div class="col-10 text-left flex-grow-0 pr-3"><label class="fw-normal">Curing with Water(By Client)</label></div>
+                                <div class="col-2 pl-md-0"><input type="checkbox" name="curing_with_water" class="curing_with_water"/></div>
+                            </div>
+                        </div>
+                    </div>
+                </t>
+                <!-- Concrete END -->
+
+                <!-- Embedded Piping -->
+                <t t-if="task.checklist_type == 'embedded_piping'">
+                    <div class="row pt-1"><h3>Embedded Piping on the Floor and Wall</h3></div>
+                    <div class="row">
+                        <div class="col-12 col-md-6 pb-2">
+                            <div class="row">
+                                <div class="col-5"><label class="fw-normal">Floor Inlets</label></div>
+                                <div class="col-7"><input type="number" name="emp_floor_inlets" class="form-control emp_floor_inlets checklist_number_field"/></div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-6 pb-2">
+                            <div class="row">
+                                <div class="col-5"><label class="fw-normal">Vacuum Point</label></div>
+                                <div class="col-7"><input type="number" name="emp_vacuum_point" class="form-control emp_vacuum_point checklist_number_field"/></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 col-md-6 pb-2">
+                            <div class="row">
+                                <div class="col-5"><label class="fw-normal">Main Drain</label></div>
+                                <div class="col-7"><input type="number" name="emp_main_drain" class="form-control emp_main_drain checklist_number_field"/></div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-6 pb-2">
+                            <div class="row">
+                                <div class="col-5"><label class="fw-normal">Tank Suction</label></div>
+                                <div class="col-7"><input type="number" name="emp_tank_suction" class="form-control emp_tank_suction checklist_number_field"/></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 col-md-6 pb-2">
+                            <div class="row">
+                                <div class="col-5"><label class="fw-normal">Wall Suction</label></div>
+                                <div class="col-7"><input type="number" name="emp_wall_suction" class="form-control emp_wall_suction checklist_number_field"/></div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-6 pb-2">
+                            <div class="row">
+                                <div class="col-5"><label class="fw-normal">Filling Lines</label></div>
+                                <div class="col-7"><input type="number" name="emp_filling_lines" class="form-control emp_filling_lines checklist_number_field"/></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 col-md-6 pb-2">
+                            <div class="row">
+                                <div class="col-5"><label class="fw-normal">Electrical Supply</label></div>
+                                <div class="col-7"><input type="number" name="emp_electrical_supply" class="form-control emp_electrical_supply checklist_number_field"/></div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-6 pb-2">
+                            <div class="row">
+                                <div class="col-5"><label class="fw-normal">Skimmer</label></div>
+                                <div class="col-7"><input type="number" name="emp_skimmer" class="form-control emp_skimmer checklist_number_field"/></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 col-md-6 pb-2">
+                            <div class="row">
+                                <div class="col-5"><label class="fw-normal">Lights (Big)</label></div>
+                                <div class="col-7"><input type="number" name="emp_big_lights" class="form-control emp_big_lights checklist_number_field"/></div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-6 pb-2">
+                            <div class="row">
+                                <div class="col-5"><label class="fw-normal">Lights (Small)</label></div>
+                                <div class="col-7"><input type="number" name="emp_small_lights" class="form-control emp_small_lights checklist_number_field"/></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 col-md-6 pb-2">
+                            <div class="row">
+                                <div class="col-5"><label class="fw-normal">Jets</label></div>
+                                <div class="col-7"><input type="number" name="emp_jets" class="form-control emp_jets checklist_number_field"/></div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-6 pb-2">
+                            <div class="row">
+                                <div class="col-5"><label class="fw-normal">Sump Pit</label></div>
+                                <div class="col-7"><input type="number" name="emp_sump_pit" class="form-control emp_sump_pit checklist_number_field"/></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 col-md-6 pb-2">
+                            <div class="row">
+                                <div class="col-5"><label class="fw-normal">Drain Pipes</label></div>
+                                <div class="col-7"><input type="number" name="emp_drain_pipes" class="form-control emp_drain_pipes checklist_number_field"/></div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-6 pb-2">
+                            <div class="row">
+                                <div class="col-5"><label class="fw-normal">Location of Junction Box</label></div>
+                                <div class="col-7"><input type="number" name="emp_location_of_junction_box" class="form-control emp_location_of_junction_box checklist_number_field"/></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 col-md-6 pb-2">
+                            <div class="row">
+                                <div class="col-5"><label class="fw-normal">Air Regulator</label></div>
+                                <div class="col-7"><input type="number" name="emp_air_regulator" class="form-control emp_air_regulator checklist_number_field"/></div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-6 pb-2">
+                            <div class="row">
+                                <div class="col-5"><label class="fw-normal">Touch Switch</label></div>
+                                <div class="col-7"><input type="number" name="emp_touch_switch" class="form-control emp_touch_switch checklist_number_field"/></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 col-md-6 pb-2">
+                            <div class="row">
+                                <div class="col-5"><label class="fw-normal">Control Switch</label></div>
+                                <div class="col-7"><input type="number" name="emp_control_switch" class="form-control emp_control_switch checklist_number_field"/></div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-6 pb-2">
+                            <div class="row">
+                                <div class="col-5"><label class="fw-normal">Water Descent</label></div>
+                                <div class="col-7"><input type="number" name="emp_water_descent" class="form-control emp_water_descent checklist_number_field"/></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 col-md-6 pb-2">
+                            <div class="row">
+                                <div class="col-5"><label class="fw-normal">Overflow with Drain</label></div>
+                                <div class="col-7"><input type="number" name="emp_overflow_with_drain" class="form-control emp_overflow_with_drain checklist_number_field"/></div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-6 pb-2">
+                            <div class="row">
+                                <div class="col-5"><label class="fw-normal">Ventilation Pipes</label></div>
+                                <div class="col-7"><input type="number" name="emp_ventilation_pipes" class="form-control emp_ventilation_pipes checklist_number_field"/></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 col-md-6 pb-2">
+                            <div class="row">
+                                <div class="col-5"><label class="fw-normal">Location of Control Switch</label></div>
+                                <div class="col-7"><input type="number" name="emp_location_of_control_switch" class="form-control emp_location_of_control_switch checklist_number_field"/></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 col-md-6 pb-2">
+                            <div class="row">
+                                <div class="col-5"><label class="fw-normal">Initial Pressure Test Reading</label></div>
+                                <div class="col-7"><input type="number" name="emp_initial_pressure_test_reading" class="form-control emp_initial_pressure_test_reading checklist_number_field"/></div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-6 pb-2">
+                            <div class="row">
+                                <div class="col-5"><label class="fw-normal">Final Pressure Test Reading</label></div>
+                                <div class="col-7"><input type="number" name="emp_final_pressure_test_reading" class="form-control emp_final_pressure_test_reading checklist_number_field"/></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 col-md-6 pb-2">
+                            <div class="row">
+                                <div class="col-5"><label class="fw-normal">Pool Size</label></div>
+                                <div class="col-7"><input type="number" name="emp_pool_size" class="form-control emp_pool_size checklist_number_field"/></div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-6 pb-2">
+                            <div class="row">
+                                <div class="col-5"><label class="fw-normal">SPA Size</label></div>
+                                <div class="col-7"><input type="number" name="emp_spa_size" class="form-control emp_spa_size checklist_number_field"/></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 col-md-6 pb-2">
+                            <div class="row d-flex flex-row-reverse">
+                                <div class="col-10 text-left flex-grow-0 pr-3"><label class="fw-normal">Pool Dimension as per Drawing</label></div>
+                                <div class="col-2 pl-md-0"><input type="checkbox" name="emp_pool_dimension_as_per_drawing" class="emp_pool_dimension_as_per_drawing"/></div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-6 pb-2">
+                            <div class="row d-flex flex-row-reverse">
+                                <div class="col-10 text-left flex-grow-0 pr-3"><label class="fw-normal">Informed to Client</label></div>
+                                <div class="col-2 pl-md-0"><input type="checkbox" name="emp_informed_to_client" class="emp_informed_to_client"/></div>
+                            </div>
+                        </div>
+                    </div>
+                </t>
+                <!-- Embedded Piping END -->
+
+                <!-- Work Before Waterproofing -->
+                <t t-if="task.checklist_type == 'work_before_waterproofing'">
+                    <div class="row pt-1"><h3>Work Before Waterproofing</h3></div>
+                    <div class="row">
+                        <div class="col-12 col-md-6 pb-2">
+                            <div class="row">
+                                <div class="col-5"><label class="fw-normal">Floor Inlets</label></div>
+                                <div class="col-7"><input type="number" name="wbw_floor_inlets" class="form-control wbw_floor_inlets checklist_number_field"/></div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-6 pb-2">
+                            <div class="row">
+                                <div class="col-5"><label class="fw-normal">Vacuum Point</label></div>
+                                <div class="col-7"><input type="number" name="wbw_vacuum_point" class="form-control wbw_vacuum_point checklist_number_field"/></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 col-md-6 pb-2">
+                            <div class="row">
+                                <div class="col-5"><label class="fw-normal">Main Drain</label></div>
+                                <div class="col-7"><input type="number" name="wbw_main_drain" class="form-control wbw_main_drain checklist_number_field"/></div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-6 pb-2">
+                            <div class="row">
+                                <div class="col-5"><label class="fw-normal">Tank Suction</label></div>
+                                <div class="col-7"><input type="number" name="wbw_tank_suction" class="form-control wbw_tank_suction checklist_number_field"/></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 col-md-6 pb-2">
+                            <div class="row">
+                                <div class="col-5"><label class="fw-normal">Wall Suction</label></div>
+                                <div class="col-7"><input type="number" name="wbw_wall_suction" class="form-control wbw_wall_suction checklist_number_field"/></div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-6 pb-2">
+                            <div class="row">
+                                <div class="col-5"><label class="fw-normal">Filling Lines</label></div>
+                                <div class="col-7"><input type="number" name="wbw_filling_lines" class="form-control wbw_filling_lines checklist_number_field"/></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 col-md-6 pb-2">
+                            <div class="row">
+                                <div class="col-5"><label class="fw-normal">Electrical Supply</label></div>
+                                <div class="col-7"><input type="number" name="wbw_electrical_supply" class="form-control wbw_electrical_supply checklist_number_field"/></div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-6 pb-2">
+                            <div class="row">
+                                <div class="col-5"><label class="fw-normal">Skimmer</label></div>
+                                <div class="col-7"><input type="number" name="wbw_skimmer" class="form-control wbw_skimmer checklist_number_field"/></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 col-md-6 pb-2">
+                            <div class="row">
+                                <div class="col-5"><label class="fw-normal">Lights (Big)</label></div>
+                                <div class="col-7"><input type="number" name="wbw_big_lights" class="form-control wbw_big_lights checklist_number_field"/></div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-6 pb-2">
+                            <div class="row">
+                                <div class="col-5"><label class="fw-normal">Lights (Small)</label></div>
+                                <div class="col-7"><input type="number" name="wbw_small_lights" class="form-control wbw_small_lights checklist_number_field"/></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 col-md-6 pb-2">
+                            <div class="row">
+                                <div class="col-5"><label class="fw-normal">Jets</label></div>
+                                <div class="col-7"><input type="number" name="wbw_jets" class="form-control wbw_jets checklist_number_field"/></div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-6 pb-2">
+                            <div class="row">
+                                <div class="col-5"><label class="fw-normal">Sump Pit</label></div>
+                                <div class="col-7"><input type="number" name="wbw_sump_pit" class="form-control wbw_sump_pit checklist_number_field"/></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 col-md-6 pb-2">
+                            <div class="row">
+                                <div class="col-5"><label class="fw-normal">Drain Pipes</label></div>
+                                <div class="col-7"><input type="number" name="wbw_drain_pipes" class="form-control wbw_drain_pipes checklist_number_field"/></div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-6 pb-2">
+                            <div class="row">
+                                <div class="col-5"><label class="fw-normal">Location of Junction Box</label></div>
+                                <div class="col-7"><input type="number" name="wbw_location_of_junction_box" class="form-control wbw_location_of_junction_box checklist_number_field"/></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 col-md-6 pb-2">
+                            <div class="row">
+                                <div class="col-5"><label class="fw-normal">Air Regulator</label></div>
+                                <div class="col-7"><input type="number" name="wbw_air_regulator" class="form-control wbw_air_regulator checklist_number_field"/></div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-6 pb-2">
+                            <div class="row">
+                                <div class="col-5"><label class="fw-normal">Touch Switch</label></div>
+                                <div class="col-7"><input type="number" name="wbw_touch_switch" class="form-control wbw_touch_switch checklist_number_field"/></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 col-md-6 pb-2">
+                            <div class="row">
+                                <div class="col-5"><label class="fw-normal">Control Switch</label></div>
+                                <div class="col-7"><input type="number" name="wbw_control_switch" class="form-control wbw_control_switch checklist_number_field"/></div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-6 pb-2">
+                            <div class="row">
+                                <div class="col-5"><label class="fw-normal">Water Descent</label></div>
+                                <div class="col-7"><input type="number" name="wbw_water_descent" class="form-control wbw_water_descent checklist_number_field"/></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 col-md-6 pb-2">
+                            <div class="row">
+                                <div class="col-5"><label class="fw-normal">Overflow with Drain</label></div>
+                                <div class="col-7"><input type="number" name="wbw_overflow_with_drain" class="form-control wbw_overflow_with_drain checklist_number_field"/></div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-6 pb-2">
+                            <div class="row">
+                                <div class="col-5"><label class="fw-normal">Ventilation Pipes</label></div>
+                                <div class="col-7"><input type="number" name="wbw_ventilation_pipes" class="form-control wbw_ventilation_pipes checklist_number_field"/></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 col-md-6 pb-2">
+                            <div class="row">
+                                <div class="col-5"><label class="fw-normal">Location of Control Switch</label></div>
+                                <div class="col-7"><input type="number" name="wbw_location_of_control_switch" class="form-control wbw_location_of_control_switch checklist_number_field"/></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 col-md-6 pb-2">
+                            <div class="row d-flex flex-row-reverse">
+                                <div class="col-10 text-left flex-grow-0 pr-3"><label class="fw-normal">Pool Dimension as per Drawing</label></div>
+                                <div class="col-2 pl-md-0"><input type="checkbox" name="wbw_pool_dimension_as_per_drawing" class="wbw_pool_dimension_as_per_drawing"/></div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-6 pb-2">
+                            <div class="row d-flex flex-row-reverse">
+                                <div class="col-10 text-left flex-grow-0 pr-3"><label class="fw-normal">Informed to Client</label></div>
+                                <div class="col-2 pl-md-0"><input type="checkbox" name="wbw_informed_to_client" class="wbw_informed_to_client"/></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 col-md-6 pb-2">
+                            <div class="row">
+                                <div class="col-5"><label class="fw-normal">Initial Pressure Test Reading</label></div>
+                                <div class="col-7"><input type="number" name="wbw_initial_pressure_test_reading" class="form-control wbw_initial_pressure_test_reading checklist_number_field"/></div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-6 pb-2">
+                            <div class="row">
+                                <div class="col-5"><label class="fw-normal">Final Pressure Test Reading</label></div>
+                                <div class="col-7"><input type="number" name="wbw_final_pressure_test_reading" class="form-control wbw_final_pressure_test_reading checklist_number_field"/></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 col-md-6 pb-2">
+                            <div class="row">
+                                <div class="col-5"><label class="fw-normal">Pool Size</label></div>
+                                <div class="col-7"><input type="number" name="wbw_pool_size" class="form-control wbw_pool_size checklist_number_field"/></div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-6 pb-2">
+                            <div class="row">
+                                <div class="col-5"><label class="fw-normal">SPA Size</label></div>
+                                <div class="col-7"><input type="number" name="wbw_spa_size" class="form-control wbw_spa_size checklist_number_field"/></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 col-md-6 pb-2">
+                            <div class="row d-flex flex-row-reverse">
+                                <div class="col-10 text-left flex-grow-0 pr-3"><label class="fw-normal">BackWash</label></div>
+                                <div class="col-2 pl-md-0"><input type="checkbox" name="wbw_backwash" class="wbw_backwash"/></div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-6 pb-2">
+                            <div class="row d-flex flex-row-reverse">
+                                <div class="col-10 text-left flex-grow-0 pr-3"><label class="fw-normal">Ventilation</label></div>
+                                <div class="col-2 pl-md-0"><input type="checkbox" name="wbw_ventilation" class="wbw_ventilation"/></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 col-md-6 pb-2">
+                            <div class="row d-flex flex-row-reverse">
+                                <div class="col-10 text-left flex-grow-0 pr-3"><label class="fw-normal">Filling Line</label></div>
+                                <div class="col-2 pl-md-0"><input type="checkbox" name="wbw_filling_line" class="wbw_filling_line"/></div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-6 pb-2">
+                            <div class="row d-flex flex-row-reverse">
+                                <div class="col-10 text-left flex-grow-0 pr-3"><label class="fw-normal">Electrical Supply</label></div>
+                                <div class="col-2 pl-md-0"><input type="checkbox" name="wbw_is_electrical_supply" class="wbw_is_electrical_supply"/></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 col-md-6 pb-2">
+                            <div class="row d-flex flex-row-reverse">
+                                <div class="col-10 text-left flex-grow-0 pr-3"><label class="fw-normal">Summit Pit</label></div>
+                                <div class="col-2 pl-md-0"><input type="checkbox" name="wbw_summit_pit" class="wbw_summit_pit"/></div>
+                            </div>
+                        </div>
+                    </div>
+                </t>
+                <!-- Work Before Waterproofing END -->
+
+                <!-- Waterproofing -->
+                <t t-if="task.checklist_type == 'waterproofing'">
+                    <div class="row pt-1"><h3>Waterproofing Works</h3></div>
+                    <div class="row">
+                        <div class="col-12 col-md-6 pb-2">
+                            <div class="row d-flex flex-row-reverse">
+                                <div class="col-10 text-left flex-grow-0 pr-3"><label class="fw-normal">Visiting Site &amp; Finishing Floor Level (By Client)</label></div>
+                                <div class="col-2 pl-md-0"><input type="checkbox" name="wp_visit_site_and_finish_floor_level" class="wp_visit_site_and_finish_floor_level"/></div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-6 pb-2">
+                            <div class="row d-flex flex-row-reverse">
+                                <div class="col-10 text-left flex-grow-0 pr-3"><label class="fw-normal">Site Preparation</label></div>
+                                <div class="col-2 pl-md-0"><input type="checkbox" name="site_preparation" class="site_preparation"/></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 col-md-6 pb-2">
+                            <div class="row d-flex flex-row-reverse">
+                                <div class="col-10 text-left flex-grow-0 pr-3"><label class="fw-normal">First Layer of Waterproofing</label></div>
+                                <div class="col-2 pl-md-0"><input type="checkbox" name="first_layer_waterproofing" class="first_layer_waterproofing"/></div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-6 pb-2">
+                            <div class="row d-flex flex-row-reverse">
+                                <div class="col-10 text-left flex-grow-0 pr-3"><label class="fw-normal">Second Layer of Waterproofing</label></div>
+                                <div class="col-2 pl-md-0"><input type="checkbox" name="second_layer_waterproofing" class="second_layer_waterproofing"/></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 col-md-6 pb-2">
+                            <div class="row d-flex flex-row-reverse">
+                                <div class="col-10 text-left flex-grow-0 pr-3"><label class="fw-normal">Water Filling (By Client)</label></div>
+                                <div class="col-2 pl-md-0"><input type="checkbox" name="water_filling" class="water_filling"/></div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-6 pb-2">
+                            <div class="row d-flex flex-row-reverse">
+                                <div class="col-10 text-left flex-grow-0 pr-3"><label class="fw-normal">First Reading</label></div>
+                                <div class="col-2 pl-md-0"><input type="checkbox" name="first_reading" class="first_reading"/></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 col-md-6 pb-2">
+                            <div class="row d-flex flex-row-reverse">
+                                <div class="col-10 text-left flex-grow-0 pr-3"><label class="fw-normal">Second Reading</label></div>
+                                <div class="col-2 pl-md-0"><input type="checkbox" name="second_reading" class="second_reading"/></div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-6 pb-2">
+                            <div class="row d-flex flex-row-reverse">
+                                <div class="col-10 text-left flex-grow-0 pr-3"><label class="fw-normal">Final Reading</label></div>
+                                <div class="col-2 pl-md-0"><input type="checkbox" name="final_reading" class="final_reading"/></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 col-md-6 pb-2">
+                            <div class="row d-flex flex-row-reverse">
+                                <div class="col-10 text-left flex-grow-0 pr-3"><label class="fw-normal">Waterproofing Test Approval</label></div>
+                                <div class="col-2 pl-md-0"><input type="checkbox" name="waterproofing_test_approval" class="waterproofing_test_approval"/></div>
+                            </div>
+                        </div>
+                    </div>
+                </t>
+                <!-- Waterproofing END -->
+
+                <!-- Acrylic -->
+                <t t-if="task.checklist_type == 'acrylic'">
+                    <div class="row pt-1"><h3>Acrylic Panel Checklist</h3></div>
+                    <div class="row">
+                        <div class="col-12 col-md-6 pb-2">
+                            <div class="row d-flex flex-row-reverse">
+                                <div class="col-10 text-left flex-grow-0 pr-3"><label class="fw-normal">Surface Condition (no cracks, chips, or discoloration)</label></div>
+                                <div class="col-2 pl-md-0"><input type="checkbox" name="surface_condition" class="surface_condition"/></div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-6 pb-2">
+                            <div class="row d-flex flex-row-reverse">
+                                <div class="col-10 text-left flex-grow-0 pr-3"><label class="fw-normal">Acrylic Joint Sealant Intact</label></div>
+                                <div class="col-2 pl-md-0"><input type="checkbox" name="acrylic_join_sealant_intact" class="acrylic_join_sealant_intact"/></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 col-md-6 pb-2">
+                            <div class="row d-flex flex-row-reverse">
+                                <div class="col-10 text-left flex-grow-0 pr-3"><label class="fw-normal">Adhesion to Substrate</label></div>
+                                <div class="col-2 pl-md-0"><input type="checkbox" name="adhesion_to_substrate" class="adhesion_to_substrate"/></div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-6 pb-2">
+                            <div class="row d-flex flex-row-reverse">
+                                <div class="col-10 text-left flex-grow-0 pr-3"><label class="fw-normal">No Sign of Water Leakage or Moisture</label></div>
+                                <div class="col-2 pl-md-0"><input type="checkbox" name="no_sign_of_water_leakage_or_moisture" class="no_sign_of_water_leakage_or_moisture"/></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 col-md-6 pb-2">
+                            <div class="row d-flex flex-row-reverse">
+                                <div class="col-10 text-left flex-grow-0 pr-3"><label class="fw-normal">No Surface Stain or Build-Up</label></div>
+                                <div class="col-2 pl-md-0"><input type="checkbox" name="no_surface_stain_or_build_up" class="no_surface_stain_or_build_up"/></div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-6 pb-2">
+                            <div class="row d-flex flex-row-reverse">
+                                <div class="col-10 text-left flex-grow-0 pr-3"><label class="fw-normal">Structural Support Stable (no movement or deflection)</label></div>
+                                <div class="col-2 pl-md-0"><input type="checkbox" name="structural_support_stable" class="structural_support_stable"/></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 col-md-6 pb-2">
+                            <div class="row d-flex flex-row-reverse">
+                                <div class="col-10 text-left flex-grow-0 pr-3"><label class="fw-normal">Proper Drainage (if applicable)</label></div>
+                                <div class="col-2 pl-md-0"><input type="checkbox" name="proper_drainage" class="proper_drainage"/></div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-6 pb-2">
+                            <div class="row d-flex flex-row-reverse">
+                                <div class="col-10 text-left flex-grow-0 pr-3"><label class="fw-normal">Cleaning and Maintenance Instruction Provided to Client</label></div>
+                                <div class="col-2 pl-md-0"><input type="checkbox" name="cleaning_and_maintenance_instruction" class="cleaning_and_maintenance_instruction"/></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 col-md-6 pb-2">
+                            <div class="row d-flex flex-row-reverse">
+                                <div class="col-10 text-left flex-grow-0 pr-3"><label class="fw-normal">Any Repair Done in the Past Year</label></div>
+                                <div class="col-2 pl-md-0"><input type="checkbox" name="any_repair_done_in_the_past_year" class="any_repair_done_in_the_past_year"/></div>
+                            </div>
+                        </div>
+                    </div>
+                </t>
+                <!-- Acrylic END -->
+
+                <!-- Tiling -->
+                <t t-if="task.checklist_type == 'tiling'">
+                    <div class="row pt-1"><h3>Tiling Works</h3></div>
+                    <div class="row">
+                        <div class="col-12 col-md-6 pb-2">
+                            <div class="row d-flex flex-row-reverse">
+                                <div class="col-10 text-left flex-grow-0 pr-3"><label class="fw-normal">Tiling Visit the Site</label></div>
+                                <div class="col-2 pl-md-0"><input type="checkbox" name="tl_visit_site" class="tl_visit_site"/></div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-6 pb-2">
+                            <div class="row d-flex flex-row-reverse">
+                                <div class="col-10 text-left flex-grow-0 pr-3"><label class="fw-normal">Finish Floor Level (By Client)</label></div>
+                                <div class="col-2 pl-md-0"><input type="checkbox" name="finish_floor_level" class="finish_floor_level"/></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 col-md-6 pb-2">
+                            <div class="row d-flex flex-row-reverse">
+                                <div class="col-10 text-left flex-grow-0 pr-3"><label class="fw-normal">Closing Pipes</label></div>
+                                <div class="col-2 pl-md-0"><input type="checkbox" name="closing_pipes" class="closing_pipes"/></div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-6 pb-2">
+                            <div class="row d-flex flex-row-reverse">
+                                <div class="col-10 text-left flex-grow-0 pr-3"><label class="fw-normal">Waterproofing</label></div>
+                                <div class="col-2 pl-md-0"><input type="checkbox" name="tl_waterproofing" class="tl_waterproofing"/></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 col-md-6 pb-2">
+                            <div class="row d-flex flex-row-reverse">
+                                <div class="col-10 text-left flex-grow-0 pr-3"><label class="fw-normal">Pool Testing</label></div>
+                                <div class="col-2 pl-md-0"><input type="checkbox" name="pool_testing" class="pool_testing"/></div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-6 pb-2">
+                            <div class="row d-flex flex-row-reverse">
+                                <div class="col-10 text-left flex-grow-0 pr-3"><label class="fw-normal">Tiles Approval</label></div>
+                                <div class="col-2 pl-md-0"><input type="checkbox" name="tiles_approval" class="tiles_approval"/></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 col-md-6 pb-2">
+                            <div class="row d-flex flex-row-reverse">
+                                <div class="col-10 text-left flex-grow-0 pr-3"><label class="fw-normal">Tiles Delivery</label></div>
+                                <div class="col-2 pl-md-0"><input type="checkbox" name="tiles_delivery" class="tiles_delivery"/></div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-6 pb-2">
+                            <div class="row d-flex flex-row-reverse">
+                                <div class="col-10 text-left flex-grow-0 pr-3"><label class="fw-normal">Splashing / Curing</label></div>
+                                <div class="col-2 pl-md-0"><input type="checkbox" name="splashing_curing" class="splashing_curing"/></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 col-md-6 pb-2">
+                            <div class="row d-flex flex-row-reverse">
+                                <div class="col-10 text-left flex-grow-0 pr-3"><label class="fw-normal">Plastering / Curing</label></div>
+                                <div class="col-2 pl-md-0"><input type="checkbox" name="plastering_curing" class="plastering_curing"/></div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-6 pb-2">
+                            <div class="row d-flex flex-row-reverse">
+                                <div class="col-10 text-left flex-grow-0 pr-3"><label class="fw-normal">Tiles Laying / Coping / Mech Room</label></div>
+                                <div class="col-2 pl-md-0"><input type="checkbox" name="tiles_laying" class="tiles_laying"/></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 col-md-6 pb-2">
+                            <div class="row d-flex flex-row-reverse">
+                                <div class="col-10 text-left flex-grow-0 pr-3"><label class="fw-normal">Grouting / Pool / Mech Room</label></div>
+                                <div class="col-2 pl-md-0"><input type="checkbox" name="grouting" class="grouting"/></div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-6 pb-2">
+                            <div class="row d-flex flex-row-reverse">
+                                <div class="col-10 text-left flex-grow-0 pr-3"><label class="fw-normal">Overflow Level</label></div>
+                                <div class="col-2 pl-md-0"><input type="checkbox" name="overflow_level" class="overflow_level"/></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 col-md-6 pb-2">
+                            <div class="row d-flex flex-row-reverse">
+                                <div class="col-10 text-left flex-grow-0 pr-3"><label class="fw-normal">Tiling Area as per Contract</label></div>
+                                <div class="col-2 pl-md-0"><input type="checkbox" name="tiling_area_as_per_contract" class="tiling_area_as_per_contract"/></div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-6 pb-2">
+                            <div class="row d-flex flex-row-reverse">
+                                <div class="col-10 text-left flex-grow-0 pr-3"><label class="fw-normal">Actual Area of Tiling</label></div>
+                                <div class="col-2 pl-md-0"><input type="checkbox" name="actual_area_of_tiling" class="actual_area_of_tiling"/></div>
+                            </div>
+                        </div>
+                    </div>
+                </t>
+                <!-- Tiling END -->
+
+                <!-- EQSI -->
+                <t t-if="task.checklist_type == 'eqsi'">
+                    <div class="row pt-1"><h3>EQSI</h3></div>
+                    <div class="row">
+                        <div class="col-12 col-md-6 pb-2">
+                            <div class="row">
+                                <div class="col-5"><label class="fw-normal">Filter</label></div>
+                                <div class="col-7"><input type="number" name="eq_filter" class="form-control eq_filter checklist_number_field"/></div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-6 pb-2">
+                            <div class="row">
+                                <div class="col-5"><label class="fw-normal">Pump</label></div>
+                                <div class="col-7"><input type="number" name="eq_pump" class="form-control eq_pump checklist_number_field"/></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 col-md-6 pb-2">
+                            <div class="row">
+                                <div class="col-5"><label class="fw-normal">Heater</label></div>
+                                <div class="col-7"><input type="number" name="eq_heater" class="form-control eq_heater checklist_number_field"/></div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-6 pb-2">
+                            <div class="row">
+                                <div class="col-5"><label class="fw-normal">Jacuzzi</label></div>
+                                <div class="col-7"><input type="number" name="eq_jacuzzi" class="form-control eq_jacuzzi checklist_number_field"/></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 col-md-6 pb-2">
+                            <div class="row">
+                                <div class="col-5"><label class="fw-normal">Transformer</label></div>
+                                <div class="col-7"><input type="number" name="eq_transformer" class="form-control eq_transformer checklist_number_field"/></div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-6 pb-2">
+                            <div class="row">
+                                <div class="col-5"><label class="fw-normal">Ozone / U.V</label></div>
+                                <div class="col-7"><input type="number" name="eq_ozone" class="form-control eq_ozone checklist_number_field"/></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 col-md-6 pb-2">
+                            <div class="row">
+                                <div class="col-5"><label class="fw-normal">Ladder</label></div>
+                                <div class="col-7"><input type="number" name="eq_ladder" class="form-control eq_ladder checklist_number_field"/></div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-6 pb-2">
+                            <div class="row">
+                                <div class="col-5"><label class="fw-normal">Sump. Pump</label></div>
+                                <div class="col-7"><input type="number" name="eq_sump_pump" class="form-control eq_sump_pump checklist_number_field"/></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 col-md-6 pb-2">
+                            <div class="row">
+                                <div class="col-5"><label class="fw-normal">Chlorinator</label></div>
+                                <div class="col-7"><input type="number" name="eq_chlorinator" class="form-control eq_chlorinator checklist_number_field"/></div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-6 pb-2">
+                            <div class="row">
+                                <div class="col-5"><label class="fw-normal">Skimmer</label></div>
+                                <div class="col-7"><input type="number" name="eq_skimmer" class="form-control eq_skimmer checklist_number_field"/></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 col-md-6 pb-2">
+                            <div class="row">
+                                <div class="col-5"><label class="fw-normal">Control Switch</label></div>
+                                <div class="col-7"><input type="number" name="eq_control_switch" class="form-control eq_control_switch checklist_number_field"/></div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-6 pb-2">
+                            <div class="row">
+                                <div class="col-5"><label class="fw-normal">Float Valve</label></div>
+                                <div class="col-7"><input type="number" name="eq_float_valve" class="form-control eq_float_valve checklist_number_field"/></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 col-md-6 pb-2">
+                            <div class="row">
+                                <div class="col-5"><label class="fw-normal">Gutter</label></div>
+                                <div class="col-7"><input type="number" name="eq_gutter" class="form-control eq_gutter checklist_number_field"/></div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-6 pb-2">
+                            <div class="row">
+                                <div class="col-5"><label class="fw-normal">Control Panel</label></div>
+                                <div class="col-7"><input type="number" name="eq_control_panel" class="form-control eq_control_panel checklist_number_field"/></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 col-md-6 pb-2">
+                            <div class="row">
+                                <div class="col-5"><label class="fw-normal">Electric Work</label></div>
+                                <div class="col-7"><input type="number" name="eq_electric_work" class="form-control eq_electric_work checklist_number_field"/></div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-6 pb-2">
+                            <div class="row">
+                                <div class="col-5"><label class="fw-normal">Lights RCB Remote</label></div>
+                                <div class="col-7"><input type="number" name="eq_lights_rcb_remote" class="form-control eq_lights_rcb_remote checklist_number_field"/></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 col-md-6 pb-2">
+                            <div class="row">
+                                <div class="col-5"><label class="fw-normal">Fountain Nozzle</label></div>
+                                <div class="col-7"><input type="number" name="eq_fountain_nozzle" class="form-control eq_fountain_nozzle checklist_number_field"/></div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-6 pb-2">
+                            <div class="row">
+                                <div class="col-5"><label class="fw-normal">Deck Box</label></div>
+                                <div class="col-7"><input type="number" name="eq_deck_box" class="form-control eq_deck_box checklist_number_field"/></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 col-md-6 pb-2">
+                            <div class="row">
+                                <div class="col-5"><label class="fw-normal">Lights Cold-White</label></div>
+                                <div class="col-7"><input type="number" name="eq_lights_cold_white" class="form-control eq_lights_cold_white checklist_number_field"/></div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-6 pb-2">
+                            <div class="row">
+                                <div class="col-5"><label class="fw-normal">Water Fall</label></div>
+                                <div class="col-7"><input type="number" name="eq_water_fall" class="form-control eq_water_fall checklist_number_field"/></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 col-md-6 pb-2">
+                            <div class="row">
+                                <div class="col-5"><label class="fw-normal">Lights Warm-White</label></div>
+                                <div class="col-7"><input type="number" name="eq_lights_warm_white" class="form-control eq_lights_warm_white checklist_number_field"/></div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-6 pb-2">
+                            <div class="row">
+                                <div class="col-5"><label class="fw-normal">Rain Water Fountain</label></div>
+                                <div class="col-7"><input type="number" name="eq_rain_water_fountain" class="form-control eq_rain_water_fountain checklist_number_field"/></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 col-md-6 pb-2">
+                            <div class="row">
+                                <div class="col-5"><label class="fw-normal">Cleaning Equipment</label></div>
+                                <div class="col-7"><input type="number" name="eq_cleaning_equipment" class="form-control eq_cleaning_equipment checklist_number_field"/></div>
+                            </div>
+                        </div>
+                    </div>
+                </t>
+                <!-- EQSI END -->
+
+                <!-- Commissioning -->
+                <t t-if="task.checklist_type == 'commissioning'">
+                    <div class="row pt-1"><h3>Commissioning</h3></div>
+                    <div class="row">
+                        <div class="col-12 col-md-6 pb-2">
+                            <div class="row">
+                                <div class="col-5"><label class="fw-normal">Filter</label></div>
+                                <div class="col-7"><input type="number" name="com_filter" class="form-control com_filter checklist_number_field"/></div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-6 pb-2">
+                            <div class="row">
+                                <div class="col-5"><label class="fw-normal">Pump</label></div>
+                                <div class="col-7"><input type="number" name="com_pump" class="form-control com_pump checklist_number_field"/></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 col-md-6 pb-2">
+                            <div class="row">
+                                <div class="col-5"><label class="fw-normal">Heater</label></div>
+                                <div class="col-7"><input type="number" name="com_heater" class="form-control com_heater checklist_number_field"/></div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-6 pb-2">
+                            <div class="row">
+                                <div class="col-5"><label class="fw-normal">Jacuzzi</label></div>
+                                <div class="col-7"><input type="number" name="com_jacuzzi" class="form-control com_jacuzzi checklist_number_field"/></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 col-md-6 pb-2">
+                            <div class="row">
+                                <div class="col-5"><label class="fw-normal">Transformer</label></div>
+                                <div class="col-7"><input type="number" name="com_transformer" class="form-control com_transformer checklist_number_field"/></div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-6 pb-2">
+                            <div class="row">
+                                <div class="col-5"><label class="fw-normal">Ozone / U.V</label></div>
+                                <div class="col-7"><input type="number" name="com_ozone" class="form-control com_ozone checklist_number_field"/></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 col-md-6 pb-2">
+                            <div class="row">
+                                <div class="col-5"><label class="fw-normal">Ladder</label></div>
+                                <div class="col-7"><input type="number" name="com_ladder" class="form-control com_ladder checklist_number_field"/></div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-6 pb-2">
+                            <div class="row">
+                                <div class="col-5"><label class="fw-normal">Sump. Pump</label></div>
+                                <div class="col-7"><input type="number" name="com_sump_pump" class="form-control com_sump_pump checklist_number_field"/></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 col-md-6 pb-2">
+                            <div class="row">
+                                <div class="col-5"><label class="fw-normal">Chlorinator</label></div>
+                                <div class="col-7"><input type="number" name="com_chlorinator" class="form-control com_chlorinator checklist_number_field"/></div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-6 pb-2">
+                            <div class="row">
+                                <div class="col-5"><label class="fw-normal">Skimmer</label></div>
+                                <div class="col-7"><input type="number" name="com_skimmer" class="form-control com_skimmer checklist_number_field"/></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 col-md-6 pb-2">
+                            <div class="row">
+                                <div class="col-5"><label class="fw-normal">Control Switch</label></div>
+                                <div class="col-7"><input type="number" name="com_control_switch" class="form-control com_control_switch checklist_number_field"/></div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-6 pb-2">
+                            <div class="row">
+                                <div class="col-5"><label class="fw-normal">Float Valve</label></div>
+                                <div class="col-7"><input type="number" name="com_float_valve" class="form-control com_float_valve checklist_number_field"/></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 col-md-6 pb-2">
+                            <div class="row">
+                                <div class="col-5"><label class="fw-normal">Gutter</label></div>
+                                <div class="col-7"><input type="number" name="com_gutter" class="form-control com_gutter checklist_number_field"/></div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-6 pb-2">
+                            <div class="row">
+                                <div class="col-5"><label class="fw-normal">Control Panel</label></div>
+                                <div class="col-7"><input type="number" name="com_control_panel" class="form-control com_control_panel checklist_number_field"/></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 col-md-6 pb-2">
+                            <div class="row">
+                                <div class="col-5"><label class="fw-normal">Electric Work</label></div>
+                                <div class="col-7"><input type="number" name="com_electric_work" class="form-control com_electric_work checklist_number_field"/></div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-6 pb-2">
+                            <div class="row">
+                                <div class="col-5"><label class="fw-normal">Lights RCB Remote</label></div>
+                                <div class="col-7"><input type="number" name="com_lights_rcb_remote" class="form-control com_lights_rcb_remote checklist_number_field"/></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 col-md-6 pb-2">
+                            <div class="row">
+                                <div class="col-5"><label class="fw-normal">Fountain Nozzle</label></div>
+                                <div class="col-7"><input type="number" name="com_fountain_nozzle" class="form-control com_fountain_nozzle checklist_number_field"/></div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-6 pb-2">
+                            <div class="row">
+                                <div class="col-5"><label class="fw-normal">Deck Box</label></div>
+                                <div class="col-7"><input type="number" name="com_deck_box" class="form-control com_deck_box checklist_number_field"/></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 col-md-6 pb-2">
+                            <div class="row">
+                                <div class="col-5"><label class="fw-normal">Lights Cold-White</label></div>
+                                <div class="col-7"><input type="number" name="com_lights_cold_white" class="form-control com_lights_cold_white checklist_number_field"/></div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-6 pb-2">
+                            <div class="row">
+                                <div class="col-5"><label class="fw-normal">Water Fall</label></div>
+                                <div class="col-7"><input type="number" name="com_water_fall" class="form-control com_water_fall checklist_number_field"/></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 col-md-6 pb-2">
+                            <div class="row">
+                                <div class="col-5"><label class="fw-normal">Lights Warm-White</label></div>
+                                <div class="col-7"><input type="number" name="com_lights_warm_white" class="form-control com_lights_warm_white checklist_number_field"/></div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-6 pb-2">
+                            <div class="row">
+                                <div class="col-5"><label class="fw-normal">Rain Water Fountain</label></div>
+                                <div class="col-7"><input type="number" name="com_rain_water_fountain" class="form-control com_rain_water_fountain checklist_number_field"/></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 col-md-6 pb-2">
+                            <div class="row">
+                                <div class="col-5"><label class="fw-normal">Cleaning Equipment</label></div>
+                                <div class="col-7"><input type="number" name="com_cleaning_equipment" class="form-control com_cleaning_equipment checklist_number_field"/></div>
+                            </div>
+                        </div>
+                    </div>
+                </t>
+                <!-- Commissioning END -->
+
+                <!-- Remarks as Common for Civil/Mechanical Project Checklists -->
+                <t t-if="task.is_checklist_task">
+                    <div class="row">
+                        <div class="col-12 pb-2">
+                            <h4 class="fw-normal">Remarks</h4>
+                            <textarea name="remarks" class="form-control remarks" placeholder="Update the Remarks here"/>
+                        </div>
+                    </div>
+                </t>
+            </div>
+        </xpath>
+
+        <xpath expr="//button[hasclass('end_btn_custom_hide_1')]" position="attributes">
+            <attribute name="t-att-data-is_checklist_task">task.is_checklist_task or task.checklist_type</attribute>
+            <attribute name="t-att-data-task_type">'Service' if ((task.project_id.project_type_id and task.project_id.project_type_id.name == 'Service') or task.project_id.opportunity_type == 'service' or task.checklist_type == 'service') else (task.project_id.project_type_id.name if task.project_id.project_type_id else '')</attribute>
+        </xpath>
+        <xpath expr="//button[hasclass('end_btn_custom_hide')]" position="attributes">
+            <attribute name="t-att-data-is_checklist_task">task.is_checklist_task or task.checklist_type</attribute>
+            <attribute name="t-att-data-task_type">'Service' if ((task.project_id.project_type_id and task.project_id.project_type_id.name == 'Service') or task.project_id.opportunity_type == 'service' or task.checklist_type == 'service') else (task.project_id.project_type_id.name if task.project_id.project_type_id else '')</attribute>
+        </xpath>
+
+        <xpath expr="//div[hasclass('submit_signature_checklist')]" position="replace">
+            <t t-set="is_service" t-value="(task.project_id.project_type_id and task.project_id.project_type_id.name == 'Service') or task.project_id.opportunity_type == 'service' or task.checklist_type == 'service'"/>
+            <div class="col-sm-12 submit_signature_checklist">
+                <t t-if="is_service">
+                    <button t-attf-class="btn btn-primary btn-block mb8 mr-3 submit_signature_btn_custom_signature {{'' if exist_rec and exist_rec.end_date else 'd-none'}}"
+                            data-bs-toggle="modal" data-bs-target="#modalaccept" href="#">Signature</button>
+                    <!-- Modal update for Service Checklist -->
+                    <div role="dialog" class="modal fade timesheet_signature" id="modalaccept">
+                        <div class="modal-dialog">
+                            <form id="accept" method="POST" t-att-data-order-id="task.id" t-att-data-token="task.access_token" class="modal-content">
+                                <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                                <header class="modal-header">
+                                    <h4 class="modal-title">Signature</h4>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">X</button>
+                                </header>
+                                <main class="modal-body" id="sign-dialog">
+                                    <t t-call="portal.signature_form"><t t-set="default_name" t-value="task.partner_id.name"/></t>
+                                    <input type="number" name="timesheet_id" t-att-data-timesheet_id="exist_rec.id" style="display: none"/>
+                                    <button class="btn btn-primary submit_checklist_btn_custom float-right"
+                                            t-att-data-task_id="task.id" t-att-data-is_checklist_task="task.is_checklist_task or task.checklist_type"
+                                            t-att-data-task_type="'Service' if is_service else (task.project_id.project_type_id.name if task.project_id.project_type_id else '')"
+                                    >Submit</button>
+
+                                </main>
+                            </form>
+                        </div>
+                    </div>
+                </t>
+                <t t-else="">
+                    <t t-if="not task.project_task_checklist_ids">
+                        <t t-if="task.checklist_type or task.is_checklist_task">
+                            <button t-attf-class="btn btn-primary btn-block mb8 mr-3 submit_checklist_btn_custom_no_signature {{'' if exist_rec and exist_rec.end_date else 'd-none'}}"
+                                    t-att-data-task_id="task.id"
+                                    t-att-data-is_checklist_task="task.is_checklist_task or task.checklist_type"
+                                    t-att-data-task_type="'Service' if ((task.project_id.project_type_id and task.project_id.project_type_id.name == 'Service') or task.project_id.opportunity_type == 'service' or task.checklist_type == 'service') else (task.project_id.project_type_id.name if task.project_id.project_type_id else '')"
+                                    href="#">Submit</button>
+                        </t>
+                        <t t-else="">
+                            <button t-attf-class="btn btn-primary btn-block mb8 mr-3 submit_signature_btn_custom {{'' if exist_rec and exist_rec.end_date else 'd-none'}}"
+                                    href="#">Submit</button>
+                        </t>
+                    </t>
+                    <t t-else="">
+                        <button t-attf-class="btn btn-primary btn-block mb8 mr-3 submit_signature_btn_custom {{'' if exist_rec and exist_rec.end_date else 'd-none'}}"
+                                href="#">Submit</button>
+                    </t>
+                </t>
+            </div>
+        </xpath>
+
+    </template>
+</odoo>

@@ -1,0 +1,510 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="project_edit_form_inherit_task_count" model="ir.ui.view">
+        <field name="name">project.edit.form.inherit.task.count</field>
+        <field name="model">project.project</field>
+        <field name="inherit_id" ref="project.edit_project"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//button[@name='action_view_tasks']//field[@name='open_task_count']" position="replace">
+                <field string="Tasks" name="task_count" widget="statinfo"/>
+            </xpath>
+
+        </field>
+    </record>
+
+    <record id="v_project_edit_form_inherit_altas_base" model="ir.ui.view">
+        <field name="name">project.form.inherit.altas.base</field>
+        <field name="model">project.project</field>
+        <field name="inherit_id" ref="project_sale.v_project_edit_form"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//page[@name='extra_info']" position="inside">
+                <group>
+                    <group>
+                        <field name="contract_start_date"/>
+                        <field name="contract_end_date"/>
+                        <field name="payment_type"/>
+                        <field name="warranty_completed_date" invisible="1"/>
+                        <field name="cancelled_date" invisible="1"/>
+                    </group>
+                    <group>
+                        <field name="hold_start_date" readonly="1" force_save="1"/>
+                        <field name="hold_end_date" readonly="1" force_save="1"/>
+                        <field name="total_hold_days"/>
+                    </group>
+                </group>
+            </xpath>
+
+        </field>
+    </record>
+
+    <!-- =================================================== Sale Order =================================================== -->
+    <record id="view_sale_order_template_form_inherit_altas_base" model="ir.ui.view">
+        <field name="name">sale.order.template.altas.base</field>
+        <field name="model">sale.order.template</field>
+        <field name="inherit_id" ref="sale_management.sale_order_template_view_form"/>
+        <field name="arch" type="xml">
+
+            <field name='company_id' position="after">
+                <field name="project_tmp_id" options="{'no_open': True, 'no_create': True}"/>
+            </field>
+
+        </field>
+    </record>
+
+    <!-- =================================================== Sale Template =================================================== -->
+    <record id="view_order_form_inherit_altas_base" model="ir.ui.view">
+        <field name="name">sale.order.inherit.altas.base</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+
+            <field name='partner_id' position="after">
+                <field name="start_date"/>
+                <field name="end_date"/>
+            </field>
+
+            <field name='sale_order_template_id' position="after">
+                <field name="project_tmp_id" options="{'no_open': True, 'no_create': True}" readonly="state in ['cancel', 'sale']"/>
+                <field name="project_type_detail_id" readonly="state in ('sale', 'cancel')"/>
+            </field>
+
+            <xpath expr="//form/sheet/notebook/page[@name='order_lines']/field/tree/field[@name='product_id']" position="attributes">
+                <attribute name="options">{"no_create": True}</attribute>
+            </xpath>
+
+            <xpath expr="//group[1]/group[@name='partner_details']/field[@name='partner_id']" position="attributes">
+                <attribute name="domain">[('parent_id', '=', False)]</attribute>
+            </xpath>
+
+            <xpath expr="//form/sheet/notebook/page[@name='order_lines']/field/tree" position="attributes">
+                <attribute name="limit">500</attribute>
+            </xpath>
+
+            <xpath expr="//notebook" position="inside">
+                <page string="Report Details">
+                    <group>
+                        <field name="first_serv_due"/>
+                        <field name="last_serv_due"/>
+                        <field name="axis"/>
+                        <field name="frequency_time"/>
+                    </group>
+                </page>
+            </xpath>
+
+            <xpath expr="//page[@name='optional_products']/field/tree/field[@name='discount']" position="after">
+                <field name="price_subtotal" optional="show"/>
+            </xpath>
+
+            <xpath expr="//page[@name='optional_products']/field/tree/field[@name='price_subtotal']" position="before">
+                <field name="currency_id" invisible="1"/>
+                <field name="customer_lead" optional="hide"/>
+                <field name="purchase_price" optional="hide"/>
+                <field name="margin" optional="hide"/>
+                <field name="margin_percent" class="oe_inline" widget="percentage"/>
+                <field name="tax_id" widget="many2many_tags" options="{'no_create': True}" optional="show"/>
+                <field name="analytic_distribution" optional="hide" readonly="0"/>
+            </xpath>
+
+        </field>
+    </record>
+
+    <record id="is_equipment_product_form_view" model="ir.ui.view">
+        <field name="name">product.product.is_equipment</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_form_view"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//div[@name='options']" position="inside">
+                <div>
+                    <field name="is_equipment"/>
+                    <label for="is_equipment"/>
+                </div>
+                <div>
+                    <field name="hide_price"/>
+                    <label for="hide_price"/>
+                </div>
+            </xpath>
+
+            <field name="uom_id" position="after">
+                <field name="phase" widget="selection"/>
+                <field name="electrical_load"/>
+            </field>
+
+        </field>
+    </record>
+
+    <record id="product_template_inherit_form2" model="ir.ui.view">
+        <field name="name">product.product.pack</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_only_form_view"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//field[@name='is_equipment']" position="attributes">
+                <attribute name="readonly">is_pack == True</attribute>
+            </xpath>
+
+        </field>
+    </record>
+
+    <record id="project_view_project" model="ir.ui.view">
+        <field name="name">project.project.tree</field>
+        <field name="model">project.project</field>
+        <field name="inherit_id" ref="project.view_project"/>
+        <field name="arch" type="xml">
+
+            <field name="tag_ids" position="after">
+                <field name="total_completion_percent" optional="hide"/>
+            </field>
+
+        </field>
+    </record>
+
+    <record id="view_task_tree2_inherited" model="ir.ui.view">
+        <field name="name">project.task.tree</field>
+        <field name="model">project.task</field>
+        <field name="inherit_id" ref="hr_timesheet.view_task_tree2_inherited"/>
+        <field name="arch" type="xml">
+
+            <field name="progress" position="replace">
+                <field name="progress" invisible="1"/>
+                <field name="task_progress_percentage" widget="progressbar" optional="show"/>
+            </field>
+
+        </field>
+    </record>
+
+    <record id="view_project_project_filter" model="ir.ui.view">
+        <field name="name">project.project.search</field>
+        <field name="model">project.project</field>
+        <field name="inherit_id" ref="project.view_project_project_filter"/>
+        <field name="arch" type="xml">
+
+            <field name="partner_id" position="before">
+                <field name="facility_type_id"/>
+                <field name="project_city"/>
+            </field>
+
+            <field name="partner_id" position="after">
+                <filter string="Under Warranty" name="under_warranty" domain="[('is_under_warranty', '=', True)]"/>
+            </field>
+
+            <xpath expr="//group" position="inside">
+                <filter string="Project Area" name="project_city" context="{'group_by': 'project_city'}"/>
+                <filter string="Governorate" name="governorate_id" context="{'group_by': 'governorate_id'}"/>
+            </xpath>
+
+        </field>
+    </record>
+
+    <record id="project_activity_count_kanban_inherit" model="ir.ui.view">
+        <field name="name">project.project.kanban</field>
+        <field name="model">project.project</field>
+        <field name="inherit_id" ref="project.view_project_kanban"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//div[hasclass('o_kanban_record_bottom')]" position="replace">
+                <div class="oe_kanban_bottom_left">
+                    <div class="o_project_kanban_boxes d-flex align-items-baseline">
+                        <div class="row">
+                            <strong>Code</strong>
+                            <field name="number"/>
+                        </div>
+                        <a class="o_project_kanban_box" name="action_view_tasks" type="object">
+                            <div>
+                                <span class="o_value">
+                                    <t t-esc="record.task_count.value"/>
+                                </span>
+                                <span class="o_label ms-1">
+                                    <t t-esc="record.label_tasks.value"/>
+                                </span>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="oe_kanban_bottom_right">
+                    <field name="total_completion_percent" widget="gauge" options="{'style': 'width:150px; height: 110px;'}"/>
+                </div>
+            </xpath>
+
+        </field>
+    </record>
+
+    <record id="edit_project_inherit_altas_base" model="ir.ui.view">
+        <field name="name">project.project.form.inherit.altas.base</field>
+        <field name="model">project.project</field>
+        <field name="inherit_id" ref="project.edit_project"/>
+        <field name="arch" type="xml">
+
+            <div class="oe_title" position="after">
+                <group>
+                    <group>
+                        <field name="state_id"/>
+                        <field name="follow_up_date"/>
+                        <field name="lead_time_id"/>
+                        <field name="sale_order_id" readonly="1"/>
+                        <field name="door_type"/>
+                        <field name="service_type"/>
+                    </group>
+                    <group>
+                        <field name="opportunity_type"/>
+                        <field name="is_under_warranty"/>
+                        <field name="day_ids" widget="many2many_tags" invisible="opportunity_type != 'service'"/>
+                        <field name="number_of_days_per_week" invisible="opportunity_type != 'service'"/>
+                        <field name="total_delivery"/>
+                        <field name="total_so_amount"/>
+                        <field name="is_project_template" invisible="1" groups="project.group_project_manager"/>
+                        <field name="package_facility_ids" widget="many2many_tags" readonly="1" force_save="1 "/>
+                        <field name="facility_id" string="Facility config"/>
+                        <field name="project_type_detail_id" required="1"/>
+                        <field name="total_completion_percent"/>
+                        <field name="project_adress" string="Project Address" domain="[('parent_id', '=', partner_id)]"/>
+                        <field name="project_city" readonly="False" options="{'no_open': True, 'no_create': True}"/>
+                        <field name="config_facility_ids" invisible="1"/>
+                        <field name="is_under_warranty"/>
+                    </group>
+                </group>
+            </div>
+
+            <notebook position="inside">
+                <page name="delivery_move_ids" string="Bill of Quantity">
+                    <field name="delivery_move_ids" readonly="1">
+                        <list string="Boq">
+                            <field name="product_id" optional="show"/>
+                            <field name="origin" optional="hide"/>
+                            <field name="product_uom_qty" optional="show"/>
+                            <field name="product_uom" string="Unit of Measure" optional="show"/>
+                            <field name="state" optional="hide"/>
+                            <field name="date_deadline"/>
+                            <field name="is_equiped"/>
+                        </list>
+                    </field>
+                </page>
+
+                <page string="Weightage">
+                    <form string="Weightage">
+                        <group>
+                            <field name="total_completion_text"/>
+                            <field name="total_completion_percent"/>
+                        </group>
+                    </form>
+                </page>
+
+                <page string="Facility">
+                    <field name="facility_ids">
+                        <list string="Facility">
+                            <field name="name" optional="show"/>
+                            <field name="location_id" domain="['|',('parent_id', '=', parent.partner_id), ('id','=',parent.partner_id)]"/>
+                            <field name="facility_type" optional="show"/>
+                            <field name="sale_order_id" optional="show"/>
+                            <field name="system_type" optional="show"/>
+                            <field name="water_surface" optional="show"/>
+                            <field name="volume" optional="hide"/>
+                            <field name="facility_project_id" optional="hide"/>
+                            <field name="crm_lead_id" optional="hide"/>
+                            <field name="facility_id" optional="hide"/>
+                            <field name="facility_type_id" optional="hide"/>
+                        </list>
+                        <form string="Facility">
+                            <group>
+                                <group>
+                                    <field name="name"/>
+                                    <field name="partner_id" invisible="1"/>
+                                    <field name="location_id" options="{'no_open': True, 'no_create': True}"
+                                           domain="['|',('parent_id', '=', parent.partner_id), ('id','=',parent.partner_id)]"/>
+                                    <field name="facility_id" options="{'no_open': True, 'no_create': True}" domain="[('id', 'in', parent.config_facility_ids)]"/>
+                                </group>
+                                <group>
+                                    <field name="facility_type_id" options="{'no_open': True, 'no_create': True}"/>
+                                    <field name="facility_type" invisible="1"/>
+                                    <field name="system_type"/>
+                                    <label for="water_surface"/>
+                                    <div class="o_row">
+                                        <field name="water_surface"/>
+                                        <span class="oe_black">m²</span>
+                                    </div>
+                                    <label for="volume"/>
+                                    <div class="o_row">
+                                        <field name="volume"/>
+                                        <span class="oe_black">m³</span>
+                                    </div>
+                                </group>
+                            </group>
+                        </form>
+                    </field>
+                </page>
+
+                <page string="Equipments">
+                    <field name="equipment_ids">
+                        <list string="Equipments" editable="bottom">
+                            <field name="project_id" column_invisible="1"/>
+                            <field name="sr_number" optional="show"/>
+                            <field name="product_id" required="1"/>
+                            <field name="name" readonly="1" optional="hide"/>
+                            <field name="description" readonly="0" optional="show"/>
+                            <field name="partner_id" optional="show" domain="[('id', 'child_of', parent.partner_id)]"/>
+                            <field name="facility_id" optional="show" domain="[('partner_id', 'child_of', parent.partner_id)]"/>
+                            <field name="source" optional="hide"/>
+                            <field name="installation_date" optional="show"/>
+                            <field name="warranty_start_date" optional="show"/>
+                            <field name="warranty_end_date" optional="show"/>
+                            <field name="contract_number" optional="show"/>
+                            <field name="issue_number" optional="show"/>
+                            <field name="status" optional="show"/>
+                            <field name="phase" optional="hide"/>
+                            <field name="electrical_load" optional="hide"/>
+                            <field name="quant_done" optional="show"/>
+                        </list>
+                    </field>
+                </page>
+            </notebook>
+
+        </field>
+    </record>
+
+    <record id="open_view_project_all" model="ir.actions.act_window">
+        <field name="name">Projects</field>
+        <field name="res_model">project.project</field>
+        <field name="view_mode">tree,kanban,form</field>
+        <field name="view_id" ref="project.view_project_kanban"/>
+        <field name="search_view_id" ref="project.view_project_project_filter"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">No Projects found. Let's create one!</p>
+            <p>Projects regroup tasks on the same topic and each have their own dashboard.</p>
+        </field>
+    </record>
+
+    <record id="task_type_edit_inherit_atlas_base" model="ir.ui.view">
+        <field name="name">project.task.type.inherit.altas.base</field>
+        <field name="model">project.task.type</field>
+        <field name="inherit_id" ref="project.task_type_edit"/>
+        <field name="arch" type="xml">
+
+            <field name="project_ids" position="after">
+                <field name="facility_id"/>
+                <field name="total_weightage"/>
+                <field name="weightage"/>
+            </field>
+
+        </field>
+    </record>
+
+    <record id="view_project_task_kanban_inherit_altas_base" model="ir.ui.view">
+        <field name="name">project.task.kanban.inherit.altas.base</field>
+        <field name="model">project.task</field>
+        <field name="inherit_id" ref="project.view_task_kanban"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//kanban/progressbar" position="replace">
+                <progressbar field="state" colors='{"1_done": "success", "1_canceled": "danger", "01_in_progress": "muted"}' sum_field="task_progress"/>
+            </xpath>
+
+        </field>
+    </record>
+
+    <record id="project_task_search_base_inherit_atlas_base" model="ir.ui.view">
+        <field name="name">project.task.search.base.inherit.atlas.base</field>
+        <field name="model">project.task</field>
+        <field name="inherit_id" ref="project.view_task_search_form_base"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//filter[@name='open_tasks']" position="replace">
+                <filter string="Open Tasks" name="open_tasks" domain="[('state', 'in', ['01_in_progress', '02_changes_requested', '03_approved', '04_waiting_normal', '1_done'])]"/>
+            </xpath>
+
+        </field>
+    </record>
+
+
+    <record id="view_task_form2_inherit_project_sale" model="ir.ui.view">
+        <field name="name">project.task.form.inherit.project.sale</field>
+        <field name="model">project.task</field>
+        <field name="inherit_id" ref="project.view_task_form2"/>
+        <field name="arch" type="xml">
+
+            <field name="partner_id" position="after">
+                <field name="task_progress_percentage"/>
+                <field name="opportunity_type"/>
+                <field name="project_type_id"/>
+                <field name="weightage"/>
+                <field name="is_maintenance_project" invisible="1"/>
+                <field name="equipment_id" domain="[('project_id', '=', project_id)]" invisible="is_maintenance_project == False"/>
+            </field>
+
+            <xpath expr="//notebook" position="inside">
+                <page name="task_salable_product" string="Salable Product">
+                    <field name="product_ids">
+                        <list editable="bottom">
+                            <field name="product_id"/>
+                            <field name="description"/>
+                            <field name="date"/>
+                            <field name="product_uom_qty" string="Quantity"/>
+                            <field name="product_uom" string="Unit of Measure"/>
+                            <field name="price_unit"/>
+                            <field name="price_subtotal" sum="Total"/>
+                        </list>
+                    </field>
+                </page>
+            </xpath>
+
+        </field>
+    </record>
+
+    <record id="action_project_project_template" model="ir.actions.act_window">
+        <field name="name">Project Template</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">project.project</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('active', '=', False)]</field>
+    </record>
+
+    <menuitem id="project_project_template_menu"
+              action="action_project_project_template"
+              parent="project.menu_project_config"
+              sequence="20"/>
+
+
+    <record id="package_config_form_view_inherit_project" model="ir.ui.view">
+        <field name="name">package.config.form.view.inherit.project</field>
+        <field name="model">package.config</field>
+        <field name="inherit_id" ref="product_package.package_config_form_view"/>
+        <field name="arch" type="xml">
+
+            <field name="is_root_package" position="after">
+                <field name="project_id"/>
+            </field>
+
+            <field name="next_package_ids" position="after">
+                <button name="update_product" string="Reset Unit Price" type="object" class="btn-primary" invisible="1"/>
+            </field>
+
+            <field name="project_id" position="after">
+                <field name="facility_type_id"/>
+            </field>
+
+        </field>
+    </record>
+
+
+    <record id="project_task_states_action" model="ir.actions.act_window">
+        <field name="name">Project Task Stages</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">project.task.state</field>
+        <field name="view_mode">tree,kanban,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create a new Project Task Stage here.
+            </p>
+        </field>
+    </record>
+
+    <menuitem id="menu_project_task_states"
+              name="Project Task Stages"
+              action="project_task_states_action"
+              parent="project.menu_project_config"
+              sequence="101"/>
+
+</odoo>

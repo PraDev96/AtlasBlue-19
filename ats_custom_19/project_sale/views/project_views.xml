@@ -1,0 +1,288 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_task_form2" model="ir.ui.view">
+        <field name="name">project.task.form.v.customized</field>
+        <field name="model">project.task</field>
+        <field name="inherit_id" ref="project.view_task_form2"/>
+        <field name="arch" type="xml">
+            <field name="parent_id" position="attributes">
+                <attribute name="domain">[('parent_id', '=', False), ('id', '!=', id), ('project_id', '=', project_id)]</attribute>
+            </field>
+            <field name="user_ids" position="before">
+                <field name="team_id" domain="[('type_team', '=', 'project')]"
+                       context="{'form_view_ref': 'project_team.projects_team_view_form', 'default_type_team':'project'}"/>
+            </field>
+        </field>
+    </record>
+
+    <record id="v_project_edit_form" model="ir.ui.view">
+        <field name="name">project.project.form.v.customized</field>
+        <field name="model">project.project</field>
+        <field name="inherit_id" ref="project.edit_project"/>
+        <field name="arch" type="xml">
+            <button name="action_view_tasks" position="after">
+                <button class="oe_stat_button" name="action_view_events" type="object" icon="fa-tasks">
+                    <field string="Recurring Tasks" name="event_count" widget="statinfo"/>
+                </button>
+            </button>
+            <div name="button_box" position="inside">
+                <field name="state" invisible="1"/>
+                <button class="oe_stat_button" type="object" name="action_customer_view_invoices" icon="fa-money">
+                    <field string="Invoices" name="cust_invoice_count" widget="statinfo"/>
+                </button>
+                <button class="oe_stat_button" type="object" name="action_bill_view_invoices" icon="fa-file">
+                    <field string="Bills" name="sup_invoice_count" widget="statinfo"/>
+                </button>
+                <button class="oe_stat_button" type="object" name="action_view_sale_orders" icon="fa-usd" context="{'search_default_partner_id': partner_id}">
+                    <field string="Sales" name="sale_order_count" widget="statinfo"/>
+                </button>
+                <button class="oe_stat_button" name="action_view_purchase_orders" type="object" icon="fa-shopping-cart">
+                    <field string="Purchases" name="purchase_order_count" widget="statinfo"/>
+                </button>
+                <button class="oe_stat_button" name="action_view_delivery_orders" type="object" icon="fa-handshake-o">
+                    <field string="Delivery Orders" name="delivery_order_count" widget="statinfo"/>
+                </button>
+            </div>
+            <field name="partner_id" position="replace"></field>
+            <field name="date_start" position="replace">
+                <field name="date_start" string="Planned Date"/>
+            </field>
+            <field name="date" position="replace">
+                <field name="date"/>
+            </field>
+            <div class="oe_title" position="after">
+                <group>
+                    <group>
+                        <field name="partner_id" domain="[('parent_id', '=', False)]"/>
+                        <field name="phone"/>
+                        <field name="mobile"/>
+                        <field name="number"/>
+                        <field name="project_type_id"/>
+                        <field name="date_start" force_save="1"/>
+                        <field name="date_end"/>
+                    </group>
+                    <group>
+                        <div style="width: 100%;">
+                            <table class="table table-bordered table-lg" style="width: 100%; border: 1px solid black;" groups="project_sale.group_show_project_statistics">
+                                <colgroup>
+                                    <col width="25%"/>
+                                    <col width="25%"/>
+                                    <col width="25%"/>
+                                    <col width="25%"/>
+                                </colgroup>
+                                <thead style="border: 1px solid black; vertical-align: middle;">
+                                    <tr>
+                                        <td class="text-center" style="border: 1px solid black;">
+                                            <strong style="color: solid black;">Budget Vs Actual</strong>
+                                        </td>
+                                        <td class="text-center" style="border: 1px solid black;">
+                                            <strong class="mr6" style="color: solid black;">Budget</strong>
+                                        </td>
+                                        <td class="text-center" style="border: 1px solid black;">
+                                            <strong class="mr6" style="color: solid black;">Actual</strong>
+                                        </td>
+                                        <td class="text-center" style="border: 1px solid black;">
+                                            <strong class="mr6" style="color: solid black;">Percentage(%)</strong>
+                                        </td>
+                                    </tr>
+                                </thead>
+                                <tbody style="border: 1px solid black; vertical-align: middle;">
+                                    <tr>
+                                        <td class="text-left" style="border: 1px solid black;">
+                                            <strong class="text-center" style="color: solid black;">Material Details</strong>
+                                        </td>
+                                        <td class="text-right" style="border: 1px solid black;">
+                                            <strong class="mr6" style="color: solid black;"><field name="raw_materials_total"/></strong>
+                                        </td>
+                                        <td class="text-right" style="border: 1px solid black;">
+                                            <strong class="mr6" style="color: solid black;"><field name="tot_actual_material_cost"/></strong>
+                                        </td>
+                                        <td class="text-center" style="border: 1px solid black;">
+                                            <strong class="mr6" style="color: solid black;"><field name="material_total_percen"/>%</strong>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-left" style="border: 1px solid black;">
+                                            <strong class="text-center" style="color: solid black;">Expenses</strong>
+                                        </td>
+                                        <td class="text-center" style="border: 1px solid black;">
+                                            <strong class="mr6" style="color: solid black;"><field name="expense_budget_amount"/></strong>
+                                        </td>
+                                        <td class="text-center" style="border: 1px solid black;">
+                                            <strong class="mr6" style="color: solid black;"><field name="total_of_vendor_bill"/></strong>
+                                        </td>
+                                        <td class="text-center" style="border: 1px solid black;">
+                                            <strong class="mr6" style="color: solid black;"><field name="manpower_total_percen"/>%</strong>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-left" style="border: 1px solid black;">
+                                            <strong style="color: solid black;">Professional Services</strong>
+                                        </td>
+                                        <td class="text-center" style="border: 1px solid black;">
+                                            <strong class="mr18" style="color: solid black;"><field name="professional_service_budget_amount"/></strong>
+                                        </td>
+                                        <td class="text-center" style="border: 1px solid black;">
+                                            <strong class="text-center mr18" style="color: solid black;"><field name="timesheet_time_amount"/></strong>
+                                        </td>
+                                        <td class="text-center" style="border: 1px solid black;">
+                                            <strong class="mr18" style="color: solid black;"><field name="timesheet_time_percen"/>%</strong>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-left" style="border: 1px solid black;">
+                                            <strong class="text-center" style="color: solid black;">Total</strong>
+                                        </td>
+                                        <td class="text-right" style="border: 1px solid black;">
+                                            <strong class="mr18" style="color: solid black;"><field name="total_budget"/></strong>
+                                        </td>
+                                        <td class="text-right" style="border: 1px solid black;">
+                                            <strong class="mr18" style="color: solid black;"><field name="total_actual"/></strong>
+                                        </td>
+                                        <td class="text-center" style="border: 1px solid black;">
+                                            <strong class="mr18" style="color: solid black;"><field name="total_percen"/>%</strong>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </group>
+                </group>
+            </div>
+
+            <xpath expr="//notebook//page[1]" position="before">
+                <page name="salable_product" string="Salable Product" invisible="1">
+                    <field name="product_ids">
+                        <list editable="bottom">
+                            <field name="product_id"/>
+                            <field name="description"/>
+                            <field name="date"/>
+                            <field name="product_uom_qty"/>
+                            <field name="product_uom"/>
+                            <field name="price_unit"/>
+                            <field name="price_subtotal" sum="Total"/>
+                        </list>
+                    </field>
+                </page>
+                <page name="employee_cost" string="Employee Cost">
+                    <field name="employee_cost_lines">
+                        <list editable="bottom">
+                            <field name="employee_id"/>
+                            <field name="hours_spent"/>
+                            <field name="price_unit"/>
+                            <field name="subtotal" sum="Total"/>
+                        </list>
+                    </field>
+                </page>
+
+                <page name="other_cost" string="Other Cost">
+                    <field name="other_cost_lines">
+                        <list editable="bottom">
+                            <field name="product_id"/>
+                            <field name="description"/>
+                            <field name="date"/>
+                            <field name="product_uom_qty"/>
+                            <field name="product_uom"/>
+                            <field name="price_unit"/>
+                            <field name="price_subtotal" sum="Total"/>
+                        </list>
+                    </field>
+                </page>
+                <page string="Extra Info" name="extra_info">
+                    <group>
+                        <group>
+                            <field name="create_date"/>
+                            <field name="create_uid"/>
+                        </group>
+                        <group>
+                            <field name="write_date"/>
+                            <field name="write_uid"/>
+                        </group>
+                    </group>
+                </page>
+            </xpath>
+
+            <xpath expr="//div[hasclass('oe_chatter')]" position="replace"></xpath>
+
+            <sheet position="after">
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" options="{'post_refresh': True}" groups="base.group_user"
+                           help="Follow this project to automatically track the events associated to tasks and issues of this project."/>
+                    <field name="message_ids"/>
+                    <field name="activity_ids"/>
+                </div>
+            </sheet>
+
+        </field>
+    </record>
+
+    <record id="view_project_inherit" model="ir.ui.view">
+        <field name="name">project.project.tree.inherit</field>
+        <field name="model">project.project</field>
+        <field name="inherit_id" ref="project.view_project"/>
+        <field name="arch" type="xml">
+            <field name="partner_id" position="after">
+                <field name="project_type_id"/>
+            </field>
+        </field>
+    </record>
+
+    <record id="view_project_project_filter_inherit" model="ir.ui.view">
+        <field name="name">project.project.select.inherit</field>
+        <field name="model">project.project</field>
+        <field name="inherit_id" ref="project.view_project_project_filter"/>
+        <field name="arch" type="xml">
+
+            <field name="partner_id" position="after">
+                <field name="project_type_id"/>
+                <field name="number"/>
+            </field>
+
+            <xpath expr="//group" position="inside">
+                <filter string="Project Type" name="project_type" context="{'group_by': 'project_type_id'}"/>
+                <filter string="Project Code" name="number" context="{'group_by': 'number'}"/>
+            </xpath>
+
+        </field>
+    </record>
+
+
+    <!-- Project Type -->
+    <record id="project_type_form_view" model="ir.ui.view">
+        <field name="name">project.type.form</field>
+        <field name="model">project.type</field>
+        <field name="arch" type="xml">
+            <form string="Project Type">
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="project_type_tree_view" model="ir.ui.view">
+        <field name="name">project.type.tree</field>
+        <field name="model">project.type</field>
+        <field name="arch" type="xml">
+            <list string="Project Type">
+                <field name="name"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="action_project_type" model="ir.actions.act_window">
+        <field name="name">Project Type</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">project.type</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem id="project_type_menu"
+              parent="project.menu_project_config"
+              action="action_project_type"
+              sequence="10"/>
+
+</odoo>

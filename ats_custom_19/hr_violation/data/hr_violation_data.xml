@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!-- Sequences for hr.claim -->
+        <record id="seq_hr_violation" model="ir.sequence">
+            <field name="name">Violation</field>
+            <field name="code">hr.violation</field>
+            <field name="prefix"></field>
+            <field name="padding">5</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <record id="hr_salary_rule_violation_kuwait" model="hr.salary.rule">
+            <field name="condition_select">python</field>
+            <field name="condition_python">result = employee.get_violation_amount(payslip) != 0</field>
+            <field name="amount_select">code</field>
+            <field name="code">VIO</field>
+            <field name="category_id" ref="hr_payroll.DED"/>
+            <field name="name">Violation Deduction</field>
+            <field name="sequence" eval="120"/>
+            <field name="struct_id" ref="boutiqaat_hr_payslip.payroll_structure_kuwait"/>
+            <field name="amount_python_compute">
+                result = employee.get_violation_amount(payslip) * -1
+            </field>
+        </record>
+
+        <record id="hr_salary_rule_violation_uae" model="hr.salary.rule">
+            <field name="condition_select">python</field>
+            <field name="condition_python">result = employee.get_violation_amount(payslip) != 0</field>
+            <field name="amount_select">code</field>
+            <field name="code">VIO</field>
+            <field name="category_id" ref="hr_payroll.DED"/>
+            <field name="name">Violation Deduction</field>
+            <field name="sequence" eval="120"/>
+            <field name="struct_id" ref="boutiqaat_hr_payslip.payroll_structure_uae"/>
+            <field name="amount_python_compute">
+                result = employee.get_violation_amount(payslip) * -1
+            </field>
+        </record>
+
+        <record id="hr_salary_rule_violation_pay_kuwait" model="hr.salary.rule">
+            <field name="condition_select">python</field>
+            <field name="condition_python">result = employee.get_violation_amount(payslip) != 0</field>
+            <field name="amount_select">code</field>
+            <field name="code">VIO</field>
+            <field name="category_id" ref="hr_payroll.DED"/>
+            <field name="name">Violation Deduction</field>
+            <field name="sequence" eval="120"/>
+            <field name="struct_id" ref="boutiqaat_hr_payslip.payroll_structure_att_pay_kuwait"/>
+            <field name="amount_python_compute">
+                result = employee.get_violation_amount(payslip) * -1
+            </field>
+        </record>
+
+        <record id="hr_salary_rule_violation_pay_hour_kuwait" model="hr.salary.rule">
+            <field name="condition_select">python</field>
+            <field name="condition_python">result = employee.get_violation_amount(payslip) != 0</field>
+            <field name="amount_select">code</field>
+            <field name="code">VIO</field>
+            <field name="category_id" ref="hr_payroll.DED"/>
+            <field name="name">Violation Deduction</field>
+            <field name="sequence" eval="120"/>
+            <field name="struct_id" ref="boutiqaat_hr_payslip.payroll_structure_att_pay_hour_kuwait"/>
+            <field name="amount_python_compute">
+                result = employee.get_violation_amount(payslip) * -1
+            </field>
+        </record>
+
+    </data>
+</odoo>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Employee -->
+    <record id="view_employee_form_inherit" model="ir.ui.view">
+        <field name="name">hr.employee.form.inherit</field>
+        <field name="model">hr.employee</field>
+        <field name="inherit_id" ref="hr.view_employee_form"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//div[@name='button_box']" position="inside">
+                <button name="action_hr_employee_violation" class="oe_stat_button" type="object" icon="fa-book" groups="hr_violation.group_violation_user">
+                    <div class="o_stat_info">
+                        <field name="violation_count"/>
+                        <span class="o_stat_text"> Violations </span>
+                    </div>
+                </button>
+            </xpath>
+
+            <xpath expr="//page[@name='hr_settings']" position="after">
+                <page string="Violations" invisible="1"> <!-- groups="hr_violation.group_violation_user" -->
+                    <field name="violation_ids">
+                        <list string="Violation">
+                            <field name="name"/>
+                            <field name="violation_type_id"/>
+                            <field name="violation_date"/>
+                            <field name="deducted_payslip"/>
+                            <field name="amount"/>
+                            <field name="deducted_payslip"/>
+                            <field name="state"/>
+                        </list>
+                    </field>
+                </page>
+            </xpath>
+
+        </field>
+    </record>
+
+</odoo>

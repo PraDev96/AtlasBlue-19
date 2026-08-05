@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record model="ir.ui.view" id="client_type_list">
+        <field name="name">client.type.list</field>
+        <field name="model">client.type</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+            </list>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="client_type_form">
+        <field name="name">client.type.form</field>
+        <field name="model">client.type</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_client_type" model="ir.actions.act_window">
+        <field name="name">Client Type</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">client.type</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem id="menu_client_type"
+              name="Client Type"
+              action="action_client_type"
+              parent="contacts.res_partner_menu_config"
+              sequence="2"/>
+
+</odoo>

@@ -1,0 +1,2 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_installation_completion_detail,access.installation.completion.detail,model_installation_completion_detail,base.group_user,1,1,1,1

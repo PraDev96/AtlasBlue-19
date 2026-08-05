@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_hr_penalty_user,hr.penalty.user,model_hr_penalty,base.group_user,1,1,1,1
+access_hr_penalty_installment_line_user,hr.penalty.installment.line.user,model_hr_penalty_installment_line,base.group_user,1,1,1,1
+access_penalty_done_wizard,penalty.done.wizard.group_user,model_penalty_done_wizard,base.group_user,1,1,1,1

@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <template id="report_hr_insurance_document">
+            <t t-call="web.external_layout">
+                <div class="page">
+                    <h3 class="text-center">Insurance Report</h3>
+
+                    <div class="mt64 mb64 text-center">
+                        <h4>Number: <span t-field="o.name"/></h4>
+                    </div>
+
+                    <div class="row">
+                        <table class="table table-borderless">
+                            <tr>
+                                <td><strong><strong>Start Date</strong></strong></td>
+                                <td><strong><span t-field="o.start_date"/></strong></td>
+                                <td><strong>End Date</strong></td>
+                                <td><strong><span t-field="o.end_date"/></strong></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Insurance Type:</strong></td>
+                                <td><strong><span t-field="o.insurance_type"/></strong></td>
+                                <td><strong>Insurance Company:</strong></td>
+                                <td><strong><span t-field="o.insurance_company_id"/></strong></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Amount:</strong></td>
+                                <td><strong><span t-field="o.amount"/></strong></td>
+                                <td><strong>Transcation Date</strong></td>
+                                <td><strong><span t-field="o.transcation_date"/></strong></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Insurance Salary:</strong></td>
+                                <td><strong><span t-field="o.insurance_salary"/></strong></td>
+                                <td><strong>Policy Number:</strong></td>
+                                <td><strong><span t-field="o.policy_number"/></strong></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Year:</strong></td>
+                                <td><strong><span t-field="o.year"/></strong></td>
+                                <td><strong>Cancellation Date</strong></td>
+                                <td><strong><span t-field="o.cancel_date"/></strong></td>
+                            </tr>
+
+                            <tr>
+                                <td><strong><strong>Employee</strong></strong></td>
+                                <td><strong><span t-field="o.employee_id"/></strong></td>
+                                <td><strong>Employee Number</strong></td>
+                                <td><strong><span t-field="o.employee_id.identification_id"/></strong></td>
+                            </tr>
+                            <tr>
+                                <td><strong><strong>Joining Date</strong></strong></td>
+                                <td><strong><span t-field="o.joining_date"/></strong></td>
+                                <td><strong>Job Position</strong></td>
+                                <td><strong><span t-field="o.job_position_id"/></strong></td>
+                            </tr>
+
+                        </table>
+                    </div>
+
+                    <t t-if="o.claim_ids">
+                        <table class="table table-bordered" name="claim_table">
+                            <thead>
+                                <tr>
+                                    <th class="text-center">Name</th>
+                                    <th class="text-center">Claim Date</th>
+                                    <th class="text-center">Accident Date</th>
+                                    <th class="text-center">Insurance Company</th>
+                                    <th class="text-center">Accident Date</th>
+                                    <th class="text-center">Claim Number</th>
+                                    <th class="text-center">Claim Payment Date</th>
+                                    <th class="text-center">Amount</th>
+                                    <th class="text-center">Claim Type</th>
+                                </tr>
+                            </thead>
+
+                            <tbody style="white-space:nowrap">
+                                <t t-foreach="o.claim_ids" t-as="claim">
+                                    <tr>
+                                        <td>
+                                            <t t-esc="claim.name"/>
+                                        </td>
+                                        <td>
+                                            <span t-field="claim.claim_date"/>
+                                        </td>
+                                        <td>
+                                            <span t-field="claim.accident_date"/>
+                                        </td>
+                                        <td>
+                                            <span t-field="claim.insurance_company_id"/>
+                                        </td>
+                                        <td>
+                                            <span t-field="claim.accident_date"/>
+                                        </td>
+                                        <td>
+                                            <span t-field="claim.claim_number"/>
+                                        </td>
+                                        <td>
+                                            <span t-field="claim.claim_payment_date"/>
+                                        </td>
+                                        <td>
+                                            <span t-field="claim.amount"/>
+                                        </td>
+                                        <td>
+                                            <span t-field="claim.claim_type_id"/>
+                                        </td>
+                                    </tr>
+                                </t>
+                            </tbody>
+                        </table>
+                    </t>
+                </div>
+            </t>
+        </template>
+
+        <template id="report_hr_insurance">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="o">
+                    <t t-call="hr_insurance.report_hr_insurance_document"/>
+                </t>
+            </t>
+        </template>
+
+    </data>
+</odoo>

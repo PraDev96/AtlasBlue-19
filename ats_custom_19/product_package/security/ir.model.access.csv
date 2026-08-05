@@ -1,0 +1,8 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_package_config_user,package.config.user,model_package_config,base.group_user,1,1,1,1
+access_package_component_user,package.component.user,model_package_component,base.group_user,1,1,1,1
+access_product_package_wizard_user,product.package.wizard.user,model_product_package_wizard,base.group_user,1,1,1,1
+access_product_package_wizard_line_user,product.package.wizard.line.user,model_product_package_wizard_line,base.group_user,1,1,1,1
+access_selected_package_user,selected.package.user,model_selected_package,base.group_user,1,1,1,1
+access_selected_package_component_user,selected.package.component.user,model_selected_package_component,base.group_user,1,1,1,1
+access_selected_package_component1_user,selected.package.component1.user,model_selected_package_component1,base.group_user,1,1,1,1

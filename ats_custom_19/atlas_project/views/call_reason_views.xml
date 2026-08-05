@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record model="ir.ui.view" id="call_reason_list">
+        <field name="name">call.reason.list</field>
+        <field name="model">call.reason</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+            </list>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="call_reason_form">
+        <field name="name">call.reason.form</field>
+        <field name="model">call.reason</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                    </group>
+                </sheet>
+
+            </form>
+        </field>
+    </record>
+
+    <record id="action_call_reason" model="ir.actions.act_window">
+        <field name="name">Call Reason</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">call.reason</field>
+        <field name="view_mode">tree,form</field>
+        <field name="binding_model_id" ref="model_call_reason"/>
+    </record>
+
+    <menuitem id="helpdesk_menu_call_reason"
+              action="action_call_reason"
+              parent="helpdesk.helpdesk_menu_config"
+              groups="base.group_user"
+              sequence="30"/>
+
+</odoo>

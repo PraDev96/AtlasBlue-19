@@ -1,0 +1,785 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <record id="stock_fleet_locations_partner" model="stock.location">
+        <field name="name">Fleet Location</field>
+        <field name="usage">customer</field>
+        <field name="is_fleet_location" eval="True"/>
+        <field name="company_id"></field>
+    </record>
+
+    <record model="ir.ui.view" id="view_employee_form_inherit">
+        <field name="name">hr.employee.form.inherit</field>
+        <field name="model">hr.employee</field>
+        <field name="inherit_id" ref="hr.view_employee_form"/>
+        <field name="arch" type="xml">
+
+            <field name="parent_id" position="after">
+                <field name="allow_over_time" widget="float_time"/>
+                <field name="current_position_id" invisible="1"/>
+            </field>
+
+            <field name="visa_no" position="after">
+                <field name="visa_type_id"/>
+                <field name="visa_issue_date"/>
+            </field>
+
+            <field name="visa_expire" position="after">
+                <field name="visa_type_id" invisible="1"/>
+                <field name="visa_issue_date" invisible="1"/>
+                <field name="non_resident"/>
+            </field>
+
+            <field name="work_phone" position="after">
+                <field name="kuwait_phone_number"/>
+            </field>
+
+            <field name="country_of_birth" position="after">
+                <field name="health_card_start_date"/>
+                <field name="health_card_end_date"/>
+            </field>
+
+            <field name="iban_number" position="after">
+                <field name="bank_card_start_date"/>
+                <field name="bank_card_expiry_date"/>
+            </field>
+
+            <field name="country_id" position="after">
+                <field name="emp_code" invisible="1"/>
+                <field name="employee_state"/>
+            </field>
+
+            <field name="civil_start_date" position="replace">
+                <field name="civil_serial_number"/>
+                <field name="vehicle_id"/>
+            </field>
+
+            <field name="residency_expiry_date" position="before">
+                <field name="article_resideny_id"/>
+                <field name="residency_start_date"/>
+                <field name="license_expiry_date"/>
+            </field>
+
+            <field name="residency_number" position="after">
+                <field name="vaccination_date"/>
+                <field name="finger_print_date"/>
+                <field name="medical_date"/>
+                <field name="kuwait_entry_date"/>
+            </field>
+
+            <notebook position="inside">
+                <page string="Employee Date History" name="employee_date_history">
+                    <field name="employee_date_history_ids" readonly="1">
+                        <list string="Employee Date History" editable='top'>
+                            <field name="name"/>
+                            <field name="from_value"/>
+                            <field name="to_value"/>
+                            <field name="create_date"/>
+                            <field name="write_date"/>
+                            <field name="user_id"/>
+                        </list>
+                        <form string="Employee Date History">
+                            <group>
+                                <group>
+                                    <field name="name"/>
+                                    <field name="from_value"/>
+                                    <field name="create_date"/>
+                                </group>
+                                <group>
+                                    <field name="user_id"/>
+                                    <field name="to_value"/>
+                                    <field name="write_date"/>
+                                </group>
+                            </group>
+                        </form>
+                    </field>
+                </page>
+
+                <page string="Employee Notes" name="employee_note">
+                    <field name="employee_note_ids">
+                        <list string="Employee Notes">
+                            <field name="name"/>
+                            <field name="description"/>
+                        </list>
+                        <form string="Employee Notes">
+                            <group>
+                                <field name="name"/>
+                                <field name="description"/>
+                            </group>
+                        </form>
+                    </field>
+                </page>
+            </notebook>
+
+            <field name="eos_additional_work" position="before">
+                <field name="eos_opening_balance_days"/>
+            </field>
+
+            <field name="private_address" position="after">
+                <field name="employee_address"/>
+            </field>
+
+            <field name="private_address" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </field>
+
+            <field name="work_location_id" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </field>
+
+        </field>
+    </record>
+
+
+    <!-- visa type -->
+    <record id="visa_type_form_view" model="ir.ui.view">
+        <field name="name">visa.type.form</field>
+        <field name="model">visa.type</field>
+        <field name="arch" type="xml">
+            <form string="Visa Type">
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="visa_type_tree_view" model="ir.ui.view">
+        <field name="name">visa.type.tree</field>
+        <field name="model">visa.type</field>
+        <field name="arch" type="xml">
+            <list string="Visa Type">
+                <field name="name"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="action_visa_type" model="ir.actions.act_window">
+        <field name="name">Visa Type</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">visa.type</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem id="visa_type_menu"
+              parent="hr.menu_human_resources_configuration"
+              action="action_visa_type"
+              sequence="40"/>
+
+
+    <!-- Article Residency -->
+    <record id="article_residency_form_view" model="ir.ui.view">
+        <field name="name">article.residency</field>
+        <field name="model">article.residency</field>
+        <field name="arch" type="xml">
+            <form string="Article Residency">
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="article_residency_tree_view" model="ir.ui.view">
+        <field name="name">article.residency.tree</field>
+        <field name="model">article.residency</field>
+        <field name="arch" type="xml">
+            <list string="Article Residency">
+                <field name="name"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="action_article_residency" model="ir.actions.act_window">
+        <field name="name">Article Residency</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">article.residency</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem id="article_residency_menu"
+              parent="hr.menu_human_resources_configuration"
+              action="action_article_residency"
+              sequence="48"/>
+
+
+    <!-- Certificate Type -->
+    <record id="certificate_type_form_view" model="ir.ui.view">
+        <field name="name">certificate.type.form</field>
+        <field name="model">certificate.type</field>
+        <field name="arch" type="xml">
+            <form string="Article Residency">
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="certificate_type_tree_view" model="ir.ui.view">
+        <field name="name">certificate.type.tree</field>
+        <field name="model">certificate.type</field>
+        <field name="arch" type="xml">
+            <list string="Article Residency">
+                <field name="name"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="action_certificate_type" model="ir.actions.act_window">
+        <field name="name">Certificate Type</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">certificate.type</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem id="action_certificate_type_menu"
+              parent="hr.menu_human_resources_configuration"
+              action="action_certificate_type"
+              sequence="48"/>
+
+
+    <!-- Employee Asset Category -->
+    <record id="view_employee_asset_category_form" model="ir.ui.view">
+        <field name="name">employee.asset.category.form</field>
+        <field name="model">employee.asset.category</field>
+        <field name="arch" type="xml">
+            <form string="Asset Category">
+                <group>
+                    <field name="name"/>
+                </group>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_employee_asset_category_tree" model="ir.ui.view">
+        <field name="name">employee.asset.category.tree</field>
+        <field name="model">employee.asset.category</field>
+        <field name="arch" type="xml">
+            <list string="Asset Category">
+                <field name="name"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="action_employee_asset_category" model="ir.actions.act_window">
+        <field name="name">Asset Category</field>
+        <field name="res_model">employee.asset.category</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem id="menu_action_employee_asset_category"
+              name="Asset Category"
+              action="action_employee_asset_category"
+              parent="hr.menu_human_resources_configuration"
+              sequence="10"/>
+
+
+    <!-- Asset Fuel Card No -->
+    <record id="view_asset_fuel_card_no_form" model="ir.ui.view">
+        <field name="name">asset.fuel.card.no.form</field>
+        <field name="model">asset.fuel.card.no</field>
+        <field name="arch" type="xml">
+            <form string="Asset Fuel Card NO">
+                <group>
+                    <field name="name"/>
+                </group>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_asset_fuel_card_no_tree" model="ir.ui.view">
+        <field name="name">asset.fuel.card.no.tree</field>
+        <field name="model">asset.fuel.card.no</field>
+        <field name="arch" type="xml">
+            <list string="Asset Fuel Card NO">
+                <field name="name"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="action_asset_fuel_card_no" model="ir.actions.act_window">
+        <field name="name">Asset Fuel Card No</field>
+        <field name="res_model">asset.fuel.card.no</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <!-- <menuitem action="action_asset_fuel_card_no" id="menu_action_asset_fuel_card_no" name="Asset Fuel Card No" parent="hr.menu_human_resources_configuration" sequence="15"/> -->
+
+
+    <!-- Asset Service No -->
+    <record id="view_asset_service_no_form" model="ir.ui.view">
+        <field name="name">asset.service.no.form</field>
+        <field name="model">asset.service.no</field>
+        <field name="arch" type="xml">
+            <form string="Asset Service No">
+                <group>
+                    <field name="name"/>
+                </group>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_asset_service_no_tree" model="ir.ui.view">
+        <field name="name">asset.service.no.tree</field>
+        <field name="model">asset.service.no</field>
+        <field name="arch" type="xml">
+            <list string="Asset Service No">
+                <field name="name"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="action_asset_service_no" model="ir.actions.act_window">
+        <field name="name">Asset Service No</field>
+        <field name="res_model">asset.service.no</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <!-- <menuitem action="action_asset_service_no" id="menu_action_asset_service_no" name="Asset Service No" parent="hr.menu_human_resources_configuration" sequence="16"/> -->
+
+
+    <!-- Asset Number -->
+    <record id="view_asset_number_form" model="ir.ui.view">
+        <field name="name">asset.number.form</field>
+        <field name="model">asset.number</field>
+        <field name="arch" type="xml">
+            <form string="Asset Number">
+                <group>
+                    <field name="name"/>
+                </group>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_asset_number_tree" model="ir.ui.view">
+        <field name="name">asset.number.tree</field>
+        <field name="model">asset.number</field>
+        <field name="arch" type="xml">
+            <list string="Asset Number">
+                <field name="name"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="action_asset_number" model="ir.actions.act_window">
+        <field name="name">Asset Number</field>
+        <field name="res_model">asset.number</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem id="menu_action_asset_number"
+              name="Asset Number"
+              action="action_asset_number"
+              parent="hr.menu_human_resources_configuration"
+              sequence="15"/>
+
+
+    <!-- Asset condition -->
+    <record id="view_asset_condition_form" model="ir.ui.view">
+        <field name="name">asset.condition.form</field>
+        <field name="model">asset.condition</field>
+        <field name="arch" type="xml">
+            <form string="Asset Condition">
+                <group>
+                    <field name="name"/>
+                </group>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_asset_condition_tree" model="ir.ui.view">
+        <field name="name">asset.condition.tree</field>
+        <field name="model">asset.condition</field>
+        <field name="arch" type="xml">
+            <list string="Asset Condition">
+                <field name="name"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="action_asset_condition" model="ir.actions.act_window">
+        <field name="name">Asset Condition</field>
+        <field name="res_model">asset.condition</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem id="menu_action_asset_condition"
+              name="Asset Condition"
+              action="action_asset_condition"
+              parent="hr.menu_human_resources_configuration"
+              sequence="16"/>
+
+
+    <!-- Employee Asset -->
+    <record id="emp_asset_tree_inherit" model="ir.ui.view">
+        <field name="name">employee.asset.more.fields.inherit</field>
+        <field name="model">employee.asset</field>
+        <field name="inherit_id" ref="boutiqaat_hr_base.emp_asset_tree"/>
+        <field name="arch" type="xml">
+
+            <field name="date_assigned" position="after">
+                <field name="attachment_number" invisible="1"/>
+                <button name="action_get_attachment_view" string="View Attached Documents" type="object" icon="fa-paperclip" invisible="attachment_number == 0"/>
+                <field name="date_return"/>
+                <field name="asset_category_id"/>
+                <field name="asset_number_id"/>
+                <field name="asset_condition_id"/>
+                <field name="company_id"/>
+            </field>
+
+            <field name="employee_id" position="before">
+                <field name="name"/>
+            </field>
+
+            <field name="employee_id" position="after">
+                <field name="joining_date"/>
+                <field name="job_position_id"/>
+            </field>
+
+        </field>
+    </record>
+
+    <record id="emp_asset_form_inherit" model="ir.ui.view">
+        <field name="name">employee.asset.more.fields.inherit</field>
+        <field name="model">employee.asset</field>
+        <field name="inherit_id" ref="boutiqaat_hr_base.emp_asset_form"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//sheet" position="before">
+                <div class="oe_edit_only">
+                    <label for="name"/>
+                </div>
+                <h2>
+                    <field name="name" placeholder="eg. Laptop"/>
+                </h2>
+                <header>
+                    <button name="action_return" type="object" string="Return" invisible="date_return != False"/>
+                    <widget name="attach_document" string="Attach Document" action="message_post" invisible="attachment_number &lt; 1 or id == False"/>
+                    <widget name="attach_document" string="Attach Document" action="message_post" highlight="1" invisible="attachment_number &gt;= 1 or id == False"/>
+                </header>
+            </xpath>
+
+            <field name="date_assigned" position="after">
+                <field name="date_return"/>
+                <field name="asset_number_id"/>
+                <field name="asset_condition_id"/>
+                <field name="detail_info"/>
+                <field name="company_id"/>
+            </field>
+
+            <field name="employee_id" position="after">
+                <field name="joining_date"/>
+                <field name="job_position_id"/>
+                <field name="asset_category_id"/>
+            </field>
+
+            <xpath expr="//sheet" position="after">
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+                    <field name="activity_ids" widget="mail_activity"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+            </xpath>
+
+            <xpath expr="//div[hasclass('oe_edit_only')]" position="after">
+                <div class="oe_button_box" name="button_box">
+                    <button name="action_get_attachment_view" class="oe_stat_button" icon="fa-file-text-o" type="object">
+                        <field name="attachment_number" widget="statinfo" string="Documents" options="{'reload_on_button': true}"/>
+                    </button>
+                </div>
+            </xpath>
+
+        </field>
+    </record>
+
+    <record id="emp_asset_search_inherit" model="ir.ui.view">
+        <field name="name">employee.asset.more.fields</field>
+        <field name="model">employee.asset</field>
+        <field name="inherit_id" ref="boutiqaat_hr_base.emp_asset_search"/>
+        <field name="arch" type="xml">
+
+            <field name="employee_id" position="replace">
+                <field name="name"/>
+            </field>
+
+            <field name="name" position="before">
+                <field name="employee_id"/>
+            </field>
+
+            <field name="date_assigned" position="after">
+                <field name="asset_number_id"/>
+            </field>
+            <xpath expr="//filter[@name='date_assigned']" position="after">
+                <filter string="Employee" name="employee_id" context="{'group_by':'employee_id'}"/>
+                <filter string="Asset Category" name="asset_category_id" context="{'group_by':'asset_category_id'}"/>
+                <filter string="Asset Condition" name="asset_condition_id" context="{'group_by':'asset_condition_id'}"/>
+                <filter string="Asset Number" name="asset_number_id" context="{'group_by':'asset_number_id'}"/>
+            </xpath>
+
+        </field>
+    </record>
+
+    <record id="boutiqaat_hr_base.emp_asset_action" model="ir.actions.act_window">
+        <field name="context">{'default_employee_id': active_id}</field>
+    </record>
+
+    <record id="ohrms_loan.hr_loan_menu_requests" model="ir.ui.menu">
+        <field name="groups_id" eval="[(4, ref('hr_order_loan.group_loan_user'))]"/>
+    </record>
+
+    <record id="employee_asset_action" model="ir.actions.act_window">
+        <field name="name">Employee Assets</field>
+        <field name="res_model">employee.asset</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <record id="employee_asset_kanban_action" model="ir.actions.act_window">
+        <field name="name">Employee Assets</field>
+        <field name="res_model">employee.asset</field>
+        <field name="view_mode">tree,form</field>
+        <field name="context">{
+            'search_default_name': [id],
+            'default_name': id,
+            }
+        </field>
+    </record>
+
+    <menuitem name="Employee Asset"
+              id="menu_employee_asset"
+              parent="hr.menu_hr_root"
+              groups="hr_atlas_blue.group_employee_asset_user"
+              sequence="25"/>
+
+    <menuitem action="employee_asset_action"
+              id="menu_employee_asset_action"
+              groups="hr_atlas_blue.group_employee_asset_user"
+              parent="hr_atlas_blue.menu_employee_asset"/>
+
+
+    <!-- Employee Asset Type Name -->
+    <record id="view_employee_asset_type_form" model="ir.ui.view">
+        <field name="name">employee.asset.type.form</field>
+        <field name="model">employee.asset.type</field>
+        <field name="arch" type="xml">
+            <form string="Insurance Transaction Type">
+                <group>
+                    <field name="name"/>
+                </group>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_employee_asset_type_tree" model="ir.ui.view">
+        <field name="name">employee.asset.type.tree</field>
+        <field name="model">employee.asset.type</field>
+        <field name="arch" type="xml">
+            <list string="Insurance Transaction Type">
+                <field name="name"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="employee_asset_type_view_form_simplified" model="ir.ui.view">
+        <field name="name">employee.asset.type.view.form.simplified</field>
+        <field name="model">employee.asset.type</field>
+        <field name="arch" type="xml">
+            <form string="Asset">
+                <group>
+                    <field name="name" class="oe_inline" string="Asset" placeholder="Insurance Type..."/>
+                </group>
+            </form>
+        </field>
+    </record>
+
+    <record id="employee_asset_type_view_form_simplified_footer" model="ir.ui.view">
+        <field name="name">employee.asset.type.view.form.simplified</field>
+        <field name="model">employee.asset.type</field>
+        <field name="inherit_id" ref="hr_atlas_blue.view_employee_asset_type_form"/>
+        <field name="mode">primary</field>
+        <field name="arch" type="xml">
+
+            <xpath expr="//group" position="after">
+                <footer>
+                    <button string="Create" name="open_employee_asset" type="object" class="btn-primary open_assets"/>
+                    <button string="Discard" class="btn-secondary" special="cancel"/>
+                </footer>
+            </xpath>
+
+        </field>
+    </record>
+
+    <record id="open_create_employee_asset_type" model="ir.actions.act_window">
+        <field name="name">Create Asset Type</field>
+        <field name="res_model">employee.asset.type</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="employee_asset_type_view_form_simplified_footer"/>
+        <field name="target">new</field>
+    </record>
+
+    <record model="ir.ui.view" id="view_employee_asset_type_kanban">
+        <field name="name">employee.asset.type.kanban</field>
+        <field name="model">employee.asset.type</field>
+        <field name="arch" type="xml">
+
+            <kanban class="oe_background_grey o_kanban_dashboard o_project_kanban o_emphasize_colors" on_create="hr_atlas_blue.open_create_employee_asset_type">
+                <field name="name"/>
+                <field name="employee_asset_count"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div t-attf-class="oe_kanban_global_click oe_kanban_card">
+                            <div>
+                                <div class="oe_kanban_content">
+                                    <div class="o_kanban_primary_left">
+                                        <div class="o_primary">
+                                            <span>
+                                                <t t-esc="record.name.value"/>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="o_kanban_card_manage_pane dropdown-menu" role="menu">
+                                    <div class="o_kanban_card_manage_section">
+                                        <div role="menuitem">
+                                            <a type="edit">Edit</a>
+                                        </div>
+                                        <div role="menuitem">
+                                            <a type="delete">Delete</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <a class="o_kanban_manage_toggle_button o_left" href="#">
+                                    <i class="fa fa-ellipsis-v" role="img" aria-label="Manage" title="Manage"/>
+                                </a>
+                            </div>
+
+                            <div class="o_rental_kanban_boxes">
+                                <a class="o_rental_kanban_boxes" name="%(employee_asset_kanban_action)d" type="action">
+                                    <div>
+                                        <span class="o_value">
+                                            <t t-esc="record.employee_asset_count.value"/>
+                                        </span>
+                                        Assets
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+
+        </field>
+    </record>
+
+    <record id="open_view_employee_asset_type_all" model="ir.actions.act_window">
+        <field name="name">Employee Asset Type</field>
+        <field name="res_model">employee.asset.type</field>
+        <field name="domain">[]</field>
+        <field name="view_mode">kanban,form</field>
+        <field name="view_id" ref="view_employee_asset_type_kanban"/>
+        <field name="target">main</field>
+    </record>
+
+    <menuitem id="menu_open_view_employee_asset_type_all"
+              name="Employee Asset Type"
+              parent="hr_atlas_blue.menu_employee_asset"
+              action="open_view_employee_asset_type_all"
+              groups="hr_atlas_blue.group_employee_asset_user"
+              sequence="1"/>
+
+    <record id="hr_contract_view_form_inherit" model="ir.ui.view">
+        <field name="name">hr.contract.form.inherit</field>
+        <field name="model">hr.contract</field>
+        <field name="inherit_id" ref="hr_contract.hr_contract_view_form"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//group[@name='notes_group']" position="before">
+                <group>
+                    <group>
+                        <field name="last_ticket_date"/>
+                        <field name="ticket_per_month"/>
+                        <field name="ticket_amount"/>
+                        <field name="cost_per_hour"/>
+                    </group>
+                    <group>
+                    </group>
+                </group>
+            </xpath>
+            <xpath expr="//label[@for='books_allowance']" position="replace"/>
+            <xpath expr="//div[@name='books_allowance']" position="replace">
+                <!-- <attribute name="invisible">1</attribute> -->
+            </xpath>
+            <!-- <xpath expr="//field[@name='books_allowance']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath> -->
+
+        </field>
+    </record>
+
+    <!-- ==================================================================== -->
+    <record id="view_history_employee_vehicle_form" model="ir.ui.view">
+        <field name="name">history.employee.vehicle.form</field>
+        <field name="model">history.employee.vehicle</field>
+        <field name="arch" type="xml">
+            <form string="Employee Vehicle History">
+                <group>
+                    <field name="employee_id"/>
+                    <field name="fleet_id"/>
+                    <field name="from_date"/>
+                    <field name="to_date"/>
+                </group>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_history_employee_vehicle_tree" model="ir.ui.view">
+        <field name="name">history.employee.vehicle.tree</field>
+        <field name="model">history.employee.vehicle</field>
+        <field name="arch" type="xml">
+            <list string="Employee Fleet History">
+                <field name="employee_id"/>
+                <field name="fleet_id"/>
+                <field name="from_date"/>
+                <field name="to_date"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_history_employee_vehicle_search" model="ir.ui.view">
+        <field name="name">history.employee.vehicle.search</field>
+        <field name="model">history.employee.vehicle</field>
+        <field name="arch" type="xml">
+            <search string="Employee Fleet History">
+                <field name="employee_id"/>
+                <field name="fleet_id"/>
+                <field name="from_date"/>
+                <field name="to_date"/>
+                <group expand="0" string="Group By">
+                    <filter string="Fleet" name="fleet" domain="[]" context="{'group_by': 'fleet_id'}"/>
+                    <filter string="From Date" name="from_date" domain="[]" context="{'group_by': 'from_date'}"/>
+                    <filter string="To Date" name="to_date" domain="[]" context="{'group_by': 'to_date'}"/>
+                    <filter string="Employee" name="employee" domain="[]" context="{'group_by': 'employee_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_history_employee_vehicle" model="ir.actions.act_window">
+        <field name="name">Employee Fleet History</field>
+        <field name="res_model">history.employee.vehicle</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem id="menu_action_history_employee_vehicle"
+              name="Employee Fleet History"
+              parent="fleet.menu_fleet_reporting"
+              action="action_history_employee_vehicle"
+              sequence="16"/>
+
+</odoo>

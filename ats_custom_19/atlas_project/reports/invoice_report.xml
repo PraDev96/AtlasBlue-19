@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="nvoice_order_document_1_inherit" inherit_id="atlas_base.invoice_order_document_1">
+
+        <xpath expr="//div[hasclass('credit_note_left_side')]" position="replace">
+            <div class="col-5 credit_note_left_side" style="border-top: 1px solid black;">
+                <br/>
+                <h4><strong><span t-esc="o.invoice_line_ids.sale_line_ids.order_id.title"/></strong></h4>
+                <br/>
+                <span t-raw="o.invoice_line_ids.sale_line_ids.order_id.summary"/>
+            </div>
+        </xpath>
+
+    </template>
+
+</odoo>

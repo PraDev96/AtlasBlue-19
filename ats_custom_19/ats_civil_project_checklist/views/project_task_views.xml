@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!-- Project Task form Inherited for Civil/Mechanical Checklist fields -->
+        <record id="project_task_inherit_civil_checklist" model="ir.ui.view">
+            <field name="name">project.task.inherit.civil.checklist</field>
+            <field name="model">project.task</field>
+            <field name="inherit_id" ref="project.view_task_form2"/>
+            <field name="arch" type="xml">
+                <xpath expr="//page[@name='extra_info']" position="after">
+                    <field name="is_show_checklist" invisible="1"/>
+                    <page name="project_task_checklist" string="Project Task Checklist" invisible="not is_show_checklist">
+                        <field name="is_checklist_task" invisible="1"/>
+                        <field name="is_readonly_checklist" invisible="1"/>
+                        <field name="project_task_checklist_ids" readonly="is_readonly_checklist"
+                               context="{'default_checklist_type': checklist_type, 'default_projects_id': project_id, 'is_from_backed': True}">
+                            <list string="Task Checklist Tree" create="1">
+                                <field name="name"/>
+                                <field name="checklist_type"/>
+                                <field name="projects_id"/>
+                                <field name="task_id"/>
+                                <field name="employee_id"/>
+                                <field name="date"/>
+                                <field name="signed_by"/>
+                                <field name="signed_on" optional="hide"/>
+                                <field name="state"/>
+                            </list>
+                        </field>
+                    </page>
+                </xpath>
+                <xpath expr="//field[@name='tag_ids']" position="after">
+                    <field name="is_task_checklist_data_readonly" invisible="1"/>
+                    <field name="is_checklist_task" readonly="is_task_checklist_data_readonly"/>
+                    <field name="checklist_type" invisible="not is_checklist_task" required="is_checklist_task == True and active == True"/>
+                </xpath>
+            </field>
+        </record>
+
+    </data>
+</odoo>

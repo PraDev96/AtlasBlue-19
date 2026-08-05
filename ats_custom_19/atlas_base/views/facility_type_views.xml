@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record model="ir.ui.view" id="facility_type_list">
+        <field name="name">facility.type.list</field>
+        <field name="model">facility.type</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+            </list>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="facility_type_form">
+        <field name="name">facility.type.form</field>
+        <field name="model">facility.type</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_facility_type" model="ir.actions.act_window">
+        <field name="name">Facility Type</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">facility.type</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem id="menu_crm_facility_type_act"
+              name="Facility Type"
+              action="action_facility_type"
+              parent="crm.menu_crm_config_lead"
+              sequence="4"/>
+
+</odoo>

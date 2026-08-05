@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="v_project_edit_form_inherit" model="ir.ui.view">
+        <field name="name">project.project.form.v.customized</field>
+        <field name="model">project.project</field>
+        <field name="inherit_id" ref="project.edit_project"/>
+        <field name="arch" type="xml">
+            <div name="button_box" position="inside">
+                <button class="oe_stat_button" type="object" name="action_view_sale_subscription" icon="fa-money">
+                    <field string="Subscription" name="subscription_count" widget="statinfo"/>
+                </button>
+            </div>
+        </field>
+    </record>
+
+    <record id="project_form_inherit_service_sale_amount" model="ir.ui.view">
+        <field name="name">project.form.inherit.service.sale.amount</field>
+        <field name="model">project.project</field>
+        <field name="inherit_id" ref="atlas_base.edit_project_inherit_altas_base"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='total_so_amount']" position="after">
+                <field name="total_service_so_amount" invisible="not total_service_so_amount"/>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

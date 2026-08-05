@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="view_task_form2_inherited_hr_atlas_blue" model="ir.ui.view">
+            <field name="name">project.task.form.inherited</field>
+            <field name="model">project.task</field>
+            <field name="inherit_id" ref="hr_timesheet.view_task_form2_inherited"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//field[@name='timesheet_ids']/tree/field[@name='company_id']" position="after">
+                    <field name="from_date" invisible="1"/>
+                    <field name="to_date" invisible="1"/>
+                    <field name="is_started" invisible="1"/>
+                    <field name="is_finished" invisible="1"/>
+                    <field name="is_attendance" invisible="1"/>
+                    <button name="action_start" string="Start" type="object" invisible="is_started == True"/>
+                    <button name="action_end" string="Stop" type="object" invisible="is_started == False or is_finished == True"/>
+                    <button name="action_transfer_atten" string="Transfer" type="object" invisible="is_finished == False or is_attendance == True"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="edit_holiday_status_form_inherit" model="ir.ui.view">
+            <field name="name">hr.leave.type.form.inherit</field>
+            <field name="model">hr.leave.type</field>
+            <field name="inherit_id" ref="hr_holidays.edit_holiday_status_form"/>
+            <field name="arch" type="xml">
+                <field name="is_auto_allocate" position="after">
+                    <field name="is_auto_approve"/>
+                </field>
+            </field>
+        </record>
+
+    </data>
+</odoo>

@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <template id="report_hr_claim_document">
+            <t t-call="web.external_layout">
+                <div class="page">
+                    <h3 class="text-center">Claim Report</h3>
+
+                    <div class="row">
+                        <table class="table table-borderless">
+                            <tr>
+                                <td><strong><strong>Employee</strong></strong></td>
+                                <td><strong><span t-field="o.employee_id"/></strong></td>
+                                <td><strong>Claim Date:</strong></td>
+                                <td><strong><span t-field="o.claim_date"/></strong></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Job Position</strong></td>
+                                <td><strong><span t-field="o.job_position_id"/></strong></td>
+                                <td><strong>Claim Type</strong></td>
+                                <td><strong><span t-field="o.claim_type_id"/></strong></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Company</strong></td>
+                                <td><strong><span t-field="o.company_id"/></strong></td>
+                                <td><strong></strong></td>
+                                <td><strong></strong></td>
+                            </tr>
+                            <tr>
+                                <td><strong><strong>Joining Date</strong></strong></td>
+                                <td><strong><span t-field="o.joining_date"/></strong></td>
+                                <td><strong>Insurance Company:</strong></td>
+                                <td><strong><span t-field="o.insurance_company_id"/></strong></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Amount:</strong></td>
+                                <td><strong><span t-field="o.amount"/></strong></td>
+                                <td><strong>Resume Work Date</strong></td>
+                                <td><strong><span t-field="o.resume_work_date"/></strong></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Accident Date:</strong></td>
+                                <td><strong><span t-field="o.accident_date"/></strong></td>
+                                <td><strong>Claim Number:</strong></td>
+                                <td><strong><span t-field="o.claim_number"/></strong></td>
+                            </tr>
+
+                            <tr>
+                                <td><strong>Claim Payment Date:</strong></td>
+                                <td><strong><span t-field="o.claim_payment_date"/></strong></td>
+                                <td><strong>Total Number of Expenses:</strong></td>
+                                <td><strong><span t-esc="len(o.expense_ids)"/></strong></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Company:</strong></td>
+                                <td><strong><span t-field="o.company_id"/></strong></td>
+                                <td><strong></strong></td>
+                                <td><strong></strong></td>
+                            </tr>
+                        </table>
+                    </div>
+
+                    <t t-if="o.expense_ids">
+                        <table class="table-sm table-bordered mt64 mb64" name="expense_table">
+                            <thead>
+                                <tr>
+                                    <th class="text-center">No.</th>
+                                    <th class="text-center">Date</th>
+                                    <th class="text-center">Descripton</th>
+                                    <!-- <th class="text-center">Employee</th> -->
+                                    <th class="text-center">Bill Reference</th>
+                                    <th class="text-center">Paid By</th>
+                                    <th class="text-center">Product</th>
+                                    <th class="text-center">Quantity</th>
+                                    <th class="text-center">Unit Price</th>
+                                    <th class="text-center">Total</th>
+                                    <th class="text-center">Status</th>
+                                </tr>
+                            </thead>
+
+                            <tbody style="white-space:nowrap">
+                                <t t-set="no" t-value="1"/>
+                                <t t-set="total_amount" t-value="0.0"/>
+                                <t t-foreach="o.expense_ids" t-as="line">
+                                    <tr>
+                                        <td>
+                                            <t t-esc="no"/>
+                                        </td>
+                                        <td>
+                                            <span t-field="line.date"/>
+                                        </td>
+                                        <td>
+                                            <span t-field="line.name"/>
+                                        </td>
+                                       <!--  <td>
+                                            <span t-field="line.employee_id"/>
+                                        </td> -->
+                                        <td>
+                                            <span t-field="line.reference"/>
+                                        </td>
+                                        <td>
+                                            <span t-field="line.payment_mode"/>
+                                        </td>
+                                        <td>
+                                            <span t-field="line.product_id"/>
+                                        </td>
+                                        <td class="text-right">
+                                            <span t-field="line.quantity"/>
+                                        </td>
+                                        <td class="text-right">
+                                            <span t-field="line.unit_amount"/>
+                                        </td>
+                                        <td class="text-right">
+                                            <span t-field="line.total_amount"/>
+                                        </td>
+                                        <td class="text-right">
+                                            <span t-field="line.state"/>
+                                        </td>
+                                        <t t-set="no" t-value="no + 1"/>
+                                        <t t-set="total_amount" t-value="total_amount + line.total_amount"/>
+                                    </tr>
+                                </t>
+
+                                <tr>
+                                    <td colspan="6">
+                                        <strong>Total Expense</strong>
+                                    </td>
+                                    <td>
+                                    </td>
+                                    <td class="text-right">
+                                    </td>
+                                    <td class="text-right">
+                                        <t t-esc="total_amount"/>
+                                    </td>
+                                    <td class="text-right">
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <div t-if="o.expense_ids" class="row mt64">
+                            <table class="table table-condensed">
+                                <tr>
+                                    <td><strong>Reviewed By</strong></td>
+                                    <td><strong>Acknowledged By</strong></td>
+                                    <td><strong>Approved By</strong></td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                    </td>
+                                    <td style="height: 70px">
+                                    </td>
+                                    <td>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Date</strong></td>
+                                    <td colspan="3">
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </t>
+                </div>
+            </t>
+        </template>
+
+        <template id="report_hr_claim">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="o">
+                    <t t-call="hr_insurance.report_hr_claim_document"/>
+                </t>
+            </t>
+        </template>
+
+    </data>
+</odoo>
