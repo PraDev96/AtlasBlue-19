@@ -73,7 +73,7 @@ class ProjectChecklist(models.Model):
                     'signed_by': args.get('signature_name'),
                     'cyanuric_acid': args.get('cyanuric_acid'),
                     'total_chlorine': args.get('total_chlorine'),
-                    'clean_deck_area': args.get('clean_desk_area'),
+                    'clean_deck_area': args.get('clean_deck_area', args.get('clean_desk_area')),
                     'total_alkalinity': args.get('total_alkalinity'),
                     'calcium_hardness': args.get('calcium_hardness'),
                     'water_temperature': args.get('water_temperature'),

@@ -14,6 +14,7 @@ class Employee(models.Model):
         for employee in employees:
             if employee.work_contact_id:
                 employee.partner_id = employee.work_contact_id
+                employee.work_contact_id.is_employee = True
         return employees
 
 

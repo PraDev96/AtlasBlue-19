@@ -7,7 +7,7 @@
     'category': "Project",
     'version': "19.0.1.0.0",
     'website': "https://www.atlasblue.me/en",
-    'depends': ['base', 'project'],
+    'depends': ['base', 'project', 'hr'],
     'license': "AGPL-3",
 
     'data': [

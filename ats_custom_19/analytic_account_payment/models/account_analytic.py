@@ -8,8 +8,8 @@ class AccountPayment(models.Model):
 
     analytic_account_id = fields.Many2one('account.analytic.account', 'Analytic Account')
 
-    def _prepare_move_line_default_vals(self, write_off_line_vals=None, force_balance=None):
-        lines = super(AccountPayment, self)._prepare_move_line_default_vals(write_off_line_vals=write_off_line_vals, force_balance=force_balance)
+    def _prepare_move_line_default_vals(self, *args, **kwargs):
+        lines = super(AccountPayment, self)._prepare_move_line_default_vals(*args, **kwargs)
         for line in lines:
             if self.analytic_account_id:
                 line.update({

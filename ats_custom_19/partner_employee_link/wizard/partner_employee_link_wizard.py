@@ -19,6 +19,7 @@ class WizardPartnerEmployeeLink(models.TransientModel):
                     'phone': employee.work_phone,
                     'email': employee.work_email,
                     'mobile': employee.mobile_phone,
+                    'is_employee': True,
                 })
                 employee.write({'partner_id': partner.id})
 
