@@ -3,7 +3,6 @@
 
     <record id="group_hr_timesheet_portal" model="res.groups">
         <field name="name">Editable Timesheet</field>
-        <field name="category_id" ref="base.module_category_website"/>
         <field name="comment">Add portal users who should be allowed to edit their Timesheet</field>
     </record>
 
@@ -34,9 +33,7 @@
     <!-- Portal -->
     <function name="write" model="ir.model.data">
         <function name="search" model="ir.model.data">
-            <value eval="[('module', '=', 'project'), '|',
-            ('name', '=', 'project_task_rule_portal'),
-            ('name', '=', 'project_project_rule_portal')]"/>
+            <value eval="[('module', '=', 'project'), '|', ('name', '=', 'project_task_rule_portal'), ('name', '=', 'project_project_rule_portal')]"/>
         </function>
         <value eval="{'noupdate': False}"/>
     </function>

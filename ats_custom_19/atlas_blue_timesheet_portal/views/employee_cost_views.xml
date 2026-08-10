@@ -5,7 +5,6 @@
         <field name="name">employee.cost.form</field>
         <field name="model">employee.cost</field>
         <field name="arch" type="xml">
-
             <form create="0" edit="0" delete="0">
                 <sheet>
                     <group>
@@ -45,7 +44,6 @@
         <field name="name">employee.cost.tree</field>
         <field name="model">employee.cost</field>
         <field name="arch" type="xml">
-
             <list create="0" edit="0" delete="0">
                 <field name="employee_id"/>
                 <field name="create_date"/>
@@ -53,7 +51,6 @@
                 <field name="price_unit" sum="Unit Price" groups="hr_payroll.group_hr_payroll_manager"/>
                 <field name="subtotal" sum="Subtotal" groups="hr_payroll.group_hr_payroll_manager"/>
             </list>
-
         </field>
     </record>
 
@@ -61,7 +58,6 @@
         <field name="name">employee.cost.filter</field>
         <field name="model">employee.cost</field>
         <field name="arch" type="xml">
-
             <search string="Views">
                 <field name="employee_id"/>
                 <field name="create_date"/>
@@ -83,7 +79,7 @@
                 <field name="team_id"/>
                 <field name="user_id"/>
                 <separator/>
-                <group expand="0" string="Group By">
+                <group>
                     <filter string="Project" name="project" domain="[]" context="{'group_by':'project_id'}"/>
                     <filter string="Task" name="task" domain="[]" context="{'group_by':'task_id'}"/>
                     <filter string="Employee" name="employee" domain="[]" context="{'group_by':'employee_id'}"/>
@@ -97,14 +93,13 @@
                     <filter string="Project Team Leader" name="user_id" context="{'group_by': 'user_id'}"/>
                 </group>
             </search>
-
         </field>
     </record>
 
     <record id="action_employee_cost" model="ir.actions.act_window">
         <field name="name">Employee Cost</field>
         <field name="res_model">employee.cost</field>
-        <field name="view_mode">tree,form</field>
+        <field name="view_mode">list,form</field>
         <field name="context">{'search_default_project': 1}</field>
     </record>
 

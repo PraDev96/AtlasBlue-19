@@ -336,7 +336,6 @@
                             </t>
                             <input type="number" name="timesheet_id" t-att-data-timesheet_id="exist_rec.id" style="display: none"/>
                             <button class="btn btn-primary submit_checklist_btn_custom float-right" t-att-data-task_id="task.id">Submit</button>
-
                         </main>
                     </form>
                 </div>

@@ -5,7 +5,8 @@ from odoo import http, fields, _
 from odoo.tools import date_utils
 from collections import OrderedDict
 from datetime import date, timedelta
-from odoo.osv.expression import OR, AND
+# from odoo.osv.expression import OR, AND
+from odoo.fields import Domain
 from dateutil.relativedelta import relativedelta
 from odoo.addons.portal.controllers.portal import pager as portal_pager
 from odoo.addons.project.controllers.portal import ProjectCustomerPortal as PCP
@@ -106,7 +107,7 @@ class ProjectTeamCustomerPortal(PCP):
         if search and search_in:
             search_domain = []
             if search_in in ('content', 'all'):
-                search_domain = OR([search_domain, ['|', ('name', 'ilike', search), ('description', 'ilike', search)]])
+                search_domain = Domain.OR([search_domain, ['|', ('name', 'ilike', search), ('description', 'ilike', search)]])
 
             domain += search_domain
 
@@ -189,26 +190,26 @@ class ProjectTeamCustomerPortal(PCP):
             state_dict = dict(map(reversed, request.env['project.task']._fields['state']._description_selection(request.env)))
             search_domain.append([('state', 'ilike', state_dict.get(search, search))])
 
-        return OR(search_domain)
+        return Domain.OR(search_domain)
 
     def _task_get_searchbar_groupby(self, milestones_allowed, project=False):
         """
             Replaced for adding date_start.
         """
         values = {
-            'none': {'input': 'none', 'label': _('None'), 'order': 1},
-            'date_start': {'input': 'date_start', 'label': _('Date'), 'order': 2},
-            'stage': {'input': 'stage', 'label': _('Stage'), 'order': 4},
-            'status': {'input': 'status', 'label': _('Status'), 'order': 5},
-            'priority': {'input': 'priority', 'label': _('Priority'), 'order': 7},
-            'customer': {'input': 'customer', 'label': _('Customer'), 'order': 10},
+            'none': {'label': _('None'), 'sequence': 10},
+            'date_start': {'label': _('Date'), 'sequence': 12},
+            'stage_id': {'label': _('Stage'), 'sequence': 20},
+            'state': {'label': _('Status'), 'sequence': 40},
+            'priority': {'label': _('Priority'), 'sequence': 60},
+            'partner_id': {'label': _('Customer'), 'sequence': 70},
         }
-        if self._display_project_groupby(project):
-            values['project'] = {'input': 'project', 'label': _('Project'), 'order': 2}
+        if not project:
+            values['project_id'] = {'label': _('Project'), 'sequence': 30}
         if milestones_allowed:
-            values['milestone'] = {'input': 'milestone', 'label': _('Milestone'), 'order': 6}
+            values['milestone_id'] = {'label': _('Milestone'), 'sequence': 50}
 
-        return dict(sorted(values.items(), key=lambda item: item[1]["order"]))
+        return values
 
     def _get_my_tasks_searchbar_filters(self, project_domain=None, task_domain=None):
         """

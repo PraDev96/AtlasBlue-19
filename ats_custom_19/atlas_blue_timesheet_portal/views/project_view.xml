@@ -6,16 +6,13 @@
         <field name="model">project.project</field>
         <field name="inherit_id" ref="project_sale.v_project_edit_form"/>
         <field name="arch" type="xml">
-
-            <xpath expr="//field[@name='employee_cost_lines']/tree/field[@name='hours_spent']" position="replace">
+            <xpath expr="//field[@name='employee_cost_lines']/list/field[@name='hours_spent']" position="replace">
                 <field name="description"/>
                 <field name="hours_spent" sum="Total Hours" widget="float_time"/>
             </xpath>
-
             <field name="employee_id" position="after">
                 <field name="create_date" readonly="True"/>
             </field>
-
         </field>
     </record>
 

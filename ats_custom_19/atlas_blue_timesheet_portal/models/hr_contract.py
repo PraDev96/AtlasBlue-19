@@ -3,8 +3,8 @@
 from odoo import models, fields, api
 
 
-class Contract(models.Model):
-    _inherit = "hr.contract"
+class HrVersion(models.Model):
+    _inherit = "hr.version"
 
     per_hour_wage = fields.Float(string="Per Hour Wage", compute="compute_per_hour_wage", store=True)
 

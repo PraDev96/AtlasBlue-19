@@ -16,7 +16,7 @@ class AccountAnalyticLine(models.Model):
 
     @api.model
     def create_from_portal(self, args):
-        user_id = self._uid
+        user_id = self.env.uid
         employee_rec = False
         if user_id:
             employee_rec = self.env['hr.employee'].sudo().search([('user_id', '=', user_id)], limit=1)
@@ -28,13 +28,13 @@ class AccountAnalyticLine(models.Model):
             analytic_line_rec = self.env['account.analytic.line'].sudo().browse(eval(analytic_line_id))
         else:
             analytic_line_rec = self.env['account.analytic.line'].sudo().create({
-                'employee_id': employee_rec.id,
-                'project_id': task_rec and task_rec.project_id and task_rec.project_id.id or False,
-                'task_id': task_rec and task_rec.id,
-                'start_date': datetime.now(),
+                'user_id': user_id,
                 'from_portal': True,
                 'is_signature': True,
-                'user_id': user_id,
+                'start_date': datetime.now(),
+                'employee_id': employee_rec.id,
+                'task_id': task_rec and task_rec.id,
+                'project_id': task_rec and task_rec.project_id and task_rec.project_id.id or False,
             })
 
         return {
@@ -65,11 +65,11 @@ class AccountAnalyticLine(models.Model):
             if analytic_line_rec:
                 analytic_line_rec.write({'name': args.get('description'), 'is_signature': False})
                 self.env['employee.cost'].create({
-                    'employee_id': analytic_line_rec.employee_id.id,
-                    'hours_spent': analytic_line_rec.unit_amount,
-                    'project_id': analytic_line_rec.task_id.project_id.id,
-                    'task_id': analytic_line_rec.task_id.id,
                     'description': analytic_line_rec.name,
+                    'task_id': analytic_line_rec.task_id.id,
+                    'hours_spent': analytic_line_rec.unit_amount,
+                    'employee_id': analytic_line_rec.employee_id.id,
+                    'project_id': analytic_line_rec.task_id.project_id.id,
                 })
                 return {
                     'description': analytic_line_rec.name

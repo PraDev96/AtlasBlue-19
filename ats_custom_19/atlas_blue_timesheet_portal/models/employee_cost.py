@@ -12,19 +12,19 @@ class EmployeeCost(models.Model):
     user_id = fields.Many2one(related="task_id.user_id", store=True)
     description = fields.Char(string="Description")
     task_id = fields.Many2one('project.task', string="Task")
-    contract_id = fields.Many2one('hr.contract', string="Contract", compute='_compute_contract_details', store=True)
+    contract_id = fields.Many2one('hr.version', string="Contract", compute='_compute_contract_details', store=True)
     price_unit = fields.Float(compute='_compute_contract_details', string="Unit Price", store=True)
     subtotal = fields.Monetary(compute='_compute_amount', string="Subtotal", readonly=True, store=True, groups="hr_payroll.group_hr_payroll_manager")
     start_date = fields.Datetime(string="Start Date")
-    end_date = fields.Datetime(string="End Date")
+    end_date = fields.Datetime(string="End Dates")
     from_portal = fields.Boolean(string="Is From Portal")
     is_signature = fields.Boolean(string="Is Signature")
 
     @api.depends('employee_id')
     def _compute_contract_details(self):
         for rec in self:
-            rec.contract_id = rec.employee_id.contract_id.id if rec.employee_id and rec.employee_id.contract_id else False
-            rec.price_unit = rec.employee_id.contract_id.id if rec.employee_id and rec.employee_id.contract_id and rec.employee_id.contract_id.per_hour_wage else False
+            rec.contract_id = rec.employee_id.version_id.id if rec.employee_id and rec.employee_id.version_id else False
+            rec.price_unit = rec.employee_id.version_id.id if rec.employee_id and rec.employee_id.version_id and rec.employee_id.version_id.per_hour_wage else False
 
     @api.model
     def create_cost_from_portal(self, args):
@@ -40,12 +40,12 @@ class EmployeeCost(models.Model):
             employee_cost_line_rec = self.env['employee.cost'].sudo().browse(eval(employee_cost_line_id))
         else:
             employee_cost_line_rec = self.env['employee.cost'].sudo().create({
-                'employee_id': employee_rec.id,
-                'project_id': project_rec and project_rec.id,
-                'start_date': datetime.now(),
+                'user_id': user_id,
                 'from_portal': True,
                 'is_signature': True,
-                'user_id': user_id,
+                'start_date': datetime.now(),
+                'employee_id': employee_rec.id,
+                'project_id': project_rec and project_rec.id,
             })
 
         start_date = fields.Datetime.context_timestamp(employee_cost_line_rec, employee_cost_line_rec.start_date)
