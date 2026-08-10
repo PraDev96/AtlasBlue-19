@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="portal_docs_entry_inheirt_tasks_projects" inherit_id="portal.portal_docs_entry">
+
+        <xpath expr="//div[1]" position="replace">
+            <t t-if="url in ['/my/tasks', '/my/projects']">
+                <div t-att-class="'o_portal_index_card ' +  ('' if config_card else 'd-none ') + ('col-12 order-0' if show_count else 'col-md-6 order-2')">
+                    <a t-att-href="url" t-att-title="title"
+                       t-attf-class="d-flex justify-content-start gap-2 gap-md-3 align-items-center py-3 pe-2 px-md-3 h-100 rounded text-decoration-none text-reset #{bg_color if bg_color else 'text-bg-light'}">
+                        <div t-if="icon" class="o_portal_icon align-self-start">
+                            <img t-attf-src="#{icon}"/>
+                        </div>
+                        <div>
+                            <h5 t-attf-class="mt-0 mb-1 #{'d-flex gap-2' if placeholder_count or count else ''}">
+                                <t t-out="count"/>
+                                <span t-if="placeholder_count" t-att-class="'' if show_count else 'd-none'" t-att-data-placeholder_count="placeholder_count"/>
+                                <span t-out="title"/>
+                            </h5>
+                            <p class="m-0 text-600">
+                                <t t-out="text"/>
+                            </p>
+                        </div>
+                    </a>
+                </div>
+            </t>
+            <t t-else="">
+                <div style="display: none;"
+                     t-att-class="'o_portal_index_card ' +  ('' if config_card else 'd-none ') + ('col-12 order-0' if show_count else 'col-md-6 order-2')">
+                    <a t-att-href="url" t-att-title="title"
+                       t-attf-class="d-flex justify-content-start gap-2 gap-md-3 align-items-center py-3 pe-2 px-md-3 h-100 rounded text-decoration-none text-reset #{bg_color if bg_color else 'text-bg-light'}">
+                        <div t-if="icon" class="o_portal_icon align-self-start">
+                            <img t-attf-src="#{icon}"/>
+                        </div>
+                        <div>
+                            <h5 t-attf-class="mt-0 mb-1 #{'d-flex gap-2' if placeholder_count or count else ''}">
+                                <t t-out="count"/>
+                                <span t-if="placeholder_count" t-att-class="'' if show_count else 'd-none'" t-att-data-placeholder_count="placeholder_count"/>
+                                <span t-out="title"/>
+                            </h5>
+                            <p class="m-0 text-600">
+                                <t t-out="text"/>
+                            </p>
+                        </div>
+                    </a>
+                </div>
+            </t>
+        </xpath>
+
+    </template>
+
+    <template id="portal_my_task_nav_inherit" inherit_id="project.portal_my_task">
+        <xpath expr="//div[@id='task-nav']" position="attributes">
+            <attribute name="style">display: none</attribute>
+        </xpath>
+
+        <xpath expr="//div[@t-if='task.user_ids']" position="before">
+            <div class="col-12" t-if="task.project_id.user_id">
+                <h6 class="flex-basis-100">
+                    <small class="text-muted">Project Manager</small>
+                </h6>
+                <div t-attf-class="o_portal_contact_details d-flex flex-column gap-2">
+                    <div class="d-flex justify-content-start align-items-center gap-2">
+                        <img class="o_avatar o_portal_contact_img rounded" t-att-src="image_data_uri(task.project_id.user_id.avatar_128)"/>
+                        <h6 class="mb-0" t-field="task.project_id.user_id.name"></h6>
+                    </div>
+                    <div t-out="task.project_id.user_id" t-options='{"widget": "contact", "fields": ["email", "phone"]}'/>
+                </div>
+            </div>
+        </xpath>
+
+        <xpath expr="//div[@id='card_header']" position="replace">
+            <div id="card_header" data-anchor="true">
+                <div class="row justify-content-between align-items-end mb-3">
+                    <div class="col-12 col-md-9">
+                        <div class="d-flex align-items-center gap-2">
+                            <t t-call="project.portal_my_tasks_priority_widget_template">
+                                <t t-set="classes" t-translation="off">fs-4</t>
+                            </t>
+                            <h3 t-field="task.name" class="my-0"/>
+                            <small class="text-muted d-none d-md-inline align-self-end">(#<span t-field="task.id"/>)
+                            </small>
+                        </div>
+                    </div>
+                    <div class="col-auto">
+                        <small class="text-end">Stage:</small>
+                        <span t-field="task.stage_id.name" class=" badge rounded-pill text-bg-info" title="Current stage of this task"/>
+                    </div>
+                </div>
+            </div>
+        </xpath>
+
+    </template>
+
+</odoo>
