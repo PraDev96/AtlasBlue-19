@@ -175,7 +175,7 @@ class ShActivityPortal(CustomerPortal):
 
         return json.dumps(dic)
 
-    @http.route('/relt_document_onchange', type='json', auth="user", csrf=False)
+    @http.route('/relt_document_onchange', type='jsonrpc', auth="user", csrf=False)
     def relt_document_onchange(self, **kw):
         Model = request.env['ir.model'].sudo().search([('id', '=', kw['search_id'])]).exists() if kw['search_id'] else False
         all_dic = {}
@@ -187,7 +187,7 @@ class ShActivityPortal(CustomerPortal):
 
         return json.dumps(all_dic)
 
-    @http.route('/get_relateddocumentdata', type='json', auth="user", csrf=False)
+    @http.route('/get_relateddocumentdata', type='jsonrpc', auth="user", csrf=False)
     def get_relateddocumentdata(self, **kw):
         all_dic = {}
         models_list = []
@@ -272,7 +272,7 @@ class ShActivityPortal(CustomerPortal):
 
         return json.dumps(dic)
 
-    @http.route('/create_activity', type='json', auth="public", methods=["POST"], website=True, csrf=False)
+    @http.route('/create_activity', type='jsonrpc', auth="public", methods=["POST"], website=True, csrf=False)
     def create_activity(self, **kw):
         vals = {}
         dic = {}
